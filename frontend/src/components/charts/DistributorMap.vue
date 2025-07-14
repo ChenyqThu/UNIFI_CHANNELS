@@ -2,10 +2,10 @@
   <div class="distributor-map-container">
     <!-- Header and Controls -->
     <div class="chart-controls mb-6">
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-center">
         <div>
-          <h3 class="text-xl font-semibold text-gray-900">{{ $t('charts.global_distributor_distribution') }}</h3>
-          <div class="flex items-center mt-1">
+          <h3 class="text-xl font-semibold text-gray-900 text-center">{{ $t('charts.global_distributor_distribution') }}</h3>
+          <div class="flex items-center justify-center mt-1">
             <div class="flex items-center text-xs text-gray-500">
               <span class="material-icons text-xs mr-1">
                 {{ currentDataLevel === 'country' ? 'flag' : 'scatter_plot' }}
@@ -14,8 +14,10 @@
             </div>
           </div>
         </div>
-        
-        <!-- Data level switch -->
+      </div>
+      
+      <!-- Data level switch - 居中显示 -->
+      <div class="flex justify-center mt-4">
         <div class="flex space-x-2 bg-gray-100 rounded-lg p-1">
           <button
             v-for="(level, key) in dataLevels"

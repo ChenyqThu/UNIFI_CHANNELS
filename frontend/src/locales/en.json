@@ -451,15 +451,14 @@
     "restore": "Restore",
     "global_distributor_distribution_by_country": "Global Distributor Distribution (by Country)",
     "global_distributor_distribution_by_region": "Global Distributor Distribution (by Region)",
-    "map_view": "Map View",
-    "bar_view": "Bar Chart",
-    "pie_view": "Pie Chart",
-    "country_distributor_count_top20": "Distributor Count by Country (Top 20)",
-    "country_distributor_count_top25": "Distributor Count by Country (Top 25)",
+    "country_distributor_count": "Distributor Count by Country (Top 25)",
     "region_distributor_count": "Distributor Count by Region",
-    "distributor_country_distribution_top10": "Distributor Distribution by Country (Top 10)",
-    "distributor_country_distribution_top12": "Distributor Distribution by Country (Top 12)",
-    "distributor_region_distribution": "Distributor Distribution by Region"
+    "distributor_country_distribution": "Distributor Distribution by Country (Top 10)",
+    "distributor_region_distribution": "Distributor Distribution by Region",
+    "total": "Total",
+    "masters": "Master Distributors",
+    "resellers": "Authorized Resellers",
+    "others": "Others"
   },
   "regions": {
     "usa": "United States",

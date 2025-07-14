@@ -99,8 +99,8 @@ function createChartOptions() {
     visualMap: {
       left: 'right', 
       min: 1, 
-      max: Math.max(...chartData.map(d => d.value), 50),
-      inRange: { color: ['#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'].reverse() },
+      max: Math.max(...chartData.map(d => d.value), 35),
+      inRange: { color: ['#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'] }, // 移除 .reverse()，浅到深
       text: [t('charts.high'), t('charts.low')], 
       calculable: true
     },
@@ -298,6 +298,22 @@ watch(() => props.countriesData, () => {
     }
   }
 }, { deep: true })
+
+// 监听语言变化，重新创建配置对象
+watch(() => t('charts.map_view'), () => {
+  if (mapLoaded && myChart) {
+    console.log('Language changed, recreating chart options')
+    createChartOptions()
+    // 重新设置当前模式的配置以更新标题
+    if (currentMode.value === 'map' && mapOption) {
+      myChart.setOption(mapOption, true)
+    } else if (currentMode.value === 'bar' && barOption) {
+      myChart.setOption(barOption, true)
+    } else if (currentMode.value === 'pie' && pieOption) {
+      myChart.setOption(pieOption, true)
+    }
+  }
+})
 
 onMounted(() => {
   initChart()
