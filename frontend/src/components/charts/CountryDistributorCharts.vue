@@ -183,6 +183,20 @@ function createChartOptions() {
       universalTransition: { enabled: true, divideShape: 'clone' },
       animationDurationUpdate: 1000,
       data: pieData,
+      itemStyle: {
+        borderRadius: 10,
+        borderColor: '#fff',
+        borderWidth: 2
+      },
+      label: {
+        show: true, // 改为显示标签，采用地区视图的样式
+        formatter: (params) => {
+          if (params.name === t('charts.others')) {
+            return `${params.name}\n${params.value}`
+          }
+          return `${params.name}\n${params.value}`
+        }
+      },
       emphasis: {
         itemStyle: {
           shadowBlur: 10, shadowOffsetX: 0,

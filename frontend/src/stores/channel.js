@@ -209,14 +209,14 @@ export const useChannelStore = defineStore('channel', () => {
   // Distributor/Reseller Data (Real database integration)
   const resellerData = ref({
     regions: {
-      usa: { name_key: 'usa', count: 156, coordinates: [-95.7129, 37.0902], growth: '+12%' },
-      can: { name_key: 'canada', count: 47, coordinates: [-106.3468, 56.1304], growth: '+8%' },
-      eur: { name_key: 'europe', count: 203, coordinates: [10.4515, 51.1657], growth: '+15%' },
-      'aus-nzl': { name_key: 'oceania', count: 34, coordinates: [133.7751, -25.2744], growth: '+5%' },
-      as: { name_key: 'asia', count: 89, coordinates: [100.6197, 34.0479], growth: '+22%' },
-      'lat-a': { name_key: 'latin_america', count: 67, coordinates: [-58.3816, -14.2350], growth: '+18%' },
-      'mid-e': { name_key: 'middle_east', count: 23, coordinates: [51.1839, 35.6892], growth: '+10%' },
-      af: { name_key: 'africa', count: 15, coordinates: [20.0000, 0.0000], growth: '+7%' }
+      usa: { name_key: 'usa', count: 156, masters: 4, resellers: 152, coordinates: [-95.7129, 37.0902], growth: '+12%' },
+      can: { name_key: 'canada', count: 47, masters: 2, resellers: 45, coordinates: [-106.3468, 56.1304], growth: '+8%' },
+      eur: { name_key: 'europe', count: 203, masters: 8, resellers: 195, coordinates: [10.4515, 51.1657], growth: '+15%' },
+      'aus-nzl': { name_key: 'oceania', count: 34, masters: 2, resellers: 32, coordinates: [133.7751, -25.2744], growth: '+5%' },
+      as: { name_key: 'asia', count: 89, masters: 5, resellers: 84, coordinates: [100.6197, 34.0479], growth: '+22%' },
+      'lat-a': { name_key: 'latin_america', count: 67, masters: 4, resellers: 63, coordinates: [-58.3816, -14.2350], growth: '+18%' },
+      'mid-e': { name_key: 'middle_east', count: 23, masters: 2, resellers: 21, coordinates: [51.1839, 35.6892], growth: '+10%' },
+      af: { name_key: 'africa', count: 15, masters: 1, resellers: 14, coordinates: [20.0000, 0.0000], growth: '+7%' }
     },
     totalCount: 634,
     masterDistributors: 28,

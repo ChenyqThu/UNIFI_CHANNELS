@@ -69,7 +69,7 @@ const chartModes = computed(() => ({
   pie: { label: t('charts.pie_chart'), icon: 'pie_chart' }
 }))
 
-// 处理地区数据 - 修复数据映射逻辑
+// 处理地区数据 - 修复数据映射逻辑，添加 masters/resellers 信息
 const processedRegionData = computed(() => {
   const regions = props.regionsData || {}
   console.log('RegionDistributorMap: Raw regions data:', regions)
@@ -86,6 +86,8 @@ const processedRegionData = computed(() => {
         nameKey: nameKey, // 翻译用的英文key
         displayName: item.name || nameKey, // 显示用的备用名称
         value: item.count || 0,
+        masters: item.masters || 0, // 添加 masters 数据
+        resellers: item.resellers || 0, // 添加 resellers 数据
         coordinates: item.coordinates || [0, 0]
       }
     })
@@ -107,6 +109,14 @@ function createChartOptions() {
       trigger: 'item',
       formatter: (params) => {
         const regionName = t(`regions.${params.data.nameKey}`) || params.data.displayName || params.data.nameKey
+        // 查找原始数据以获取 masters/resellers 信息
+        const originalData = chartData.find(item => item.nameKey === params.data.nameKey)
+        if (originalData) {
+          return `${regionName}<br/>
+                  ${t('charts.total')}: ${params.data.value[2]}<br/>
+                  ${t('charts.masters')}: ${originalData.masters || 0}<br/>
+                  ${t('charts.resellers')}: ${originalData.resellers || 0}`
+        }
         return `${regionName}: ${params.data.value[2]} ${t('charts.distributors')}`
       }
     },
@@ -196,6 +206,14 @@ function createChartOptions() {
       formatter: (params) => {
         const data = params[0]
         const regionName = t(`regions.${data.name}`) || data.name
+        // 查找原始数据以获取 masters/resellers 信息
+        const originalData = chartData.find(item => item.nameKey === data.name)
+        if (originalData) {
+          return `${regionName}<br/>
+                  ${t('charts.total')}: ${data.value}<br/>
+                  ${t('charts.masters')}: ${originalData.masters || 0}<br/>
+                  ${t('charts.resellers')}: ${originalData.resellers || 0}`
+        }
         return `${regionName}: ${data.value} ${t('charts.distributors')}`
       }
     },
@@ -237,6 +255,14 @@ function createChartOptions() {
       trigger: 'item', 
       formatter: (params) => {
         const displayName = t(`regions.${params.name}`) || params.name
+        // 查找原始数据以获取 masters/resellers 信息
+        const originalData = chartData.find(item => item.nameKey === params.name)
+        if (originalData) {
+          return `${displayName}<br/>
+                  ${t('charts.total')}: ${params.value} (${params.percent}%)<br/>
+                  ${t('charts.masters')}: ${originalData.masters || 0}<br/>
+                  ${t('charts.resellers')}: ${originalData.resellers || 0}`
+        }
         return `${displayName}<br/>${t('charts.distributors')}: ${params.value} (${params.percent}%)`
       }
     },
