@@ -1,0 +1,572 @@
+{
+  "nav": {
+    "dashboard": "Ubiquiti Channel Intelligence Analysis",
+    "financial": "Financial Overview",
+    "distribution": "Distribution Network",
+    "reseller": "Reseller Analysis",
+    "service": "Service Providers",
+    "strategic": "Strategic Analysis",
+    "competitive": "Competitive Intel",
+    "language": "Language",
+    "financial_overview": "Financial Overview & Strategic Context",
+    "distribution_network": "Global Distribution Backbone",
+    "reseller_analysis": "Reseller Channel Analysis",
+    "service_providers": "SI/MSP Service Layer Analysis",
+    "strategic_analysis": "Strategic Integration & Forward-Looking Analysis",
+    "competitive_intel": "Competitive Intelligence Center"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "view_details": "View Details",
+    "download": "Download",
+    "export": "Export",
+    "filter": "Filter",
+    "search": "Search",
+    "refresh": "Refresh",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "close": "Close",
+    "edit": "Edit",
+    "delete": "Delete",
+    "add": "Add",
+    "update": "Update",
+    "total": "Total",
+    "active": "Active",
+    "inactive": "Inactive",
+    "no_data": "No data available"
+  },
+  "brand": {
+    "name": "Ubiquiti Channel Intelligence",
+    "platform": "Channel Intelligence Platform",
+    "description": "Professional channel analysis platform based on deep market research, providing data support for channel decisions",
+    "copyright": "© 2024 Channel Intelligence Platform"
+  },
+  "badges": {
+    "core": "Core",
+    "key": "Key",
+    "critical": "Critical",
+    "strategic": "Strategic",
+    "intelligence": "Intelligence"
+  },
+  "language": {
+    "chinese": "中文",
+    "english": "English"
+  },
+  "dashboard": {
+    "title": "Deconstructing Dominance",
+    "subtitle": "Ubiquiti North America Sales Channel Deep Analysis Report",
+    "based_on_data": "Based on Q3 FY2025 earnings data",
+    "multi_dimension": "Multi-dimensional channel intelligence analysis",
+    "key_metrics": "Key Financial Metrics",
+    "record_performance": "Record performance in Q3 FY2025",
+    "revenue_composition": "Revenue Composition Analysis",
+    "quick_insights": "Quick Insights",
+    "key_findings": "Key Findings & Strategic Imperatives",
+    "deep_analysis": "Deep Analysis Modules",
+    "select_module": "Select module for detailed analysis",
+    "revenue_composition_analysis": "Revenue Composition Analysis",
+    "channel_health": "Channel Health",
+    "competitive_landscape": "Competitive Landscape",
+    "insights": {
+      "market_dominance": {
+        "title": "Market Dominance Position",
+        "content": "Enterprise Tech contributes 88% of revenue, establishing leadership in Wi-Fi 6E/7 and edge computing. North America's 49% share demonstrates strong local channel execution.",
+        "insight1": "Enterprise technology platform contributes 88% revenue, showing clear strategic focus",
+        "insight2": "North America market contributes 49% revenue, unshakeable strategic importance",
+        "insight3": "Gross margin improved from 35.3% to 44.5%, significantly enhanced profitability"
+      },
+      "channel_challenges": {
+        "title": "Channel Challenges",
+        "content": "Distribution network heavily relies on few giants like Ingram Micro, creating single-point risks. Cases like B&H Photo Video transformation show channel partners need stronger technical enablement.",
+        "insight1": "D2C strategy creates direct competition with indirect channels",
+        "insight2": "Opaque inventory allocation causes channel partner dissatisfaction",
+        "insight3": "Lack of official enterprise support increases MSP burden"
+      },
+      "strategic_opportunities": {
+        "title": "Strategic Opportunities",
+        "content": "UniFi ecosystem expansion creates channel deepening opportunities. Through MSP/SI partner programs, more sticky service-oriented channel relationships can be built, reducing traditional distribution dependency.",
+        "insight1": "SMB market penetration potential is huge, needs standardized channels",
+        "insight2": "Service layer standardization can create new revenue sources",
+        "insight3": "Competitors can exploit channel weaknesses for attacks"
+      }
+    },
+    "modules": {
+      "financial_overview": {
+        "title": "Financial Performance Analysis",
+        "description": "Deep dive into Q3 earnings to understand revenue drivers"
+      },
+      "distribution_network": {
+        "title": "Distribution Network Structure",
+        "description": "Global core distributors and channel hierarchy analysis"
+      },
+      "reseller_analysis": {
+        "title": "Reseller Ecosystem Research",
+        "description": "Channel transformation challenges and opportunities from B&H case"
+      },
+      "service_providers": {
+        "title": "SI/MSP Service Layer",
+        "description": "System integrators and managed service providers analysis"
+      },
+      "strategic_analysis": {
+        "title": "SWOT Strategic Analysis",
+        "description": "Channel strategy strengths, challenges and future directions"
+      },
+      "competitive_intel": {
+        "title": "Competitive Intelligence Center",
+        "description": "Competitor analysis and market opportunity identification"
+      }
+    }
+  },
+  "financial": {
+    "title": "Financial Performance & Strategic Imperatives",
+    "subtitle": "Deep analysis based on Q3 FY2025 earnings, revealing Ubiquiti's growth drivers and strategic focus",
+    "strategic_market": "Strategic Market",
+    "revenue_growth": "Revenue Growth",
+    "market_segments": "Market Segments",
+    "regional_performance": "Regional Performance",
+    "profitability": "Profitability",
+    "revenue_composition": "Revenue Composition Comparison",
+    "regional_distribution": "Regional Revenue Distribution",
+    "key_metrics_comparison": "Key Financial Metrics Comparison",
+    "strategic_insights": "Strategic Insights",
+    "strategic_risks": "Strategic Risks",
+    "table": {
+      "metric": "Metric",
+      "q3_2025": "Q3 2025",
+      "q3_2024": "Q3 2024",
+      "growth": "Growth",
+      "note": "Note",
+      "total_revenue": "Total Revenue",
+      "enterprise_revenue": "Enterprise Technology Revenue",
+      "service_provider_revenue": "Service Provider Technology Revenue",
+      "north_america_revenue": "North America Revenue",
+      "gross_profit": "Gross Profit",
+      "gross_margin": "Gross Margin",
+      "service_provider_change": "-0.4%",
+      "gross_profit_change": "+69.9%",
+      "margin_improvement": "+{points}%"
+    },
+    "insights": {
+      "enterprise_dominance": {
+        "title": "Enterprise Tech Dominance Established",
+        "content": "Enterprise Tech contributes $606.4M, 88% of total revenue, showing UniFi ecosystem's strong position in enterprise Wi-Fi 6E/7, switching, and security. This concentration reflects mature product-market fit."
+      },
+      "regional_concentration": {
+        "title": "North America Market Concentration Advantage",
+        "content": "North America revenue $337.8M, 49% of total, demonstrates deep channel integration and execution efficiency. Compared to international markets' 51% distributed layout, North America channels show stronger profitability."
+      },
+      "margin_expansion": {
+        "title": "Continuous Gross Margin Expansion",
+        "content": "Gross margin improved to 44.1%, reflecting product mix optimization and pricing power enhancement. This provides channel partners with greater profit margins, helping deepen channel partnerships."
+      },
+      "growth_sustainability": {
+        "title": "Growth Sustainability Validation",
+        "content": "Strong growth on high base proves UniFi ecosystem's market expansion capability. This provides channel partners with confidence foundation for business growth."
+      }
+    },
+    "risks": {
+      "channel_concentration": {
+        "title": "Channel Concentration Risk",
+        "content": "High North America revenue share may increase regional economic volatility impact, requiring international channel expansion for risk diversification."
+      },
+      "distributor_dependency": {
+        "title": "Distributor Dependency",
+        "content": "Reliance on large distributors like Ingram Micro may affect negotiation power, requiring cultivation of more diverse channel partners."
+      },
+      "market_saturation": {
+        "title": "Market Saturation Pressure",
+        "content": "High penetration in enterprise tech may face growth ceiling, requiring new product lines to expand channel opportunities."
+      }
+    }
+  },
+  "distribution": {
+    "title": "Global Distribution Backbone Network",
+    "subtitle": "Analyzing Ubiquiti's indirect channel top-tier structure and key distributor analysis",
+    "key_countries": "Key Countries Distributor Distribution",
+    "database_analysis": "Channel density based on real database analysis",
+    "key_distributors": "Key Distributor Analysis",
+    "strategic_partners": "Strategic partners like Ingram Micro, DoubleRadius",
+    "customer_scale": "Customer Scale: ",
+    "core_services": "Core Services: ",
+    "database_integration": "Database Integration Status",
+    "realtime_sync": "Real-time sync of Unifi distributor network data",
+    "distributors_collected": "Distributors Collected",
+    "coverage_regions": "Coverage Regions",
+    "countries_regions": "Countries/Regions"
+  },
+  "reseller": {
+    "title": "Reseller Channel Analysis",
+    "subtitle": "Reseller ecosystem and channel challenges from B&H Photo Video case study",
+    "case_study": "B&H Photo Video Case Study",
+    "transformation": "Traditional photography retailer's IT equipment transformation",
+    "traditional_retailer": "Traditional retailer's networking equipment layout",
+    "business_model": "Business Model:",
+    "online_offline_retail": "Online + Offline Retail",
+    "product_positioning": "Product Positioning:",
+    "consumer_grade": "Consumer",
+    "small_business": "Small Business",
+    "competitive_advantage": "Competitive Advantage:",
+    "brand_inventory": "Brand recognition, inventory depth",
+    "channel_pressure": "Channel Pressure Analysis",
+    "d2c_impact": "D2C Model Impact",
+    "price_competition": "Price Competition:",
+    "price_transparency": "Official website price transparency squeezes profit margins",
+    "inventory_risk": "Inventory Risk:",
+    "inventory_pressure": "Fast product updates, high inventory turnover pressure",
+    "service_gap": "Service Gap:",
+    "limited_tech_support": "Limited technical support capabilities",
+    "ecosystem_challenges": "Reseller Ecosystem Challenges",
+    "price_transparency_impact": "Price Transparency Impact",
+    "margin_compression": "Official direct sales prices are public, reseller bargaining space severely compressed",
+    "inventory_management": "Inventory Management Difficulties",
+    "complex_product_lines": "Complex product lines, frequent updates, difficult inventory forecasting and turnover",
+    "tech_support_gap": "Technical Support Gap",
+    "professional_service_difficulty": "Lack of deep technical support capabilities, difficult to provide professional services to enterprise customers",
+    "transformation_recommendations": "Reseller Transformation Recommendations",
+    "value_added_services": "Value-Added Services",
+    "site_survey_design": "• Provide on-site survey and network design services",
+    "installation_training": "• Develop installation, commissioning and training business",
+    "maintenance_support_team": "• Establish maintenance and technical support teams",
+    "customer_segmentation": "Customer Segmentation Specialization",
+    "focus_specific_industries": "• Focus on specific industries and customer groups",
+    "develop_industry_solutions": "• Develop industry solution capabilities",
+    "build_crm_system": "• Establish customer relationship management systems"
+  },
+  "service": {
+    "title": "SI/MSP Service Layer Analysis",
+    "subtitle": "Key role analysis of system integrators and managed service providers",
+    "key_providers": "Key Service Provider Analysis",
+    "partners": "Important partners like Progent, Cloudavize",
+    "enterprise_it_consultant": "Enterprise IT Consulting Expert",
+    "specialty_area": "Specialty Area:",
+    "datacenter_security": "Data center design, network security",
+    "service_features": "Service Features:",
+    "enterprise_consulting": "Enterprise Consulting",
+    "project_management": "Project Management",
+    "technical_support": "Technical Support",
+    "cloud_network_expert": "Cloud Computing and Network Expert",
+    "cloud_migration_optimization": "Cloud migration, network optimization",
+    "cloud_strategy": "Cloud Strategy",
+    "network_design": "Network Design",
+    "operational_support": "Operational Support",
+    "service_layer_challenges": "Service Layer Challenges",
+    "lack_tech_support": "Lack of Technical Support",
+    "no_official_enterprise_support": "Ubiquiti does not provide official enterprise support, MSPs must bear technical risks themselves",
+    "low_inventory_predictability": "Low Inventory Predictability",
+    "opaque_supply_chain": "Opaque supply chain makes project timelines difficult to guarantee",
+    "limited_training_resources": "Limited Training Resources",
+    "lack_systematic_certification": "Lack of systematic certification training affects service quality standardization"
+  },
+  "strategic": {
+    "title": "Strategic Integration & Forward-Looking Analysis",
+    "subtitle": "Channel strategy health assessment and forward-looking analysis based on SWOT framework",
+    "swot_analysis": "SWOT Strategic Analysis",
+    "channel_strategy": "Ubiquiti North America channel strategy strengths, weaknesses, opportunities and threats",
+    "core_competitiveness": "Core competitiveness and market advantages",
+    "internal_weaknesses": "Internal weaknesses and improvement areas",
+    "market_opportunities": "Market opportunities and growth potential",
+    "external_risks": "External risks and competitive pressure",
+    "key_strategic_tensions": "Key Strategic Tension Analysis",
+    "core_contradictions": "Core contradictions and balance points in the business model",
+    "lean_vs_enterprise": "Lean Operations vs Enterprise Ambitions",
+    "lean_vs_enterprise_desc": "Can a company operating with minimal support and sales infrastructure compete long-term in the enterprise market against full-service providers like Cisco?",
+    "community_vs_professional": "Community Power vs Professional Service",
+    "community_vs_professional_desc": "When enterprise core networks fail, can community forums replace professional, responsible technical support?",
+    "growth_vs_stability": "Growth Pursuit vs Channel Stability",
+    "growth_vs_stability_desc": "Is it worth sacrificing professional channel stability for rapid D2C growth?",
+    "forward_analysis": "Forward-Looking Analysis & Recommendations",
+    "strategic_recommendations": "Strategic recommendations based on in-depth analysis",
+    "for_ubiquiti": "Recommendations for Ubiquiti",
+    "transparent_inventory_policy": "Develop transparent inventory allocation policies, balancing direct sales and distribution channel needs",
+    "unified_warranty_policy": "Unify warranty policies across all channels, eliminating customer confusion and risk",
+    "formal_msp_program": "Launch formal MSP partner program with dedicated resources and support",
+    "for_competitors": "Recommendations for Competitors",
+    "attack_channel_weaknesses": "Focus on attacking Ubiquiti's channel strategy weaknesses rather than products",
+    "promote_channel_stability": "Promote channel stability advantages to dissatisfied Ubiquiti partners",
+    "reliable_inventory_support": "Emphasize reliable inventory supply and partner support programs",
+    "for_channel_partners": "Recommendations for Channel Partners",
+    "diversify_product_portfolio": "Diversify product portfolio to reduce business risks from supply chain issues",
+    "transparent_customer_communication": "Transparently communicate support models and warranty limitations with customers",
+    "manage_customer_expectations": "Manage customer expectations to avoid future disputes",
+    "risk_assessment_matrix": "Risk Assessment Matrix",
+    "impact_probability_assessment": "Comprehensive assessment of impact and probability",
+    "impact": "Impact",
+    "probability": "Probability",
+    "channel_partner_loss": "Channel Partner Loss",
+    "channel_partner_loss_desc": "Key distributors and MSPs switching to competitors",
+    "inventory_management_crisis": "Inventory Management Crisis",
+    "inventory_management_crisis_desc": "Continued supply chain instability affecting business",
+    "enterprise_market_access": "Enterprise Market Access",
+    "enterprise_market_access_desc": "Lack of enterprise support limiting market expansion",
+    "brand_reputation_damage": "Brand Reputation Damage",
+    "brand_reputation_damage_desc": "Channel chaos affecting professional image",
+    "high_risk": "High Risk",
+    "medium_risk": "Medium Risk",
+    "low_risk": "Low Risk",
+    "high": "High",
+    "medium": "Medium",
+    "low": "Low"
+  },
+  "channel_data": {
+    "distributors": {
+      "ingram_micro": {
+        "value_proposition": "Scale and broad market coverage"
+      },
+      "streakwave": {
+        "value_proposition": "Wireless network specialization"
+      },
+      "doubleradius": {
+        "value_proposition": "Education and support center"
+      },
+      "tdl_gentek": {
+        "value_proposition": "Canadian market gateway"
+      }
+    },
+    "issues": {
+      "inventory_transparency": {
+        "title": "Opaque Inventory Allocation",
+        "description": "Ubiquiti prioritizes supply to its own stores, causing long-term shortages in distribution channels",
+        "impact": "Affects MSP project delivery and customer satisfaction"
+      },
+      "official_support": {
+        "title": "Lack of Official Support",
+        "description": "Lack of enterprise-level technical support, relying on community and partners",
+        "impact": "Increases MSP support burden and reduces enterprise customer confidence"
+      },
+      "warranty_fragmentation": {
+        "title": "Fragmented Warranty Policies",
+        "description": "Different warranty periods for authorized vs unauthorized resellers",
+        "impact": "Customer confusion and risk, damaging brand image"
+      },
+      "inventory_transparency_desc": "Ubiquiti prioritizes supply to its own stores, causing long-term shortages in distribution channels",
+      "inventory_transparency_impact": "Affects MSP project delivery and customer satisfaction",
+      "official_support_desc": "Lack of enterprise-level technical support, relying on community and partners",
+      "official_support_impact": "Increases MSP support burden and reduces enterprise customer confidence",
+      "warranty_fragmentation_desc": "Different warranty periods for authorized vs unauthorized resellers",
+      "warranty_fragmentation_impact": "Customer confusion and risk, damaging brand image"
+    },
+    "swot": {
+      "strengths": [
+        "Disruptive value proposition: High-performance hardware at far lower cost than enterprise competitors",
+        "Strong brand community: Active enthusiast and professional community",
+        "Comprehensive ecosystem: UniFi networking, Protect security, Access control and other integrated solutions"
+      ],
+      "weaknesses": [
+        "Official support vacuum: Lack of enterprise-level technical support",
+        "Inherent channel conflict: D2C model competes with indirect channels",
+        "Supply chain instability: Widespread inventory shortage issues",
+        "Fragmented warranty policies: Different warranty services across channels"
+      ],
+      "opportunities": [
+        "Deepen SMB/SME market penetration: Huge potential in small and medium enterprise markets",
+        "Service layer formalization: Establish official paid support or enhance MSP partner programs"
+      ],
+      "disruptive_value_proposition": "Disruptive value proposition: High-performance hardware at far lower cost than enterprise competitors",
+      "strong_brand_community": "Strong brand community: Active enthusiast and professional community",
+      "comprehensive_ecosystem": "Comprehensive ecosystem: UniFi networking, Protect security, Access control and other integrated solutions",
+      "official_support_vacuum": "Official support vacuum: Lack of enterprise-level technical support",
+      "inherent_channel_conflict": "Inherent channel conflict: D2C model competes with indirect channels",
+      "supply_chain_instability": "Supply chain instability: Widespread inventory shortage issues",
+      "fragmented_warranty_policies": "Fragmented warranty policies: Different warranty services across channels",
+      "deepen_smb_market_penetration": "Deepen SMB/SME market penetration: Huge potential in small and medium enterprise markets",
+      "service_layer_formalization": "Service layer formalization: Establish official paid support or enhance MSP partner programs",
+      "competitor_exploitation": "Competitor exploitation: Competitors like Aruba, Meraki with stable channel programs",
+      "channel_partner_attrition": "Channel partner attrition: Key partners may switch to competitors due to ongoing issues",
+      "brand_reputation_damage": "Brand reputation damage: Chaotic channel experience may damage reputation among professional installer communities",
+      "threats": [
+        "Competitor exploitation: Competitors like Aruba, Meraki with stable channel programs",
+        "Channel partner attrition: Key partners may switch to competitors due to ongoing issues",
+        "Brand reputation damage: Chaotic channel experience may damage reputation among professional installer communities"
+      ]
+    }
+  },
+  "competitive": {
+    "title": "Competitive Intelligence Center",
+    "subtitle": "Competitor analysis and market opportunity identification",
+    "market_position": "Market Position:",
+    "threat_level": "Threat Level:",
+    "stable_partner_policy": "Stable partner policy",
+    "enterprise_support": "Enterprise support",
+    "reliable_inventory": "Reliable inventory supply",
+    "cloud_management_advantage": "Cloud management advantage",
+    "complete_channel_system": "Complete channel system",
+    "smb_direct_competitor": "Direct competitor in SMB market",
+    "high_end_enterprise_leader": "High-end enterprise market leader",
+    "attract_dissatisfied_msp_partners": "Attract dissatisfied Ubiquiti MSP partners",
+    "price_sensitive_customers_switch": "Price-sensitive customers switch to Ubiquiti"
+  },
+  "metrics": {
+    "total_revenue": "Total Revenue",
+    "enterprise_revenue": "Enterprise Tech Revenue",
+    "north_america_revenue": "North America Revenue",
+    "gross_margin": "Gross Margin",
+    "growth_rate": "Growth Rate",
+    "yoy_growth": "YoY Growth",
+    "million_usd": "Million USD",
+    "percentage": "Percentage",
+    "significant_improvement": "Significant Improvement",
+    "revenue_percentage": "{percentage}% of total revenue",
+    "master_distributors": "Master Distributors",
+    "authorized_resellers": "Authorized Resellers",
+    "total_distributors": "Total Distributors"
+  },
+  "analysis": {
+    "strengths": "Strengths",
+    "weaknesses": "Weaknesses",
+    "opportunities": "Opportunities",
+    "threats": "Threats",
+    "key_findings": "Key Findings",
+    "recommendations": "Recommendations",
+    "risk_assessment": "Risk Assessment",
+    "market_impact": "Market Impact"
+  },
+  "charts": {
+    "global_distributor_distribution": "Global Distributor Distribution",
+    "by_region": "By Region",
+    "by_country": "By Country",
+    "real_map": "Real Map",
+    "region_scatter": "Region Scatter Plot",
+    "fallback_solution": "Fallback Solution",
+    "region_view": "Region View",
+    "country_view": "Country View",
+    "map_view": "Map View",
+    "bar_chart": "Bar Chart",
+    "pie_chart": "Pie Chart",
+    "revenue_composition": "Revenue Composition",
+    "amount_million_usd": "Amount (Million USD)",
+    "revenue": "Revenue",
+    "enterprise_tech": "Enterprise Technology",
+    "service_provider_tech": "Service Provider Technology",
+    "distributor_count": "Distributor Count",
+    "distributors": " distributors",
+    "high": "High",
+    "low": "Low",
+    "loading_world_map": "Loading world map...",
+    "loading": "Loading...",
+    "zoom": "Zoom",
+    "zoom_reset": "Reset Zoom",
+    "restore": "Restore",
+    "global_distributor_distribution_by_country": "Global Distributor Distribution (by Country)",
+    "global_distributor_distribution_by_region": "Global Distributor Distribution (by Region)",
+    "map_view": "Map View",
+    "bar_view": "Bar Chart",
+    "pie_view": "Pie Chart",
+    "country_distributor_count_top20": "Distributor Count by Country (Top 20)",
+    "country_distributor_count_top25": "Distributor Count by Country (Top 25)",
+    "region_distributor_count": "Distributor Count by Region",
+    "distributor_country_distribution_top10": "Distributor Distribution by Country (Top 10)",
+    "distributor_country_distribution_top12": "Distributor Distribution by Country (Top 12)",
+    "distributor_region_distribution": "Distributor Distribution by Region"
+  },
+  "regions": {
+    "usa": "United States",
+    "canada": "Canada",
+    "europe": "Europe",
+    "asia": "Asia",
+    "oceania": "Oceania",
+    "africa": "Africa",
+    "middle_east": "Middle East",
+    "latin_america": "Latin America",
+    "germany": "Germany",
+    "uk": "United Kingdom",
+    "australia": "Australia",
+    "france": "France",
+    "japan": "Japan",
+    "netherlands": "Netherlands",
+    "brazil": "Brazil",
+    "italy": "Italy"
+  },
+  "footer": {
+    "analysis_modules": "Analysis Modules",
+    "financial_analysis": "Financial Performance Analysis",
+    "distribution_structure": "Distribution Network Structure",
+    "swot_analysis": "SWOT Strategic Analysis",
+    "competitive_intel": "Competitive Intelligence Center",
+    "system_info": "System Information",
+    "data_source": "Data Source: Q3 FY2025 Earnings",
+    "last_updated": "Last Updated: ",
+    "integration_status": "Integration Status: Active",
+    "data_security": "Data Security: Encrypted",
+    "disclaimer": "This platform is based on public financial data and market research, for analysis reference only",
+    "powered_by": "Powered by Vue.js & TailwindCSS"
+  },
+  "status": {
+    "loading": "Loading...",
+    "success": "Success",
+    "failed": "Failed",
+    "pending": "Pending",
+    "completed": "Completed",
+    "active": "Active",
+    "encrypted": "Encrypted"
+  },
+  "financial_detailed": {
+    "revenue_segments": "Revenue Segments",
+    "regional_breakdown": "Regional Breakdown",
+    "yoy_comparison": "Year-over-Year Comparison",
+    "key_insights": "Key Insights",
+    "strategic_implications": "Strategic Implications",
+    "risk_factors": "Risk Factors",
+    "market_dynamics": "Market Dynamics"
+  },
+  "distributors": {
+    "network_overview": "Network Overview",
+    "tier_analysis": "Tier Analysis",
+    "geographic_coverage": "Geographic Coverage",
+    "partnership_strength": "Partnership Strength",
+    "channel_efficiency": "Channel Efficiency",
+    "integration_status": "Integration Status"
+  },
+  "resellers": {
+    "ecosystem_analysis": "Ecosystem Analysis",
+    "case_studies": "Case Studies",
+    "transformation_challenges": "Transformation Challenges",
+    "growth_opportunities": "Growth Opportunities",
+    "market_positioning": "Market Positioning",
+    "competitive_landscape": "Competitive Landscape"
+  },
+  "service_providers": {
+    "msp_analysis": "MSP Analysis",
+    "si_partnerships": "SI Partnerships",
+    "service_offerings": "Service Offerings",
+    "market_penetration": "Market Penetration",
+    "growth_strategies": "Growth Strategies",
+    "technology_enablement": "Technology Enablement"
+  },
+  "strategic_detailed": {
+    "swot_framework": "SWOT Framework",
+    "strategic_priorities": "Strategic Priorities",
+    "market_opportunities": "Market Opportunities",
+    "competitive_threats": "Competitive Threats",
+    "resource_allocation": "Resource Allocation",
+    "future_outlook": "Future Outlook"
+  },
+  "competitive_detailed": {
+    "competitor_profiles": "Competitor Profiles",
+    "market_share_analysis": "Market Share Analysis",
+    "product_comparison": "Product Comparison",
+    "pricing_strategies": "Pricing Strategies",
+    "go_to_market": "Go-to-Market",
+    "threat_assessment": "Threat Assessment"
+  },
+  "case_studies": {
+    "title": "Case Studies",
+    "background": "Background",
+    "challenges": "Challenges",
+    "solutions": "Solutions",
+    "outcomes": "Outcomes",
+    "lessons_learned": "Lessons Learned",
+    "implications": "Implications"
+  },
+  "data_points": {
+    "key_metrics": "Key Metrics",
+    "performance_indicators": "Performance Indicators",
+    "growth_rates": "Growth Rates",
+    "market_share": "Market Share",
+    "revenue_breakdown": "Revenue Breakdown",
+    "geographic_data": "Geographic Data",
+    "temporal_trends": "Temporal Trends"
+  }
+}

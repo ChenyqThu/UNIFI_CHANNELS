@@ -1,0 +1,572 @@
+{
+  "nav": {
+    "dashboard": "Ubiquiti 渠道情报分析",
+    "financial": "财务概览",
+    "distribution": "分销网络",
+    "reseller": "经销商分析",
+    "service": "服务提供商",
+    "strategic": "战略分析",
+    "competitive": "竞争情报",
+    "language": "语言",
+    "financial_overview": "财务概览与战略背景",
+    "distribution_network": "全球分销骨干网络",
+    "reseller_analysis": "经销商渠道分析",
+    "service_providers": "SI/MSP 服务层分析",
+    "strategic_analysis": "战略综合与前瞻性分析",
+    "competitive_intel": "竞争情报中心"
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "错误",
+    "retry": "重试",
+    "view_details": "查看详情",
+    "download": "下载",
+    "export": "导出",
+    "filter": "筛选",
+    "search": "搜索",
+    "refresh": "刷新",
+    "save": "保存",
+    "cancel": "取消",
+    "confirm": "确认",
+    "close": "关闭",
+    "edit": "编辑",
+    "delete": "删除",
+    "add": "添加",
+    "update": "更新",
+    "total": "总计",
+    "active": "活跃",
+    "inactive": "非活跃",
+    "no_data": "暂无数据"
+  },
+  "brand": {
+    "name": "Ubiquiti 渠道情报",
+    "platform": "Channel Intelligence Platform",
+    "description": "基于深度市场研究的专业渠道分析平台，为渠道决策提供数据支持",
+    "copyright": "© 2024 Channel Intelligence Platform"
+  },
+  "badges": {
+    "core": "核心",
+    "key": "重点",
+    "critical": "关键",
+    "strategic": "战略",
+    "intelligence": "情报"
+  },
+  "language": {
+    "chinese": "中文",
+    "english": "English"
+  },
+  "dashboard": {
+    "title": "解构主导地位",
+    "subtitle": "Ubiquiti 北美销售渠道深度分析报告",
+    "based_on_data": "基于 Q3 FY2025 财报数据",
+    "multi_dimension": "多维度渠道情报分析",
+    "key_metrics": "关键财务指标",
+    "record_performance": "2025财年第三季度创纪录表现",
+    "revenue_composition": "营收构成分析",
+    "quick_insights": "快速洞察",
+    "key_findings": "关键发现与战略要务",
+    "deep_analysis": "深度分析模块",
+    "select_module": "选择模块进行详细分析",
+    "revenue_composition_analysis": "营收构成分析",
+    "channel_health": "渠道健康度",
+    "competitive_landscape": "竞争格局",
+    "insights": {
+      "market_dominance": {
+        "title": "市场主导地位",
+        "content": "企业技术部门贡献88%营收，确立了在Wi-Fi 6E/7、边缘计算领域的领导地位。北美市场占比49%，体现了本土渠道网络的强大执行力。",
+        "insight1": "企业技术平台营收占88%，显示明确战略重心",
+        "insight2": "北美市场贡献49%营收，战略重要性不可撼动",
+        "insight3": "毛利率从35.3%提升至44.5%，盈利能力显著增强"
+      },
+      "channel_challenges": {
+        "title": "渠道挑战",
+        "content": "分销网络深度依赖Ingram Micro等少数巨头，存在单点风险。B&H Photo Video等传统零售商转型案例表明，渠道伙伴需要更强的技术赋能支持。",
+        "insight1": "D2C战略与间接渠道形成直接竞争",
+        "insight2": "库存分配不透明导致渠道伙伴不满",
+        "insight3": "缺乏官方企业级支持增加MSP负担"
+      },
+      "strategic_opportunities": {
+        "title": "战略机会",
+        "content": "UniFi生态系统的快速扩张为渠道深化创造机会。通过MSP/SI合作伙伴计划，可以建立更有粘性的服务型渠道关系，减少对传统分销的依赖。",
+        "insight1": "SMB市场渗透潜力巨大，需规范化渠道",
+        "insight2": "服务层正规化可创造新收入来源",
+        "insight3": "竞争对手可利用渠道弱点进行攻击"
+      }
+    },
+    "modules": {
+      "financial_overview": {
+        "title": "财务表现分析",
+        "description": "深度解析Q3财报，了解营收驱动因素"
+      },
+      "distribution_network": {
+        "title": "分销网络结构",
+        "description": "全球核心分销商与渠道层级分析"
+      },
+      "reseller_analysis": {
+        "title": "经销商生态研究",
+        "description": "从B&H案例看渠道转型挑战与机会"
+      },
+      "service_providers": {
+        "title": "SI/MSP服务层",
+        "description": "系统集成商与管理服务提供商分析"
+      },
+      "strategic_analysis": {
+        "title": "SWOT战略分析",
+        "description": "渠道战略的优势、挑战与未来方向"
+      },
+      "competitive_intel": {
+        "title": "竞争情报中心",
+        "description": "竞争对手分析与市场机会识别"
+      }
+    }
+  },
+  "financial": {
+    "title": "财务表现与战略要务",
+    "subtitle": "基于2025财年第三季度财报的深度分析，揭示Ubiquiti的增长动力与战略重心",
+    "strategic_market": "战略市场",
+    "revenue_growth": "营收增长",
+    "market_segments": "市场细分",
+    "regional_performance": "区域表现",
+    "profitability": "盈利能力",
+    "revenue_composition": "营收构成对比",
+    "regional_distribution": "地区营收分布",
+    "key_metrics_comparison": "关键财务指标对比",
+    "strategic_insights": "战略洞察",
+    "strategic_risks": "战略风险",
+    "table": {
+      "metric": "指标",
+      "q3_2025": "Q3 2025",
+      "q3_2024": "Q3 2024",
+      "growth": "增长",
+      "note": "备注",
+      "total_revenue": "总收入",
+      "enterprise_revenue": "企业技术收入",
+      "service_provider_revenue": "服务提供商技术收入",
+      "north_america_revenue": "北美地区收入",
+      "gross_profit": "毛利润",
+      "gross_margin": "毛利率",
+      "service_provider_change": "-0.4%",
+      "gross_profit_change": "+69.9%",
+      "margin_improvement": "+{points}%"
+    },
+    "insights": {
+      "enterprise_dominance": {
+        "title": "企业技术主导地位确立",
+        "content": "企业技术部门贡献$606.4M，占总营收88%，显示UniFi生态系统在企业级Wi-Fi 6E/7、交换机、安防领域的强势地位。这种集中度反映了产品-市场匹配度的成熟。"
+      },
+      "regional_concentration": {
+        "title": "北美市场集中度优势",
+        "content": "北美营收$337.8M，占总营收49%，体现了本土渠道网络的深度整合与执行效率。相比国际市场51%的分散布局，北美渠道显示出更强的盈利能力。"
+      },
+      "margin_expansion": {
+        "title": "毛利率持续扩张",
+        "content": "毛利率提升至44.1%，反映了产品组合优化与定价权增强。这为渠道合作伙伴提供了更大的利润空间，有助于深化渠道合作关系。"
+      },
+      "growth_sustainability": {
+        "title": "增长可持续性验证",
+        "content": "在高基数基础上实现强劲增长，证明了UniFi生态系统的市场扩张能力。这为渠道伙伴提供了业务增长的信心基础。"
+      }
+    },
+    "risks": {
+      "channel_concentration": {
+        "title": "渠道集中度风险",
+        "content": "北美营收占比过高可能增加区域性经济波动的影响，需要通过国际渠道扩张来分散风险。"
+      },
+      "distributor_dependency": {
+        "title": "分销商依赖度",
+        "content": "对Ingram Micro等大型分销商的依赖可能影响议价能力，需要培育更多样化的渠道合作伙伴。"
+      },
+      "market_saturation": {
+        "title": "市场饱和压力",
+        "content": "企业技术领域的高渗透率可能面临增长天花板，需要通过新产品线拓展渠道机会。"
+      }
+    }
+  },
+  "distribution": {
+    "title": "全球分销骨干网络",
+    "subtitle": "解析Ubiquiti间接渠道的顶层结构与关键分销商分析",
+    "key_countries": "重点国家分销商分布",
+    "database_analysis": "基于真实数据库分析的渠道密度",
+    "key_distributors": "关键分销商分析",
+    "strategic_partners": "Ingram Micro、DoubleRadius等战略合作伙伴",
+    "customer_scale": "客户规模：",
+    "core_services": "核心服务：",
+    "database_integration": "数据库集成状态",
+    "realtime_sync": "实时同步Unifi分销商网络数据",
+    "distributors_collected": "已收录分销商",
+    "coverage_regions": "覆盖地区",
+    "countries_regions": "国家/地区"
+  },
+  "reseller": {
+    "title": "经销商渠道分析",
+    "subtitle": "从B&H Photo Video案例看经销商生态与渠道挑战",
+    "case_study": "B&H Photo Video 案例分析",
+    "transformation": "传统摄影器材零售商的IT设备转型",
+    "traditional_retailer": "传统零售商的网络设备布局",
+    "business_model": "业务模式：",
+    "online_offline_retail": "线上+线下零售",
+    "product_positioning": "产品定位：",
+    "consumer_grade": "消费级",
+    "small_business": "小型企业",
+    "competitive_advantage": "竞争优势：",
+    "brand_inventory": "品牌知名度、库存深度",
+    "channel_pressure": "渠道压力分析",
+    "d2c_impact": "D2C模式的冲击",
+    "price_competition": "价格竞争：",
+    "price_transparency": "官网价格透明化挤压利润空间",
+    "inventory_risk": "库存风险：",
+    "inventory_pressure": "产品更新快，库存周转压力大",
+    "service_gap": "服务缺失：",
+    "limited_tech_support": "技术支持能力有限",
+    "ecosystem_challenges": "经销商生态挑战",
+    "price_transparency_impact": "价格透明化冲击",
+    "margin_compression": "官方直销价格公开，经销商议价空间被严重压缩",
+    "inventory_management": "库存管理困雾",
+    "complex_product_lines": "产品线复杂，更新频繁，库存预测和周转困雾",
+    "tech_support_gap": "技术支持缺失",
+    "professional_service_difficulty": "缺乏深度技术支持能力，雾以为企业客户提供专业服务",
+    "transformation_recommendations": "经销商转型建议",
+    "value_added_services": "增值服务化",
+    "site_survey_design": "• 提供现场勘察和网络设计服务",
+    "installation_training": "• 开展安装调试和培训业务",
+    "maintenance_support_team": "• 建立维护和技术支持团队",
+    "customer_segmentation": "客户细分专业化",
+    "focus_specific_industries": "• 聚焦特定行业和客户群体",
+    "develop_industry_solutions": "• 开发行业解决方案能力",
+    "build_crm_system": "• 建立客户关系管理体系"
+  },
+  "service": {
+    "title": "SI/MSP 服务层分析",
+    "subtitle": "系统集成商与管理服务提供商的关键角色分析",
+    "key_providers": "关键服务提供商分析",
+    "partners": "Progent、Cloudavize等重要合作伙伴",
+    "enterprise_it_consultant": "企业级IT咨询专家",
+    "specialty_area": "专业领域：",
+    "datacenter_security": "数据中心设计、网络安全",
+    "service_features": "服务特色：",
+    "enterprise_consulting": "企业咨询",
+    "project_management": "项目管理",
+    "technical_support": "技术支持",
+    "cloud_network_expert": "云计算和网络专家",
+    "cloud_migration_optimization": "云迁移、网络优化",
+    "cloud_strategy": "云策略",
+    "network_design": "网络设计",
+    "operational_support": "运营支持",
+    "service_layer_challenges": "服务层面临的挑战",
+    "lack_tech_support": "技术支持缺失",
+    "no_official_enterprise_support": "Ubiquiti不提供官方企业级支持，MSP需自行承担技术风险",
+    "low_inventory_predictability": "库存可预测性低",
+    "opaque_supply_chain": "供应链不透明导致项目时间表雾以保证",
+    "limited_training_resources": "培训资源有限",
+    "lack_systematic_certification": "缺乏系统化认证培训影响服务质量标准化"
+  },
+  "strategic": {
+    "title": "战略综合与前瞻性分析",
+    "subtitle": "基于SWOT框架的渠道战略健康度评估与前瞻性分析",
+    "swot_analysis": "SWOT 战略分析",
+    "channel_strategy": "Ubiquiti 北美渠道战略的优势、劣势、机会与威胁",
+    "core_competitiveness": "核心竞争力与市场优势",
+    "internal_weaknesses": "内部弱点与改进空间",
+    "market_opportunities": "市场机会与增长潜力",
+    "external_risks": "外部风险与竞争压力",
+    "key_strategic_tensions": "关键战略张力分析",
+    "core_contradictions": "商业模式中存在的核心矛盾与平衡点",
+    "lean_vs_enterprise": "精简运营 vs 企业雄心",
+    "lean_vs_enterprise_desc": "以最少支持和销售基础设施运营的公司，能否在企业市场与思科等全方位服务供应商长期竞争？",
+    "community_vs_professional": "社区力量 vs 专业服务",
+    "community_vs_professional_desc": "当企业核心网络出现故障时，社区论坛能否替代专业、负责任的技术支持？",
+    "growth_vs_stability": "增长追求 vs 渠道稳定",
+    "growth_vs_stability_desc": "为追求D2C快速增长而牺牲专业渠道稳定性，这种权衡是否值得？",
+    "forward_analysis": "前瞻性分析与建议",
+    "strategic_recommendations": "基于深度分析的战略建议",
+    "for_ubiquiti": "对 Ubiquiti 的建议",
+    "transparent_inventory_policy": "制定透明的库存分配政策，平衡直销和分销渠道需求",
+    "unified_warranty_policy": "统一所有渠道的保修政策，消除客户困惑和风险",
+    "formal_msp_program": "启动正式的MSP合作伙伴计划，提供专门资源和支持",
+    "for_competitors": "对竞争对手的建议",
+    "attack_channel_weaknesses": "重点攻击Ubiquiti的渠道战略弱点，而非产品本身",
+    "promote_channel_stability": "向不满的Ubiquiti合作伙伴宣传渠道稳定性优势",
+    "reliable_inventory_support": "强调可靠的库存供应和合作伙伴支持计划",
+    "for_channel_partners": "对渠道伙伴的建议",
+    "diversify_product_portfolio": "产品组合多样化，减轻供应链问题带来的业务风险",
+    "transparent_customer_communication": "与客户透明沟通支持模式和保修限制",
+    "manage_customer_expectations": "管理客户期望，避免未来发生纠纷",
+    "risk_assessment_matrix": "风险评估矩阵",
+    "impact_probability_assessment": "影响程度与发生概率的综合评估",
+    "impact": "影响",
+    "probability": "概率",
+    "channel_partner_loss": "渠道伙伴流失",
+    "channel_partner_loss_desc": "关键分销商和MSP转向竞争对手",
+    "inventory_management_crisis": "库存管理危机",
+    "inventory_management_crisis_desc": "持续的供应链不稳定影响业务",
+    "enterprise_market_access": "企业市场准入",
+    "enterprise_market_access_desc": "缺乏企业级支持限制市场扩张",
+    "brand_reputation_damage": "品牌声誉损害",
+    "brand_reputation_damage_desc": "渠道混乱影响专业形象",
+    "high_risk": "高风险",
+    "medium_risk": "中风险",
+    "low_risk": "低风险",
+    "high": "高",
+    "medium": "中",
+    "low": "低"
+  },
+  "channel_data": {
+    "distributors": {
+      "ingram_micro": {
+        "value_proposition": "规模化和广泛市场覆盖"
+      },
+      "streakwave": {
+        "value_proposition": "无线网络专业化"
+      },
+      "doubleradius": {
+        "value_proposition": "教育和支持中心"
+      },
+      "tdl_gentek": {
+        "value_proposition": "加拿大市场门户"
+      }
+    },
+    "issues": {
+      "inventory_transparency": {
+        "title": "库存分配不透明",
+        "description": "Ubiquiti 优先供应自营商店，导致分销渠道长期缺货",
+        "impact": "影响 MSP 项目交付和客户满意度"
+      },
+      "official_support": {
+        "title": "官方支持缺失",
+        "description": "缺乏企业级技术支持，依赖社区和合作伙伴",
+        "impact": "增加 MSP 支持负担，降低企业客户信心"
+      },
+      "warranty_fragmentation": {
+        "title": "保修政策碎片化",
+        "description": "授权 vs 非授权经销商保修期不同",
+        "impact": "客户困惑和风险，损害品牌形象"
+      },
+      "inventory_transparency_desc": "Ubiquiti 优先供应自营商店，导致分销渠道长期缺货",
+      "inventory_transparency_impact": "影响 MSP 项目交付和客户满意度",
+      "official_support_desc": "缺乏企业级技术支持，依赖社区和合作伙伴",
+      "official_support_impact": "增加 MSP 支持负担，降低企业客户信心",
+      "warranty_fragmentation_desc": "授权 vs 非授权经销商保修期不同",
+      "warranty_fragmentation_impact": "客户困惑和风险，损害品牌形象"
+    },
+    "swot": {
+      "strengths": [
+        "颇覆性价值主张：高性能硬件，远低于企业级竞争对手成本",
+        "强大的品牌社区：活跃的发烧友和专业人士社区",
+        "全面的生态系统：UniFi网络、Protect安防、Access门禁等集成解决方案"
+      ],
+      "weaknesses": [
+        "官方支持真空：缺乏企业级技术支持",
+        "固有的渠道冲突：D2C模式与间接渠道竞争",
+        "供应链不稳定：普遍的库存短缺问题",
+        "碎片化保修政策：不同渠道保修服务差异"
+      ],
+      "opportunities": [
+        "深化SMB/SME市场渗透：中小型企业市场巨大潜力",
+        "服务层正规化：建立官方支付支持或增强MSP合作伙伴计划"
+      ],
+      "disruptive_value_proposition": "颛覆性价值主张：高性能硬件，远低于企业级竞争对手成本",
+      "strong_brand_community": "强大的品牌社区：活跃的发烧友和专业人士社区",
+      "comprehensive_ecosystem": "全面的生态系统：UniFi网络、Protect安防、Access门禁等集成解决方案",
+      "official_support_vacuum": "官方支持真空：缺乏企业级技术支持",
+      "inherent_channel_conflict": "固有的渠道冲突：D2C模式与间接渠道竞争",
+      "supply_chain_instability": "供应链不稳定：普遍的库存短缺问题",
+      "fragmented_warranty_policies": "碎片化保修政策：不同渠道保修服务差异",
+      "deepen_smb_market_penetration": "深化SMB/SME市场渗透：中小型企业市场巨大潜力",
+      "service_layer_formalization": "服务层正规化：建立官方支付支持或增强MSP合作伙伴计划",
+      "competitor_exploitation": "竞争对手利用：Aruba、Meraki等稳定渠道计划的竞争者",
+      "channel_partner_attrition": "渠道伙伴流失：关键合作伙伴可能因持续问题而转向竞争对手",
+      "brand_reputation_damage": "品牌声誉损害：混乱的渠道体验可能损害专业安装商群体中的声誉",
+      "threats": [
+        "竞争对手利用：Aruba、Meraki等稳定渠道计划的竞争者",
+        "渠道伙伴流失：关键合作伙伴可能因持续问题而转向竞争对手",
+        "品牌声誉损害：混乱的渠道体验可能损害专业安装商群体中的声誉"
+      ]
+    }
+  },
+  "competitive": {
+    "title": "竞争情报中心",
+    "subtitle": "竞争对手分析与市场机会识别",
+    "market_position": "市场定位：",
+    "threat_level": "威胁等级：",
+    "stable_partner_policy": "稳定的合作伙伴政策",
+    "enterprise_support": "企业级支持",
+    "reliable_inventory": "可靠库存供应",
+    "cloud_management_advantage": "云管理优势",
+    "complete_channel_system": "完整渠道体系",
+    "smb_direct_competitor": "SMB市场的直接竞争者",
+    "high_end_enterprise_leader": "高端企业市场领导者",
+    "attract_dissatisfied_msp_partners": "吸引对Ubiquiti不满的MSP合作伙伴",
+    "price_sensitive_customers_switch": "价格敏感客户转向Ubiquiti"
+  },
+  "metrics": {
+    "total_revenue": "总营收",
+    "enterprise_revenue": "企业技术营收",
+    "north_america_revenue": "北美营收",
+    "gross_margin": "毛利率",
+    "growth_rate": "增长率",
+    "yoy_growth": "同比增长",
+    "million_usd": "百万美元",
+    "percentage": "百分比",
+    "significant_improvement": "显著提升",
+    "revenue_percentage": "占总营收{percentage}%",
+    "master_distributors": "主要分销商",
+    "authorized_resellers": "授权经销商",
+    "total_distributors": "总分销商数量"
+  },
+  "analysis": {
+    "strengths": "优势",
+    "weaknesses": "劣势", 
+    "opportunities": "机会",
+    "threats": "威胁",
+    "key_findings": "关键发现",
+    "recommendations": "建议",
+    "risk_assessment": "风险评估",
+    "market_impact": "市场影响"
+  },
+  "charts": {
+    "global_distributor_distribution": "全球分销商分布",
+    "by_region": "按地区",
+    "by_country": "按国家",
+    "real_map": "真实地图",
+    "region_scatter": "区域散点图",
+    "fallback_solution": "备选方案",
+    "region_view": "地区视图",
+    "country_view": "国家视图",
+    "map_view": "地图视图",
+    "bar_chart": "柱状图",
+    "pie_chart": "饼图",
+    "revenue_composition": "营收构成",
+    "amount_million_usd": "金额 (百万美元)",
+    "revenue": "营收",
+    "enterprise_tech": "企业技术",
+    "service_provider_tech": "服务提供商技术",
+    "distributor_count": "分销商数量",
+    "distributors": "个分销商",
+    "high": "高",
+    "low": "低",
+    "loading_world_map": "正在加载世界地图...",
+    "loading": "正在加载...",
+    "zoom": "区域缩放",
+    "zoom_reset": "区域缩放还原",
+    "restore": "还原",
+    "global_distributor_distribution_by_country": "全球分销商分布（按国家）",
+    "global_distributor_distribution_by_region": "全球分销商分布（按地区）",
+    "map_view": "地图视图",
+    "bar_view": "柱状图",
+    "pie_view": "饼图",
+    "country_distributor_count_top20": "各国分销商数量 (Top 20)",
+    "country_distributor_count_top25": "各国分销商数量 (Top 25)",
+    "region_distributor_count": "各地区分销商数量",
+    "distributor_country_distribution_top10": "分销商国家分布 (Top 10)",
+    "distributor_country_distribution_top12": "分销商国家分布 (Top 12)",
+    "distributor_region_distribution": "分销商地区分布"
+  },
+  "regions": {
+    "usa": "美国",
+    "canada": "加拿大", 
+    "europe": "欧洲",
+    "asia": "亚洲",
+    "oceania": "澳新",
+    "africa": "非洲",
+    "middle_east": "中东",
+    "latin_america": "拉美",
+    "germany": "德国",
+    "uk": "英国",
+    "australia": "澳大利亚",
+    "france": "法国",
+    "japan": "日本",
+    "netherlands": "荷兰",
+    "brazil": "巴西",
+    "italy": "意大利"
+  },
+  "footer": {
+    "analysis_modules": "分析模块",
+    "financial_analysis": "财务表现分析",
+    "distribution_structure": "分销网络结构",
+    "swot_analysis": "SWOT战略分析",
+    "competitive_intel": "竞争情报中心",
+    "system_info": "系统信息",
+    "data_source": "数据源：Q3 FY2025 财报",
+    "last_updated": "最后更新：",
+    "integration_status": "集成状态：活跃",
+    "data_security": "数据安全：已加密",
+    "disclaimer": "本平台基于公开财务数据和市场研究，仅供分析参考使用",
+    "powered_by": "由 Vue.js & TailwindCSS 驱动"
+  },
+  "status": {
+    "loading": "正在加载...",
+    "success": "成功",
+    "failed": "失败",
+    "pending": "待处理",
+    "completed": "已完成",
+    "active": "活跃",
+    "encrypted": "已加密"
+  },
+  "financial_detailed": {
+    "revenue_segments": "营收细分",
+    "regional_breakdown": "地区营收分解",
+    "yoy_comparison": "同比对比分析",
+    "key_insights": "关键洞察",
+    "strategic_implications": "战略意义",
+    "risk_factors": "风险因素",
+    "market_dynamics": "市场动态"
+  },
+  "distributors": {
+    "network_overview": "网络概览",
+    "tier_analysis": "层级分析",
+    "geographic_coverage": "地理覆盖",
+    "partnership_strength": "合作伙伴实力",
+    "channel_efficiency": "渠道效率",
+    "integration_status": "集成状态"
+  },
+  "resellers": {
+    "ecosystem_analysis": "生态系统分析",
+    "case_studies": "案例研究",
+    "transformation_challenges": "转型挑战",
+    "growth_opportunities": "增长机会",
+    "market_positioning": "市场定位",
+    "competitive_landscape": "竞争格局"
+  },
+  "service_providers": {
+    "msp_analysis": "MSP分析",
+    "si_partnerships": "SI合作伙伴关系",
+    "service_offerings": "服务产品",
+    "market_penetration": "市场渗透",
+    "growth_strategies": "增长战略",
+    "technology_enablement": "技术赋能"
+  },
+  "strategic_detailed": {
+    "swot_framework": "SWOT框架",
+    "strategic_priorities": "战略优先级",
+    "market_opportunities": "市场机会",
+    "competitive_threats": "竞争威胁",
+    "resource_allocation": "资源配置",
+    "future_outlook": "未来展望"
+  },
+  "competitive_detailed": {
+    "competitor_profiles": "竞争对手档案",
+    "market_share_analysis": "市场份额分析",
+    "product_comparison": "产品对比",
+    "pricing_strategies": "定价策略",
+    "go_to_market": "市场进入策略",
+    "threat_assessment": "威胁评估"
+  },
+  "case_studies": {
+    "title": "案例研究",
+    "background": "背景",
+    "challenges": "挑战",
+    "solutions": "解决方案",
+    "outcomes": "成果",
+    "lessons_learned": "经验教训",
+    "implications": "影响"
+  },
+  "data_points": {
+    "key_metrics": "关键指标",
+    "performance_indicators": "绩效指标",
+    "growth_rates": "增长率",
+    "market_share": "市场份额",
+    "revenue_breakdown": "营收分解",
+    "geographic_data": "地理数据",
+    "temporal_trends": "时间趋势"
+  }
+}
