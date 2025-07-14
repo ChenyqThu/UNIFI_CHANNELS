@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>ECharts 全球数据视图切换 (JS加载)</title>
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f4f7f9;
+        }
+        #controls {
+            padding: 15px;
+            text-align: center;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+        }
+        button {
+            padding: 8px 16px;
+            font-size: 14px;
+            margin: 0 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        button:hover {
+            background-color: #e0e0e0;
+            border-color: #bbb;
+        }
+        button:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
+        }
+        #main {
+            height: calc(100% - 65px);
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <button onclick="switchToMap()">地图视图</button>
+        <button onclick="switchToBar()">柱状图视图</button>
+        <button onclick="switchToPie()">饼图视图</button>
+    </div>
+    <div id="main"></div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <script src="world.js"></script> <script>
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 请用下面这个完整的数据列表替换您文件中的 sourceData 变量
+const sourceData = [
+    { "name": "USA", "value": 30, "coordinates": [-119.71063738571426, 35.29252582857142] },
+    { "name": "United Arab Emirates", "value": 21, "coordinates": [52.62176790952381, 23.98657417142857] },
+    { "name": "Belgium", "value": 21, "coordinates": [4.4622696, 50.81497529999999] },
+    { "name": "Italy", "value": 19, "coordinates": [11.132453378947371, 45.05954083157895] },
+    { "name": "France", "value": 18, "coordinates": [-4.631711733333333, 43.58120950555556] },
+    { "name": "Australia", "value": 17, "coordinates": [145.02772585294116, -34.252006876470595] },
+    { "name": "England", "value": 17, "coordinates": [-0.5956659176470588, 51.7368233117647] },
+    { "name": "Poland", "value": 17, "coordinates": [19.669884647058822, 51.42129702941176] },
+    { "name": "Austria", "value": 16, "coordinates": [15.45128459375, 48.057203118749996] },
+    { "name": "Netherlands", "value": 16, "coordinates": [5.24615291875, 51.9283671375] },
+    { "name": "Spain", "value": 15, "coordinates": [-3.1391973066666665, 39.199328173333335] },
+    { "name": "Norway", "value": 14, "coordinates": [9.619984292857142, 60.54305084285714] },
+    { "name": "Denmark", "value": 13, "coordinates": [10.894321776923077, 55.78031473076923] },
+    { "name": "Germany", "value": 11, "coordinates": [8.693467481818182, 50.82675019090909] },
+    { "name": "Ireland", "value": 11, "coordinates": [-6.263207954545454, 48.07000440909091] },
+    { "name": "Kuwait", "value": 11, "coordinates": [40.03861659090909, 21.366690854545457] },
+    { "name": "Canada", "value": 11, "coordinates": [-63.60613426, 35.23274216] },
+    { "name": "Ukraine", "value": 10, "coordinates": [30.707702049999995, 49.75803607] },
+    { "name": "Czech Republic", "value": 9, "coordinates": [15.474847911111112, 49.77152105555555] },
+    { "name": "Finland", "value": 9, "coordinates": [24.45784232222222, 60.364129766666665] },
+    { "name": "Philippines", "value": 9, "coordinates": [119.12760918888888, 13.119915] },
+    { "name": "Brazil", "value": 8, "coordinates": [-48.85737775, -24.3050560125] },
+    { "name": "Indonesia", "value": 8, "coordinates": [108.3029995875, -6.429431] },
+    { "name": "Romania", "value": 8, "coordinates": [21.8440148625, 39.832546012499996] },
+    { "name": "Argentina", "value": 7, "coordinates": [-58.73809835714286, -34.386549114285714] },
+    { "name": "India", "value": 7, "coordinates": [76.63178071428572, 19.79661412857143] },
+    { "name": "Pakistan", "value": 7, "coordinates": [70.81062758571429, 29.016066899999995] },
+    { "name": "Turkey", "value": 7, "coordinates": [29.36526464285714, 40.419560357142856] },
+    { "name": "Vietnam", "value": 7, "coordinates": [106.31610992857144, 15.172268742857142] },
+    { "name": "Switzerland", "value": 6, "coordinates": [8.4804142, 47.34730148333333] },
+    { "name": "Colombia", "value": 6, "coordinates": [-74.09495995, 4.718048949999999] },
+    { "name": "Sweden", "value": 6, "coordinates": [17.0924993, 59.03928825] },
+    { "name": "South Africa", "value": 6, "coordinates": [26.5306387, -27.31847306666667] },
+    { "name": "Bulgaria", "value": 5, "coordinates": [24.0620473, 42.79458584] },
+    { "name": "Chile", "value": 5, "coordinates": [-70.63671828, -33.39492818] },
+    { "name": "China", "value": 5, "coordinates": [93.6846354, 26.756349399999998] },
+    { "name": "Greece", "value": 5, "coordinates": [23.21063122, 38.92832792] },
+    { "name": "Kenya", "value": 5, "coordinates": [36.84035718, -1.2963331] },
+    { "name": "Kazakhstan", "value": 5, "coordinates": [76.91289278, 43.25166926] },
+    { "name": "Mexico", "value": 5, "coordinates": [-99.43242375999999, 20.70883254] },
+    { "name": "Slovakia", "value": 5, "coordinates": [18.0894026, 48.721089019999994] },
+    { "name": "Hungary", "value": 4, "coordinates": [19.22038175, 47.417908749999995] },
+    { "name": "Iraq", "value": 4, "coordinates": [44.441190575, 33.3075194] },
+    { "name": "Japan", "value": 4, "coordinates": [139.6929807, 35.601075875] },
+    { "name": "South Korea", "value": 4, "coordinates": [126.9610437, 37.469302675] },
+    { "name": "Lithuania", "value": 4, "coordinates": [24.299608225, 54.850784] },
+    { "name": "Nigeria", "value": 4, "coordinates": [3.40243, 6.466117000000001] },
+    { "name": "New Zealand", "value": 4, "coordinates": [174.549246375, -38.627657525000004] },
+    { "name": "Republic of Serbia", "value": 4, "coordinates": [20.773588750000002, 44.4611771] },
+    { "name": "Thailand", "value": 4, "coordinates": [100.4827652, 13.841974174999999] },
+    { "name": "Costa Rica", "value": 3, "coordinates": [-56.07482433333333, 6.627018666666667] },
+    { "name": "Cyprus", "value": 3, "coordinates": [33.2653466, 35.00212846666667] },
+    { "name": "Ecuador", "value": 3, "coordinates": [-79.89909619999999, -2.165687066666667] },
+    { "name": "Guatemala", "value": 3, "coordinates": [-60.34463953333333, 9.747991] },
+    { "name": "Hong Kong", "value": 3, "coordinates": [114.09755733333333, 22.3222876] },
+    { "name": "Honduras", "value": 3, "coordinates": [-87.4573223, 14.565234733333334] },
+    { "name": "Croatia", "value": 3, "coordinates": [16.3674268, 46.17013336666667] },
+    { "name": "Sri Lanka", "value": 3, "coordinates": [79.98530456666667, 6.6649514] },
+    { "name": "Myanmar", "value": 3, "coordinates": [96.13999696666667, 16.8082064] },
+    { "name": "Malaysia", "value": 3, "coordinates": [101.63656656666667, 3.061199633333333] },
+    { "name": "Peru", "value": 3, "coordinates": [-77.03686136666668, -12.079145933333331] },
+    { "name": "Portugal", "value": 3, "coordinates": [-8.5492989, 40.004499833333334] },
+    { "name": "El Salvador", "value": 3, "coordinates": [-89.2351117, 13.692659833333332] },
+    { "name": "Taiwan", "value": 3, "coordinates": [120.93809103333332, 24.457216466666665] },
+    { "name": "Uzbekistan", "value": 3, "coordinates": [69.2892281, 41.311432] },
+    { "name": "Venezuela", "value": 3, "coordinates": [-66.87220803333334, 10.484145466666666] },
+    { "name": "Armenia", "value": 2, "coordinates": [44.496892, 40.195986500000004] },
+    { "name": "Azerbaijan", "value": 2, "coordinates": [49.8708699, 40.40419525] },
+    { "name": "Bangladesh", "value": 2, "coordinates": [90.38672539999999, 23.7389809] },
+    { "name": "Cambodia", "value": 2, "coordinates": [104.928444, 11.5580925] },
+    { "name": "Latvia", "value": 2, "coordinates": [22.59570945, 56.7335813] },
+    { "name": "Mongolia", "value": 2, "coordinates": [106.8949205, 47.9170475] },
+    { "name": "Singapore", "value": 2, "coordinates": [103.88737435, 1.3282058] },
+    { "name": "United Republic of Tanzania", "value": 2, "coordinates": [38.3160395, -5.0832] },
+    { "name": "Uruguay", "value": 2, "coordinates": [-56.1945678, -34.8952612] },
+    { "name": "Kosovo", "value": 2, "coordinates": [21.12923, 42.6455675] },
+    { "name": "Albania", "value": 1, "coordinates": [19.784692, 41.320261] },
+    { "name": "Bosnia and Herzegovina", "value": 1, "coordinates": [18.3502632, 43.8502468] },
+    { "name": "Barbados", "value": 1, "coordinates": [-80.3622365, 25.9158249] },
+    { "name": "Bahrain", "value": 1, "coordinates": [50.5875935, 26.2235305] },
+    { "name": "Brunei", "value": 1, "coordinates": [114.9381363, 4.9393968] },
+    { "name": "Bolivia", "value": 1, "coordinates": [-63.167935, -17.779618] },
+    { "name": "Democratic Republic of the Congo", "value": 1, "coordinates": [15.3104556, -4.3021271] },
+    { "name": "Dominican Republic", "value": 1, "coordinates": [0, 0] },
+    { "name": "Estonia", "value": 1, "coordinates": [24.7306157, 59.402557] },
+    { "name": "Georgia", "value": 1, "coordinates": [44.7705033, 41.7758395] },
+    { "name": "Ghana", "value": 1, "coordinates": [-0.2059902, 5.5671275] },
+    { "name": "Guyana", "value": 1, "coordinates": [-58.1551255, 6.8012793] },
+    { "name": "Jamaica", "value": 1, "coordinates": [-76.795671, 18.026924] },
+    { "name": "Jordan", "value": 1, "coordinates": [35.851991, 31.958524] },
+    { "name": "Luxembourg", "value": 1, "coordinates": [6.0756723, 49.5686719] },
+    { "name": "Libya", "value": 1, "coordinates": [13.0800598, 32.8580884] },
+    { "name": "Montenegro", "value": 1, "coordinates": [19.293711, 42.44976] },
+    { "name": "Macedonia", "value": 1, "coordinates": [21.464587, 41.975362] },
+    { "name": "Malta", "value": 1, "coordinates": [14.4705663, 35.8955218] },
+    { "name": "MV", "value": 1, "coordinates": [73.5084271, 4.1722069] },
+    { "name": "Namibia", "value": 1, "coordinates": [17.1017133, -22.6214131] },
+    { "name": "Nepal", "value": 1, "coordinates": [85.337538, 27.696064] },
+    { "name": "Paraguay", "value": 1, "coordinates": [-54.608338, -25.511341] },
+    { "name": "Slovenia", "value": 1, "coordinates": [14.5513152, 46.1211225] },
+    { "name": "Uganda", "value": 1, "coordinates": [32.62857, 0.30943] },
+    { "name": "Zimbabwe", "value": 1, "coordinates": [31.077641, -17.805287] }
+];
+
+        // **核心修改点 2: 直接使用 world.js 中定义的全局变量 worldMapData**
+        // 移除了整个 fetch().then().catch() 结构
+        echarts.registerMap('world', worldMapData);
+
+        // 数据预处理
+        const processedData = sourceData.sort((a, b) => b.value - a.value);
+
+        // A. 地图配置
+        const mapOption = {
+            title: { text: '全球数据分布图', left: 'center' },
+            tooltip: { trigger: 'item', formatter: '{b}<br/>数值: {c}' },
+            visualMap: {
+                left: 'right', min: 1, max: 50,
+                inRange: { color: ['#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'].reverse() },
+                text: ['高', '低'], calculable: true
+            },
+            series: [{
+                id: 'distributionData', type: 'map', map: 'world', roam: true,
+                universalTransition: { enabled: true, divideShape: 'clone' },
+                animationDurationUpdate: 1000,
+                data: processedData
+            }]
+        };
+
+        // B. 柱状图配置 (显示前25)
+        const barData = [...processedData].slice(0, 25).reverse();
+        const barOption = {
+            title: { text: '数值排名前25的国家', left: 'center' },
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+            xAxis: { type: 'value' },
+            yAxis: { type: 'category', data: barData.map(item => item.name) },
+            series: [{
+                id: 'distributionData', type: 'bar',
+                universalTransition: { enabled: true, divideShape: 'clone' },
+                animationDurationUpdate: 1000,
+                data: barData.map(item => item.value)
+            }]
+        };
+
+        // C. 饼图配置 (显示前10 + 其他)
+        const top10Data = processedData.slice(0, 10);
+        const otherValue = processedData.slice(10).reduce((sum, item) => sum + item.value, 0);
+        const pieData = [...top10Data, { name: '其他国家', value: otherValue }];
+        
+        const pieOption = {
+            title: { text: '数据分布占比 (Top 10)', left: 'center' },
+            tooltip: { trigger: 'item', formatter: '{a} <br/>{b}: {c} ({d}%)' },
+            series: [{
+                id: 'distributionData', name: '数据分布', type: 'pie',
+                radius: ['40%', '70%'], center: ['50%', '50%'],
+                universalTransition: { enabled: true, divideShape: 'clone' },
+                animationDurationUpdate: 1000,
+                data: pieData,
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10, shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }]
+        };
+
+        // 初始显示地图
+        myChart.setOption(mapOption);
+
+        // 按钮切换函数
+        function switchToMap() {
+            if (mapOption) myChart.setOption(mapOption, true);
+        }
+
+        function switchToBar() {
+            if (barOption) myChart.setOption(barOption, true);
+        }
+
+        function switchToPie() {
+            if (pieOption) myChart.setOption(pieOption, true);
+        }
+
+        window.addEventListener('resize', () => myChart.resize());
+    </script>
+</body>
+</html>

@@ -3,6 +3,21 @@ import { ref, computed } from 'vue'
 import axios from 'axios'
 import { distributorsAPI } from '@/api/distributors'
 
+// 地区代码到英文翻译key的映射
+function getRegionNameKey(regionCode) {
+  const regionMapping = {
+    'usa': 'usa',
+    'can': 'canada', 
+    'eur': 'europe',
+    'aus-nzl': 'oceania',
+    'as': 'asia',
+    'lat-a': 'latin_america',
+    'mid-e': 'middle_east',
+    'af': 'africa'
+  }
+  return regionMapping[regionCode] || regionCode
+}
+
 export const useChannelStore = defineStore('channel', () => {
   // State
   const loading = ref(false)
@@ -236,21 +251,30 @@ export const useChannelStore = defineStore('channel', () => {
         const apiData = response.data
         console.log('fetchResellerData: Raw API data:', apiData)
         
+        // 预处理国家数据，使用 countryMapping 进行映射
+        const { convertToMapData } = await import('@/utils/countryMapping')
+        const processedCountriesForMap = convertToMapData(apiData.countries || {})
+        
+        console.log('fetchResellerData: Processed countries for map:', processedCountriesForMap)
+        
         const formattedData = {
-          regions: Object.fromEntries(
+          regions: apiData.regions ? Object.fromEntries(
             Object.entries(apiData.regions).map(([key, region]) => [
               key, 
               {
                 ...region,
+                name_key: getRegionNameKey(key), // 添加翻译用的英文key
+                name: region.name, // 保持原始名称作为备用
                 growth: region.growth // 保持数字格式，不添加%符号
               }
             ])
-          ),
-          countries: apiData.countries || {}, // 添加countries数据
-          totalCount: apiData.totalCount,
-          masterDistributors: apiData.masterDistributors,
-          authorizedResellers: apiData.authorizedResellers,
-          topCountries: apiData.topCountries
+          ) : {},
+          countries: apiData.countries || {}, // 原始国家数据
+          countriesForMap: processedCountriesForMap, // 预处理的地图数据
+          totalCount: apiData.totalCount || 0,
+          masterDistributors: apiData.masterDistributors || 0,
+          authorizedResellers: apiData.authorizedResellers || 0,
+          topCountries: apiData.topCountries || []
         }
         
         console.log('fetchResellerData: Formatted data:', formattedData)

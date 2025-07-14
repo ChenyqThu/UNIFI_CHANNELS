@@ -451,15 +451,14 @@
     "restore": "还原",
     "global_distributor_distribution_by_country": "全球分销商分布（按国家）",
     "global_distributor_distribution_by_region": "全球分销商分布（按地区）",
-    "map_view": "地图视图",
-    "bar_view": "柱状图",
-    "pie_view": "饼图",
-    "country_distributor_count_top20": "各国分销商数量 (Top 20)",
-    "country_distributor_count_top25": "各国分销商数量 (Top 25)",
+    "country_distributor_count": "各国分销商数量",
     "region_distributor_count": "各地区分销商数量",
-    "distributor_country_distribution_top10": "分销商国家分布 (Top 10)",
-    "distributor_country_distribution_top12": "分销商国家分布 (Top 12)",
-    "distributor_region_distribution": "分销商地区分布"
+    "distributor_country_distribution": "分销商国家分布",
+    "distributor_region_distribution": "分销商地区分布",
+    "total": "总计",
+    "masters": "主要分销商",
+    "resellers": "授权经销商",
+    "others": "其他"
   },
   "regions": {
     "usa": "美国",
