@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import axios from 'axios'
 import { distributorsAPI } from '@/api/distributors'
+import { financialDataService } from '@/services/financialDataService'
 
 // 地区代码到英文翻译key的映射
 function getRegionNameKey(regionCode) {
@@ -23,31 +24,18 @@ export const useChannelStore = defineStore('channel', () => {
   const loading = ref(false)
   const error = ref(null)
   
-  // Financial Data
+  // Financial Data - 现在从JSON文件动态加载
   const financialData = ref({
-    q3_2025: {
-      total_revenue: 664.2,
-      enterprise_revenue: 585.7,
-      service_provider_revenue: 78.4,
-      north_america_revenue: 322.7,
-      emea_revenue: 282.1,
-      gross_profit: 295.9,
-      gross_margin: 44.5,
-      net_income: 180.4,
-      eps: 2.98
-    },
-    q3_2024: {
-      total_revenue: 493.0,
-      enterprise_revenue: 414.3,
-      service_provider_revenue: 78.7,
-      north_america_revenue: 242.5,
-      emea_revenue: 200.7,
-      gross_profit: 174.1,
-      gross_margin: 35.3,
-      net_income: 76.3,
-      eps: 1.26
-    }
+    q1_2025: null,
+    q3_2024: null,
+    nine_months_2025: null,
+    nine_months_2024: null
   })
+  const channelData = ref({
+    distribution_mix: null
+  })
+  const financialMetadata = ref({})
+  const financialComputed = ref({})
   
   // Distribution Network Data
   const distributionData = ref({
@@ -161,29 +149,34 @@ export const useChannelStore = defineStore('channel', () => {
     }
   ])
 
-  // Computed properties
+  // Computed properties - 适配新的数据结构
   const revenueGrowth = computed(() => {
-    const current = financialData.value.q3_2025.total_revenue
-    const previous = financialData.value.q3_2024.total_revenue
-    return ((current - previous) / previous * 100).toFixed(1)
+    return financialComputed.value?.growth_metrics?.revenue_growth || '0.0'
   })
 
   const enterpriseGrowth = computed(() => {
-    const current = financialData.value.q3_2025.enterprise_revenue
-    const previous = financialData.value.q3_2024.enterprise_revenue
-    return ((current - previous) / previous * 100).toFixed(1)
+    return financialComputed.value?.growth_metrics?.enterprise_growth || '0.0'
   })
 
   const northAmericaGrowth = computed(() => {
-    const current = financialData.value.q3_2025.north_america_revenue
-    const previous = financialData.value.q3_2024.north_america_revenue
-    return ((current - previous) / previous * 100).toFixed(1)
+    return financialComputed.value?.growth_metrics?.north_america_growth || '0.0'
   })
 
   const marginImprovement = computed(() => {
-    const current = financialData.value.q3_2025.gross_margin
-    const previous = financialData.value.q3_2024.gross_margin
-    return (current - previous).toFixed(1)
+    return financialComputed.value?.growth_metrics?.margin_improvement || '0.0'
+  })
+
+  // 新的computed属性用于九个月数据
+  const nineMonthsRevenueGrowth = computed(() => {
+    return financialComputed.value?.nine_months_metrics?.revenue_growth || '0.0'
+  })
+
+  const nineMonthsNetIncomeGrowth = computed(() => {
+    return financialComputed.value?.nine_months_metrics?.net_income_growth || '0.0'
+  })
+
+  const nineMonthsMarginImprovement = computed(() => {
+    return financialComputed.value?.nine_months_metrics?.margin_improvement || '0.0'
   })
 
   // Actions
@@ -203,6 +196,91 @@ export const useChannelStore = defineStore('channel', () => {
     } catch (err) {
       error.value = err.message
       loading.value = false
+    }
+  }
+
+  // 新的财报数据加载action
+  const fetchFinancialData = async () => {
+    loading.value = true
+    error.value = null
+    
+    try {
+      console.log('🏪 Store: 开始加载财报数据...')
+      
+      // 使用财报数据服务加载数据
+      const data = await financialDataService.loadFinancialData()
+      
+      // 更新store中的数据
+      financialMetadata.value = data.metadata
+      financialComputed.value = data.computed
+      
+      // 转换数据格式以兼容现有组件
+      financialData.value = {
+        q1_2025: {
+          total_revenue: data.quarterly.q1_2025.revenue.total,
+          enterprise_revenue: data.quarterly.q1_2025.revenue.enterprise_technology,
+          service_provider_revenue: data.quarterly.q1_2025.revenue.service_provider_technology,
+          north_america_revenue: data.quarterly.q1_2025.regional_breakdown.north_america.amount,
+          emea_revenue: data.quarterly.q1_2025.regional_breakdown.emea.amount,
+          apac_revenue: data.quarterly.q1_2025.regional_breakdown.apac.amount,
+          south_america_revenue: data.quarterly.q1_2025.regional_breakdown.south_america.amount,
+          gross_profit: data.quarterly.q1_2025.profitability.gross_profit,
+          gross_margin: data.quarterly.q1_2025.profitability.gross_margin,
+          operating_margin: data.quarterly.q1_2025.profitability.operating_margin,
+          net_margin: data.quarterly.q1_2025.profitability.net_margin,
+          net_income: data.quarterly.q1_2025.profitability.net_income,
+          eps: data.quarterly.q1_2025.profitability.eps_diluted
+        },
+        q3_2024: {
+          total_revenue: data.quarterly.q3_2024.revenue.total,
+          enterprise_revenue: data.quarterly.q3_2024.revenue.enterprise_technology,
+          service_provider_revenue: data.quarterly.q3_2024.revenue.service_provider_technology,
+          north_america_revenue: data.quarterly.q3_2024.regional_breakdown.north_america.amount,
+          emea_revenue: data.quarterly.q3_2024.regional_breakdown.emea.amount,
+          gross_profit: data.quarterly.q3_2024.profitability.gross_profit,
+          gross_margin: data.quarterly.q3_2024.profitability.gross_margin,
+          operating_margin: data.quarterly.q3_2024.profitability.operating_margin,
+          net_margin: data.quarterly.q3_2024.profitability.net_margin,
+          net_income: data.quarterly.q3_2024.profitability.net_income,
+          eps: data.quarterly.q3_2024.profitability.eps_diluted
+        },
+        nine_months_2025: {
+          total_revenue: data.annual.nine_months_2025.revenue.total,
+          net_income: data.annual.nine_months_2025.profitability.net_income,
+          gross_margin: data.annual.nine_months_2025.profitability.gross_margin,
+          inventory_increase: data.annual.nine_months_2025.inventory.increase
+        },
+        nine_months_2024: {
+          total_revenue: data.annual.nine_months_2024.revenue.total,
+          net_income: data.annual.nine_months_2024.profitability.net_income,
+          gross_margin: data.annual.nine_months_2024.profitability.gross_margin
+        }
+      }
+
+      // 渠道数据
+      channelData.value = {
+        distribution_mix: {
+          distributor_channel: data.channelStrategy.distribution_mix.distributor_channel.percentage,
+          direct_sales: data.channelStrategy.distribution_mix.direct_sales.percentage
+        },
+        channel_insights: data.channelStrategy.strategic_insights,
+        business_segments: data.businessSegments,
+        strategic_risks: data.strategicRisks
+      }
+      
+      console.log('✅ Store: 财报数据加载完成', {
+        metadata: financialMetadata.value,
+        quarterlyPeriods: Object.keys(data.quarterly),
+        channelMix: channelData.value.distribution_mix
+      })
+      
+      loading.value = false
+      
+    } catch (err) {
+      console.error('❌ Store: 财报数据加载失败:', err)
+      error.value = err.message
+      loading.value = false
+      throw err
     }
   }
 
@@ -315,6 +393,9 @@ export const useChannelStore = defineStore('channel', () => {
     loading,
     error,
     financialData,
+    channelData,
+    financialMetadata,
+    financialComputed,
     distributionData,
     channelIssues,
     swotAnalysis,
@@ -326,9 +407,13 @@ export const useChannelStore = defineStore('channel', () => {
     enterpriseGrowth,
     northAmericaGrowth,
     marginImprovement,
+    nineMonthsRevenueGrowth,
+    nineMonthsNetIncomeGrowth,
+    nineMonthsMarginImprovement,
     
     // Actions
     fetchChannelData,
+    fetchFinancialData,
     fetchResellerData,
     updateFinancialData
   }

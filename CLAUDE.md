@@ -23,6 +23,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with th
 - **FastAPI REST API** (`api/main.py`) - RESTful API for external integrations
 - **Scheduler** (`scheduler.py`) - Automated task execution and monitoring
 
+**Financial Data Management System** 🆕
+- **Standardized JSON Data** (`frontend/public/data/financial-reports.json`) - Centralized financial data in standardized format
+- **Financial Data Service** (`frontend/src/services/financialDataService.js`) - Professional data loading with caching, validation, and error handling
+- **Data Management Utilities** (`frontend/src/utils/financialDataManager.js`) - Tools for data validation, auto-fixing, and template generation
+- **Dynamic Store Integration** (`frontend/src/stores/channel.js`) - Automatic data loading and computed metrics
+
 ### Database Design
 
 The system uses **Unifi ID as the primary business identifier**:
@@ -92,6 +98,24 @@ docker-compose run --rm cli scrape --sync-notion
 docker-compose logs -f api scheduler
 ```
 
+### Financial Data Management 🆕
+```bash
+# Frontend data management (from frontend directory)
+# View current financial data
+cat public/data/financial-reports.json
+
+# Backup before updating
+cp public/data/financial-reports.json public/data/archived/backup-$(date +%Y%m%d).json
+
+# After updating JSON, test data loading
+npm run dev  # Check browser console for validation results
+
+# Data validation utility (in browser console)
+import { financialDataManager } from '@/utils/financialDataManager'
+const report = financialDataManager.generateValidationReport(data)
+console.log(report)
+```
+
 ## Configuration
 
 ### Environment Variables
@@ -131,6 +155,13 @@ SENTRY_DSN=https://...
 - **REST API** - Programmatic access to distributor data and analytics
 - **Automated scheduling** - Continuous monitoring with configurable intervals
 
+**Financial Data Architecture** 🆕
+- **JSON-driven design** - All financial data centralized in standardized JSON format
+- **Automatic validation** - Data consistency checks and error detection
+- **Dynamic computation** - Real-time calculation of growth rates and trends
+- **Cache optimization** - 5-minute intelligent caching for performance
+- **Version control** - Automatic backup and change tracking for financial data
+
 ## Data Architecture
 
 ### Business Logic
@@ -154,6 +185,16 @@ JSON API → Validation → Missing Detection → Status Updates
 - System maintenance and monitoring
 - Custom reporting and data export
 
+**Financial Data Workflows** 🆕
+1. **Quarterly Update Process** (When new earnings are released)
+   - Backup current data: `cp financial-reports.json archived/`
+   - Edit `frontend/public/data/financial-reports.json` with new quarter data
+   - Update metadata: `last_updated`, `version`
+   - System automatically validates, computes metrics, and updates all visualizations
+2. **Data Validation** - Automatic consistency checks for revenue, regional data, and percentages
+3. **Cache Management** - 5-minute intelligent caching with automatic invalidation
+4. **Error Recovery** - Graceful fallback and detailed error reporting
+
 ## Development Guidelines
 
 ### Code Organization
@@ -162,6 +203,14 @@ JSON API → Validation → Missing Detection → Status Updates
 - **API** - RESTful endpoints and documentation
 - **Config** - Settings, logging, and database configuration
 - **CLI** - Command-line interface for operations
+
+### Financial Data Development Guidelines 🆕
+- **Data Structure** - All financial data must follow the standardized JSON schema in `frontend/public/data/financial-reports.json`
+- **Service Layer** - Use `financialDataService.js` for all data loading operations
+- **Validation** - Utilize `financialDataManager.js` for data validation and integrity checks
+- **Store Integration** - Financial data automatically populates Pinia store with computed metrics
+- **Component Usage** - Charts automatically adapt to new data structure without modification
+- **Error Handling** - Comprehensive validation with warnings and error recovery mechanisms
 
 ### Testing & Quality
 ```bash
@@ -220,6 +269,31 @@ docker-compose logs -f api
 ## Integration Notes
 
 This system prioritizes **data accuracy** and **operational reliability**. All major operations include comprehensive error handling, logging, and recovery mechanisms. The architecture supports both automated operations and manual intervention for analysis and maintenance.
+
+## Important Financial Data Management Notes 🆕
+
+### Critical Architecture Change (2025-01-15)
+**BREAKING CHANGE**: Financial data has been migrated from hardcoded store values to JSON-driven architecture.
+
+### Key Points for Developers:
+1. **Data Source**: All financial data now comes from `frontend/public/data/financial-reports.json`
+2. **Automatic Loading**: Components automatically call `fetchFinancialData()` on mount
+3. **Computed Metrics**: Growth rates and trends are auto-calculated by the service layer
+4. **Validation**: Data consistency is automatically checked with detailed error reporting
+5. **Caching**: 5-minute intelligent caching reduces load times and API calls
+
+### For Data Maintainers:
+- **Single Source of Truth**: Only update `financial-reports.json` for all financial data changes
+- **Immediate Updates**: Changes to JSON file automatically reflect across all visualizations
+- **Data Integrity**: Built-in validation prevents inconsistent data entry
+- **Backup Strategy**: Always backup before major updates using provided commands
+
+### Migration Benefits:
+- ✅ Eliminates hardcoded financial data scattered across components
+- ✅ Centralizes all financial metrics in one maintainable location
+- ✅ Automatic validation prevents data entry errors
+- ✅ Supports easy quarterly earnings updates
+- ✅ Future-proof architecture for additional financial metrics
 
 ## Frontend Development Guidelines
 
