@@ -165,66 +165,66 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <!-- For Ubiquiti -->
           <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-8">
-            <h3 class="text-xl font-bold text-blue-800 mb-4 flex items-center">
+            <h3 class="text-xl font-bold text-blue-800 mb-6 flex items-center">
               <span class="material-icons mr-2">business</span>
               {{ $t('strategic.for_ubiquiti') }}
             </h3>
-            <ul class="space-y-3 text-sm text-gray-700">
-              <li class="flex items-start space-x-2">
-                <span class="material-icons text-blue-600 text-sm mt-0.5">check_circle</span>
-                <span>{{ $t('strategic.transparent_inventory_policy') }}</span>
+            <ul class="space-y-4">
+              <li class="flex items-start space-x-3">
+                <span class="material-icons text-blue-600 text-base mt-0.5 flex-shrink-0">inventory</span>
+                <span class="text-sm text-gray-700 leading-relaxed">{{ $t('strategic.transparent_inventory_policy') }}</span>
               </li>
-              <li class="flex items-start space-x-2">
-                <span class="material-icons text-blue-600 text-sm mt-0.5">check_circle</span>
-                <span>{{ $t('strategic.unified_warranty_policy') }}</span>
+              <li class="flex items-start space-x-3">
+                <span class="material-icons text-blue-600 text-base mt-0.5 flex-shrink-0">verified_user</span>
+                <span class="text-sm text-gray-700 leading-relaxed">{{ $t('strategic.unified_warranty_policy') }}</span>
               </li>
-              <li class="flex items-start space-x-2">
-                <span class="material-icons text-blue-600 text-sm mt-0.5">check_circle</span>
-                <span>{{ $t('strategic.formal_msp_program') }}</span>
+              <li class="flex items-start space-x-3">
+                <span class="material-icons text-blue-600 text-base mt-0.5 flex-shrink-0">groups</span>
+                <span class="text-sm text-gray-700 leading-relaxed">{{ $t('strategic.formal_msp_program') }}</span>
               </li>
             </ul>
           </div>
 
           <!-- For Competitors -->
           <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-8">
-            <h3 class="text-xl font-bold text-green-800 mb-4 flex items-center">
+            <h3 class="text-xl font-bold text-green-800 mb-6 flex items-center">
               <span class="material-icons mr-2">visibility</span>
               {{ $t('strategic.for_competitors') }}
             </h3>
-            <ul class="space-y-3 text-sm text-gray-700">
-              <li class="flex items-start space-x-2">
-                <span class="material-icons text-green-600 text-sm mt-0.5">target</span>
-                <span>{{ $t('strategic.attack_channel_weaknesses') }}</span>
+            <ul class="space-y-4">
+              <li class="flex items-start space-x-3">
+                <span class="material-icons text-green-600 text-base mt-0.5 flex-shrink-0">gps_fixed</span>
+                <span class="text-sm text-gray-700 leading-relaxed">{{ $t('strategic.attack_channel_weaknesses') }}</span>
               </li>
-              <li class="flex items-start space-x-2">
-                <span class="material-icons text-green-600 text-sm mt-0.5">campaign</span>
-                <span>{{ $t('strategic.promote_channel_stability') }}</span>
+              <li class="flex items-start space-x-3">
+                <span class="material-icons text-green-600 text-base mt-0.5 flex-shrink-0">campaign</span>
+                <span class="text-sm text-gray-700 leading-relaxed">{{ $t('strategic.promote_channel_stability') }}</span>
               </li>
-              <li class="flex items-start space-x-2">
-                <span class="material-icons text-green-600 text-sm mt-0.5">handshake</span>
-                <span>{{ $t('strategic.reliable_inventory_support') }}</span>
+              <li class="flex items-start space-x-3">
+                <span class="material-icons text-green-600 text-base mt-0.5 flex-shrink-0">handshake</span>
+                <span class="text-sm text-gray-700 leading-relaxed">{{ $t('strategic.reliable_inventory_support') }}</span>
               </li>
             </ul>
           </div>
 
           <!-- For Channel Partners -->
           <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-8">
-            <h3 class="text-xl font-bold text-yellow-800 mb-4 flex items-center">
+            <h3 class="text-xl font-bold text-yellow-800 mb-6 flex items-center">
               <span class="material-icons mr-2">store</span>
               {{ $t('strategic.for_channel_partners') }}
             </h3>
-            <ul class="space-y-3 text-sm text-gray-700">
-              <li class="flex items-start space-x-2">
-                <span class="material-icons text-yellow-600 text-sm mt-0.5">diversify</span>
-                <span>{{ $t('strategic.diversify_product_portfolio') }}</span>
+            <ul class="space-y-4">
+              <li class="flex items-start space-x-3">
+                <span class="material-icons text-yellow-600 text-base mt-0.5 flex-shrink-0">category</span>
+                <span class="text-sm text-gray-700 leading-relaxed">{{ $t('strategic.diversify_product_portfolio') }}</span>
               </li>
-              <li class="flex items-start space-x-2">
-                <span class="material-icons text-yellow-600 text-sm mt-0.5">transparency</span>
-                <span>{{ $t('strategic.transparent_customer_communication') }}</span>
+              <li class="flex items-start space-x-3">
+                <span class="material-icons text-yellow-600 text-base mt-0.5 flex-shrink-0">visibility</span>
+                <span class="text-sm text-gray-700 leading-relaxed">{{ $t('strategic.transparent_customer_communication') }}</span>
               </li>
-              <li class="flex items-start space-x-2">
-                <span class="material-icons text-yellow-600 text-sm mt-0.5">manage_accounts</span>
-                <span>{{ $t('strategic.manage_customer_expectations') }}</span>
+              <li class="flex items-start space-x-3">
+                <span class="material-icons text-yellow-600 text-base mt-0.5 flex-shrink-0">manage_accounts</span>
+                <span class="text-sm text-gray-700 leading-relaxed">{{ $t('strategic.manage_customer_expectations') }}</span>
               </li>
             </ul>
           </div>
