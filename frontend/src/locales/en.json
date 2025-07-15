@@ -1,6 +1,6 @@
 {
   "nav": {
-    "dashboard": "Ubiquiti Channel Intelligence Analysis",
+    "dashboard": "Overview",
     "financial": "Financial Overview",
     "distribution": "Distribution Network",
     "reseller": "Reseller Analysis",
@@ -39,10 +39,10 @@
     "no_data": "No data available"
   },
   "brand": {
-    "name": "Ubiquiti Channel Intelligence",
-    "platform": "Channel Intelligence Platform",
+    "name": "UBNT Competition Tracker",
+    "platform": "Competition Intelligence Platform",
     "description": "Professional channel analysis platform based on deep market research, providing data support for channel decisions",
-    "copyright": "© 2024 Channel Intelligence Platform"
+    "copyright": "© 2024 Competition Intelligence Platform"
   },
   "badges": {
     "core": "Core",
@@ -53,7 +53,8 @@
   },
   "language": {
     "chinese": "中文",
-    "english": "English"
+    "english": "English",
+    "switch": "Switch Language"
   },
   "dashboard": {
     "title": "Deconstructing Dominance",

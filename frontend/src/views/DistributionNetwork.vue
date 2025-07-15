@@ -60,22 +60,15 @@
       </div>
     </section>
 
-    <!-- Top Countries Analysis -->
+    <!-- Yearly Channel Development Insights -->
     <section class="py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-          <h2 class="text-3xl font-bold text-gray-900 mb-4">{{ $t('distribution.key_countries') }}</h2>
-          <p class="text-lg text-gray-600">{{ $t('distribution.database_analysis') }}</p>
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">{{ $t('distribution.yearly_channel_development') }}</h2>
+          <p class="text-lg text-gray-600">{{ $t('distribution.channel_insights_description') }}</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-          <div v-for="country in resellerData.topCountries.slice(0, 5)" :key="country.name"
-               class="bg-white rounded-lg border border-gray-200 p-4 text-center hover:shadow-md transition-all">
-            <div class="text-2xl font-bold text-gray-900 mb-1">{{ country.count }}</div>
-            <div class="text-sm font-medium text-gray-700 mb-1">{{ country.name }}</div>
-            <div class="text-xs text-green-600">+{{ country.growth }}%</div>
-          </div>
-        </div>
+        <YearlyChannelUpdates />
       </div>
     </section>
 
@@ -159,6 +152,7 @@ import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useChannelStore } from '@/stores/channel'
 import DistributorMap from '@/components/charts/DistributorMap.vue'
+import YearlyChannelUpdates from '@/components/charts/YearlyChannelUpdates.vue'
 
 const { } = useI18n()
 const channelStore = useChannelStore()

@@ -1,22 +1,20 @@
 <template>
   <header class="bg-white border-b border-gray-200 sticky top-0 z-50 backdrop-blur-sm bg-white/95">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <!-- Logo and Brand -->
-        <div class="flex items-center space-x-4">
-          <div class="flex items-center space-x-2">
-            <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
-              <span class="material-icons text-white text-sm">analytics</span>
-            </div>
-            <div>
-              <h1 class="text-lg font-semibold text-gray-900">{{ $t('brand.name') }}</h1>
-              <p class="text-xs text-gray-500">{{ $t('brand.platform') }}</p>
-            </div>
+      <div class="flex items-center h-16">
+        <!-- Logo and Brand (Left) -->
+        <div class="flex items-center space-x-2 flex-shrink-0">
+          <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
+            <span class="material-icons text-white text-sm">analytics</span>
+          </div>
+          <div>
+            <h1 class="text-lg font-semibold text-gray-900">{{ $t('brand.name') }}</h1>
+            <p class="text-xs text-gray-500">{{ $t('brand.platform') }}</p>
           </div>
         </div>
 
-        <!-- Navigation -->
-        <nav class="hidden md:flex items-center space-x-8">
+        <!-- Navigation (Center) -->
+        <nav class="hidden md:flex items-center justify-center flex-1 space-x-8">
           <router-link
             v-for="item in navigation"
             :key="item.name"
@@ -29,39 +27,27 @@
           </router-link>
         </nav>
 
-        <!-- Actions -->
-        <div class="flex items-center space-x-4">
+        <!-- Actions (Right) -->
+        <div class="flex items-center flex-shrink-0">
           <!-- Language Switcher -->
-          <div class="relative">
-            <button
-              @click="toggleLanguage"
-              class="flex items-center space-x-1 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              <span class="material-icons text-sm">language</span>
-              <span>{{ currentLanguage }}</span>
-            </button>
-          </div>
-          
-          <!-- Refresh Button -->
           <button
-            @click="refreshData"
-            :disabled="loading"
-            class="flex items-center space-x-1 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors disabled:opacity-50"
+            @click="toggleLanguage"
+            class="flex items-center justify-center w-8 h-8 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+            :title="$t('language.switch')"
           >
-            <span class="material-icons text-sm" :class="{ 'animate-spin': loading }">refresh</span>
-            <span class="hidden sm:inline">{{ $t('common.refresh') }}</span>
+            <span class="font-medium">{{ currentLanguageShort }}</span>
+          </button>
+
+          <!-- Mobile menu button -->
+          <button
+            @click="mobileMenuOpen = !mobileMenuOpen"
+            class="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 ml-2"
+          >
+            <span class="material-icons">
+              {{ mobileMenuOpen ? 'close' : 'menu' }}
+            </span>
           </button>
         </div>
-
-        <!-- Mobile menu button -->
-        <button
-          @click="mobileMenuOpen = !mobileMenuOpen"
-          class="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-        >
-          <span class="material-icons">
-            {{ mobileMenuOpen ? 'close' : 'menu' }}
-          </span>
-        </button>
       </div>
 
       <!-- Mobile Navigation -->
@@ -87,13 +73,10 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useChannelStore } from '@/stores/channel'
 
 const { locale, t } = useI18n()
-const channelStore = useChannelStore()
 
 const mobileMenuOpen = ref(false)
-const loading = computed(() => channelStore.loading)
 
 const navigation = [
   { name: 'Dashboard', to: '/', icon: 'dashboard', label: 'nav.dashboard' },
@@ -109,12 +92,12 @@ const currentLanguage = computed(() => {
   return locale.value === 'zh' ? t('language.chinese') : 'EN'
 })
 
+const currentLanguageShort = computed(() => {
+  return locale.value === 'zh' ? '中' : 'EN'
+})
+
 const toggleLanguage = () => {
   locale.value = locale.value === 'zh' ? 'en' : 'zh'
-}
-
-const refreshData = () => {
-  channelStore.fetchChannelData()
 }
 </script>
 

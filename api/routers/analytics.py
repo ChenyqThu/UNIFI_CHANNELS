@@ -349,3 +349,88 @@ async def get_market_penetration(
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/yearly-channel-updates")
+async def get_yearly_channel_updates(
+    active_only: bool = Query(True, description="Only include active distributors"),
+    db: Session = Depends(get_db),
+    _: None = Depends(rate_limit)
+):
+    """Get yearly channel updates by region based on last_modified_at"""
+    try:
+        # Query distributors with last_modified_at data
+        query = db.query(
+            func.extract('year', Distributor.last_modified_at).label('year'),
+            Distributor.region,
+            func.count(Distributor.id).label('count')
+        ).filter(
+            Distributor.last_modified_at.isnot(None)
+        )
+        
+        if active_only:
+            query = query.filter(Distributor.is_active == True)
+        
+        results = query.group_by(
+            func.extract('year', Distributor.last_modified_at),
+            Distributor.region
+        ).order_by('year', Distributor.region).all()
+        
+        # Organize data for stacked bar chart
+        yearly_data = {}
+        all_regions = set()
+        
+        for year, region, count in results:
+            year = int(year) if year else None
+            if year and region:
+                if year not in yearly_data:
+                    yearly_data[year] = {}
+                yearly_data[year][region] = count
+                all_regions.add(region)
+        
+        # Convert to chart format
+        chart_data = []
+        for year in sorted(yearly_data.keys()):
+            year_data = {"year": year}
+            total = 0
+            for region in sorted(all_regions):
+                count = yearly_data[year].get(region, 0)
+                year_data[region] = count
+                total += count
+            year_data["total"] = total
+            chart_data.append(year_data)
+        
+        # Generate insights
+        total_updates = sum(sum(year_data.values()) for year_data in yearly_data.values())
+        most_active_year = max(yearly_data.keys(), key=lambda y: sum(yearly_data[y].values())) if yearly_data else None
+        most_active_region = max(all_regions, key=lambda r: sum(yearly_data[y].get(r, 0) for y in yearly_data.keys())) if all_regions else None
+        
+        # Calculate regional growth trends
+        regional_trends = {}
+        for region in all_regions:
+            region_data = []
+            for year in sorted(yearly_data.keys()):
+                region_data.append(yearly_data[year].get(region, 0))
+            
+            if len(region_data) > 1:
+                growth_rate = ((region_data[-1] - region_data[0]) / region_data[0] * 100) if region_data[0] > 0 else 0
+                regional_trends[region] = {
+                    "total_updates": sum(region_data),
+                    "growth_rate": round(growth_rate, 2),
+                    "latest_year_updates": region_data[-1]
+                }
+        
+        return {
+            "chart_data": chart_data,
+            "regions": sorted(all_regions),
+            "years": sorted(yearly_data.keys()) if yearly_data else [],
+            "insights": {
+                "total_channel_updates": total_updates,
+                "most_active_year": most_active_year,
+                "most_active_region": most_active_region,
+                "regional_trends": regional_trends,
+                "years_analyzed": len(yearly_data)
+            }
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

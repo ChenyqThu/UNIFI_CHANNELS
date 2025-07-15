@@ -263,7 +263,7 @@ function createChartOptions() {
       max: 350,
       left: 'left',
       top: 'bottom',
-      text: ['High', 'Low'],
+      text: [t('charts.high'), t('charts.low')],
       seriesIndex: 1, // 只对散点图(第二个series)应用
       inRange: {
         color: ['#10B981', '#1E3A8A'] // 浅绿到深蓝

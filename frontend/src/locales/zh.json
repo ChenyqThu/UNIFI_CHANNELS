@@ -1,6 +1,6 @@
 {
   "nav": {
-    "dashboard": "Ubiquiti 渠道情报分析",
+    "dashboard": "总览",
     "financial": "财务概览",
     "distribution": "分销网络",
     "reseller": "经销商分析",
@@ -15,34 +15,11 @@
     "strategic_analysis": "战略综合与前瞻性分析",
     "competitive_intel": "竞争情报中心"
   },
-  "common": {
-    "loading": "加载中...",
-    "error": "错误",
-    "retry": "重试",
-    "view_details": "查看详情",
-    "download": "下载",
-    "export": "导出",
-    "filter": "筛选",
-    "search": "搜索",
-    "refresh": "刷新",
-    "save": "保存",
-    "cancel": "取消",
-    "confirm": "确认",
-    "close": "关闭",
-    "edit": "编辑",
-    "delete": "删除",
-    "add": "添加",
-    "update": "更新",
-    "total": "总计",
-    "active": "活跃",
-    "inactive": "非活跃",
-    "no_data": "暂无数据"
-  },
   "brand": {
-    "name": "Ubiquiti 渠道情报",
-    "platform": "Channel Intelligence Platform",
+    "name": "UBNT竞争跟踪",
+    "platform": "Competition Intelligence Platform",
     "description": "基于深度市场研究的专业渠道分析平台，为渠道决策提供数据支持",
-    "copyright": "© 2024 Channel Intelligence Platform"
+    "copyright": "© 2024 Competition Intelligence Platform"
   },
   "badges": {
     "core": "核心",
@@ -53,7 +30,8 @@
   },
   "language": {
     "chinese": "中文",
-    "english": "English"
+    "english": "English",
+    "switch": "切换语言"
   },
   "dashboard": {
     "title": "解构主导地位",
@@ -185,8 +163,8 @@
   "distribution": {
     "title": "全球分销骨干网络",
     "subtitle": "解析Ubiquiti间接渠道的顶层结构与关键分销商分析",
-    "key_countries": "重点国家分销商分布",
-    "database_analysis": "基于真实数据库分析的渠道密度",
+    "yearly_channel_development": "年度渠道发展洞察",
+    "channel_insights_description": "基于分销商数据更新时间的渠道演进分析",
     "key_distributors": "关键分销商分析",
     "strategic_partners": "Ingram Micro、DoubleRadius等战略合作伙伴",
     "customer_scale": "客户规模：",
@@ -423,6 +401,38 @@
     "risk_assessment": "风险评估",
     "market_impact": "市场影响"
   },
+  "insights": {
+    "most_active_year": "最活跃年份",
+    "most_active_region": "最活跃地区",
+    "total_updates": "总更新数",
+    "regional_growth_trends": "地区增长趋势",
+    "growth_rate": "增长率",
+    "latest_year": "最近年份"
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "错误",
+    "retry": "重试",
+    "view_details": "查看详情",
+    "download": "下载",
+    "export": "导出",
+    "filter": "筛选",
+    "search": "搜索",
+    "refresh": "刷新",
+    "save": "保存",
+    "cancel": "取消",
+    "confirm": "确认",
+    "close": "关闭",
+    "edit": "编辑",
+    "delete": "删除",
+    "add": "添加",
+    "update": "更新",
+    "total": "总计",
+    "active": "活跃",
+    "inactive": "非活跃",
+    "no_data": "暂无数据",
+    "error_loading_data": "数据加载失败"
+  },
   "charts": {
     "global_distributor_distribution": "全球分销商分布",
     "by_region": "按地区",
@@ -458,7 +468,21 @@
     "total": "总计",
     "masters": "主要分销商",
     "resellers": "授权经销商",
-    "others": "其他"
+    "others": "其他",
+    "yearly_channel_updates": "年度渠道更新趋势",
+    "yearly_updates_description": "基于分销商数据更新时间的渠道发展洞察分析",
+    "number_of_updates": "更新数量",
+    "regional_trends": "地区趋势",
+    "country_map_view": "国家地图视图",
+    "select_year": "选择年份",
+    "all_years": "全部年份",
+    "total_updates_by_country": "各国总更新数",
+    "year_updates_by_country": "{year}年各国更新数",
+    "total_channel_updates_map": "总渠道更新分布图",
+    "channel_updates_map_year": "{year}年渠道更新分布图",
+    "region": "地区",
+    "updates": "更新数",
+    "channel_updates": "渠道更新"
   },
   "regions": {
     "usa": "美国",

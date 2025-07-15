@@ -270,3 +270,25 @@ src/locales/
 - **ECharts zoom limits**: `scaleLimit: { min: 1, max: 20 }` prevents page scroll interference
 - **Language switching**: Proper `lang` attribute and URL considerations for SEO
 - **Error handling**: Missing translation warnings in development mode
+
+### Country Mapping System
+
+**Important Note**: The `frontend/src/utils/countryMapping.js` file contains complete mappings from database country codes to world map country names. This mapping system is already implemented and should NOT be duplicated elsewhere.
+
+**Key Features**:
+- Maps database country codes (e.g., 'FL', 'TX', 'ON', 'QC') to proper world map names
+- Handles US states → 'USA' mapping  
+- Handles Canadian provinces → 'Canada' mapping
+- Contains `COUNTRY_CODE_TO_MAP_NAME` constant with all mappings
+- Includes helper functions for data conversion
+
+**Usage**:
+```javascript
+import { COUNTRY_CODE_TO_MAP_NAME } from '../../utils/countryMapping.js'
+const mapName = COUNTRY_CODE_TO_MAP_NAME[countryCode] || countryCode
+```
+
+**Do NOT**:
+- Create duplicate mapping logic in components
+- Re-implement country code conversions
+- Hardcode country name mappings elsewhere
