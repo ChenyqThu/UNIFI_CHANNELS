@@ -38,6 +38,7 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import * as echarts from 'echarts'
 import { loadMap } from '@/utils/mapLoader'
+import { generateCountryMapData, getRegionColor } from '@/utils/regionCountryMapping'
 
 const { t } = useI18n()
 
@@ -97,22 +98,28 @@ function createChartOptions() {
   
   if (!chartData.length) return
 
-  // 为每个地区定义固定颜色
+  // 为每个地区定义固定颜色 - 使用更淡的颜色
   const getRegionColor = (nameKey) => {
     const colorMap = {
-      'usa': '#DC2626',      // 红色 - 美国
-      'europe': '#EA580C',   // 橙红色 - 欧洲  
-      'asia': '#D97706',     // 橙色 - 亚洲
-      'canada': '#059669',   // 绿色 - 加拿大
-      'latin_america': '#2563EB', // 蓝色 - 拉美
-      'oceania': '#7C3AED',  // 紫色 - 澳新
-      'middle_east': '#BE185D', // 品红色 - 中东
-      'africa': '#0891B2'    // 青色 - 非洲
+      'usa': '#FCA5A5',      // 浅红色 - 美国 (原#DC2626的浅色版)
+      'europe': '#FBB471',   // 浅橙红色 - 欧洲 (原#EA580C的浅色版)  
+      'asia': '#FCD34D',     // 浅橙色 - 亚洲 (原#D97706的浅色版)
+      'canada': '#86EFAC',   // 浅绿色 - 加拿大 (原#059669的浅色版)
+      'latin_america': '#93C5FD', // 浅蓝色 - 拉美 (原#2563EB的浅色版)
+      'oceania': '#C4B5FD',  // 浅紫色 - 澳新 (原#7C3AED的浅色版)
+      'middle_east': '#F9A8D4', // 浅品红色 - 中东 (原#BE185D的浅色版)
+      'africa': '#67E8F9'    // 浅青色 - 非洲 (原#0891B2的浅色版)
     }
-    return colorMap[nameKey] || '#6B7280' // 默认灰色
+    return colorMap[nameKey] || '#D1D5DB' // 浅灰色
   }
 
-  // A. 地图配置 - 散点图
+  // A. 地图配置 - 散点图配合按区域涂色的背景地图
+  console.log('RegionDistributorMap: Input regionsData:', props.regionsData)
+  
+  // 生成按区域涂色的国家数据
+  const countryMapData = generateCountryMapData(props.regionsData || {})
+  console.log('RegionDistributorMap: Generated countryMapData for background:', countryMapData.length, 'countries')
+  
   mapOption = {
     title: {
       text: t('charts.global_distributor_distribution_by_region'),
@@ -121,11 +128,22 @@ function createChartOptions() {
     tooltip: {
       trigger: 'item',
       formatter: (params) => {
-        const regionName = t(`regions.${params.data.nameKey}`) || params.data.displayName || params.data.nameKey
-        return `${regionName}<br/>
-                ${t('charts.total')}: ${params.data.value[2]}<br/>
-                ${t('charts.masters')}: ${params.data.masters || 0}<br/>
-                ${t('charts.resellers')}: ${params.data.resellers || 0}`
+        // 如果是散点图数据，显示详细区域信息
+        if (params.seriesType === 'scatter' && params.data.nameKey) {
+          const regionName = t(`regions.${params.data.nameKey}`) || params.data.displayName || params.data.nameKey
+          return `${regionName}<br/>
+                  ${t('charts.total')}: ${params.data.value[2]}<br/>
+                  ${t('charts.masters')}: ${params.data.masters || 0}<br/>
+                  ${t('charts.resellers')}: ${params.data.resellers || 0}`
+        }
+        // 如果是地图背景，显示国家和所属区域信息
+        if (params.seriesType === 'map' && params.data) {
+          const regionName = t(`regions.${params.data.regionKey}`) || params.data.regionName
+          return `${params.name}<br/>
+                  ${t('charts.region')}: ${regionName}<br/>
+                  ${t('charts.total')}: ${params.data.value}`
+        }
+        return params.name
       }
     },
     geo: {
@@ -133,74 +151,123 @@ function createChartOptions() {
       roam: false,
       center: [0, 20],
       zoom: 1,
-      itemStyle: {
-        areaColor: '#E2E8F0', // 使用更深的灰色背景，让地图边界更清楚
-        borderColor: '#94A3B8',
-        borderWidth: 1,
-        opacity: 1 // 确保完全不透明
-      },
-      emphasis: {
-        disabled: true // 禁用地图区域的强调效果，避免干扰
-      },
+      show: false, // 隐藏geo层，只用作坐标系
       silent: true
     },
     series: [{
-      id: 'regionDistributionData', // 独特的 series ID
+      // 背景地图 - 按区域涂色的国家
+      id: 'backgroundMap',
+      type: 'map',
+      map: 'world',
+      roam: false,
+      data: countryMapData,
+      itemStyle: {
+        borderColor: '#ffffff',
+        borderWidth: 0.5,
+        opacity: 0.3 // 进一步降低透明度，让颜色更淡
+      },
+      emphasis: {
+        disabled: true // 禁用地图的hover效果，避免干扰散点图
+      },
+      silent: true, // 地图背景不响应鼠标事件
+      z: 1 // 确保在散点图下方
+    }, {
+      // 前景散点图 - 区域数据点
+      id: 'regionDistributionData',
       type: 'scatter',
       coordinateSystem: 'geo',
-      universalTransition: { enabled: true, divideShape: 'clone' },
-      animationDurationUpdate: 1000,
-      data: chartData.map(item => ({
-        nameKey: item.nameKey, // 翻译用的英文key
-        displayName: item.displayName, // 显示名称
-        masters: item.masters, // 添加 masters 数据
-        resellers: item.resellers, // 添加 resellers 数据
-        value: [item.coordinates[0], item.coordinates[1], item.value]
-      })),
-      symbolSize: (value) => Math.max(Math.sqrt(value[2]) * 6, 20), // 减小圆点尺寸
+      universalTransition: { 
+        enabled: true, 
+        divideShape: 'clone',
+        delay: (idx) => idx * 50 // 添加延迟让动画更明显
+      },
+      animationDurationUpdate: 1000, // 增加动画时长到2秒
+      data: chartData.map(item => {
+        // 调整特定区域的坐标位置
+        let adjustedCoordinates = [...item.coordinates]
+        
+        switch(item.nameKey) {
+          case 'canada':
+          case 'can':
+            // 加拿大往左上移动
+            adjustedCoordinates[0] = adjustedCoordinates[0] - 18
+            adjustedCoordinates[1] = adjustedCoordinates[1] + 18
+            break
+          case 'usa':
+            // 美国往上移动
+            adjustedCoordinates[0] = adjustedCoordinates[0] - 4
+            adjustedCoordinates[1] = adjustedCoordinates[1] + 8
+            break
+          case 'latin_america':
+          case 'lat-a':
+            // 南美往右移一些些
+            adjustedCoordinates[0] = adjustedCoordinates[0] + 12
+            break
+          case 'africa':
+          case 'af':
+            // 非洲往上移一些些
+            adjustedCoordinates[1] = adjustedCoordinates[1] + 18
+            break
+          case 'middle_east':
+          case 'mid-e':
+            // 中东往上移一些些
+            adjustedCoordinates[1] = adjustedCoordinates[1] + 6
+            break
+          case 'oceania':
+          case 'aus-nzl':
+            // 澳新往左上移
+            adjustedCoordinates[0] = adjustedCoordinates[0] - 15
+            adjustedCoordinates[1] = adjustedCoordinates[1] + 16
+            break
+          case 'eu':
+          case 'europe':
+            adjustedCoordinates[1] = adjustedCoordinates[1] + 12
+        }
+        
+        return {
+          name: item.nameKey, // 添加name字段用于数据匹配
+          nameKey: item.nameKey,
+          displayName: item.displayName,
+          masters: item.masters,
+          resellers: item.resellers,
+          value: [adjustedCoordinates[0], adjustedCoordinates[1], item.value]
+        }
+      }),
+      symbolSize: (value) => Math.max(Math.sqrt(value[2]) * 6, 20),
       itemStyle: {
         color: (params) => {
-          // 使用每个地区的固定颜色
           return getRegionColor(params.data.nameKey)
         },
-        borderWidth: 0, // 去掉外边框
-        opacity: 0.8, // 保持透明度
-        shadowBlur: 4,
-        shadowColor: 'rgba(0, 0, 0, 0.2)' // 使用通用阴影
+        borderWidth: 2,
+        borderColor: '#ffffff',
+        opacity: 0.9,
+        shadowBlur: 6,
+        shadowColor: 'rgba(0, 0, 0, 0.3)'
       },
       label: {
         show: true,
         formatter: (params) => {
-          // 在圆点中间显示地区名称和数量
-          // const regionName = t(`regions.${params.data.nameKey}`) || params.data.displayName || params.data.nameKey
           return `${params.data.value[2]}`
         },
         position: 'inside',
-        fontSize: 12, // 稍微增大字体
+        fontSize: 12,
         fontWeight: 'bold',
         color: '#FFFFFF',
-        lineHeight: 16,
-        textAlign: 'center',
-        textBorderColor: 'rgba(0, 0, 0, 0.1)', // 添加细微文字边框提高可读性
-        textBorderWidth: 0.5
+        textBorderColor: 'rgba(0, 0, 0, 0.3)',
+        textBorderWidth: 1
       },
       emphasis: {
         itemStyle: {
-          color: '#B91C1C', // 强调时使用深红色
-          borderWidth: 0, // 去掉边框
-          opacity: 1, // 强调状态完全不透明
-          shadowBlur: 8,
-          shadowColor: 'rgba(0, 0, 0, 0.4)' // 强调时增强阴影
+          opacity: 1,
+          shadowBlur: 10,
+          shadowColor: 'rgba(0, 0, 0, 0.5)'
         },
         label: {
-          show: true,
-          fontSize: 13,
-          fontWeight: 'bold',
-          color: '#FFFFFF',
-          textBorderColor: 'rgba(0, 0, 0, 0.3)',
-          textBorderWidth: 1
+          fontSize: 14,
+          fontWeight: 'bold'
         }
-      }
+      },
+      z: 2 // 确保在地图背景上方
     }]
   }
 
@@ -239,12 +306,18 @@ function createChartOptions() {
       }
     },
     series: [{
-      id: 'regionDistributionData', // 相同的 series ID
+      id: 'regionDistributionData', // 与散点图相同的ID用于转换
       type: 'bar',
-      universalTransition: { enabled: true, divideShape: 'clone' },
-      animationDurationUpdate: 1000,
-      data: barData.map((item, index) => ({
+      universalTransition: { 
+        enabled: true, 
+        divideShape: 'clone',
+        delay: (idx) => idx * 50 // 添加延迟让动画更明显
+      },
+      animationDurationUpdate: 1000, // 增加动画时长到2秒
+      data: barData.map((item) => ({
+        name: item.nameKey, // 添加name字段用于数据匹配
         value: item.value,
+        nameKey: item.nameKey, // 保持nameKey用于颜色映射
         itemStyle: {
           // 使用每个地区的固定颜色
           color: getRegionColor(item.nameKey)
@@ -282,13 +355,17 @@ function createChartOptions() {
       }
     },
     series: [{
-      id: 'regionDistributionData', // 相同的 series ID  
+      id: 'regionDistributionData', // 与散点图相同的ID用于转换  
       name: t('charts.distributor_count'), 
       type: 'pie',
       radius: ['40%', '70%'], 
       center: ['50%', '50%'],
-      universalTransition: { enabled: true, divideShape: 'clone' },
-      animationDurationUpdate: 1000,
+      universalTransition: { 
+        enabled: true, 
+        divideShape: 'clone',
+        delay: (idx) => idx * 50 // 添加延迟让动画更明显
+      },
+      animationDurationUpdate: 1000, // 增加动画时长到2秒
       data: pieData,
       itemStyle: {
         borderRadius: 10,
