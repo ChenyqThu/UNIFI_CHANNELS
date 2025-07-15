@@ -79,10 +79,11 @@ const processedRegionData = computed(() => {
     .slice(0, 8)
     .map(item => {
       console.log('RegionDistributorMap: Processing item:', item)
+      console.log('RegionDistributorMap: item.masters =', item.masters, 'item.resellers =', item.resellers)
       // 确保使用正确的英文翻译key
       const nameKey = item.name_key || item.name
       console.log('RegionDistributorMap: Using nameKey:', nameKey)
-      return {
+      const processedItem = {
         nameKey: nameKey, // 翻译用的英文key
         displayName: item.name || nameKey, // 显示用的备用名称
         value: item.count || 0,
@@ -90,6 +91,8 @@ const processedRegionData = computed(() => {
         resellers: item.resellers || 0, // 添加 resellers 数据
         coordinates: item.coordinates || [0, 0]
       }
+      console.log('RegionDistributorMap: Processed item:', processedItem)
+      return processedItem
     })
 })
 
@@ -109,22 +112,17 @@ function createChartOptions() {
       trigger: 'item',
       formatter: (params) => {
         const regionName = t(`regions.${params.data.nameKey}`) || params.data.displayName || params.data.nameKey
-        // 查找原始数据以获取 masters/resellers 信息
-        const originalData = chartData.find(item => item.nameKey === params.data.nameKey)
-        if (originalData) {
-          return `${regionName}<br/>
-                  ${t('charts.total')}: ${params.data.value[2]}<br/>
-                  ${t('charts.masters')}: ${originalData.masters || 0}<br/>
-                  ${t('charts.resellers')}: ${originalData.resellers || 0}`
-        }
-        return `${regionName}: ${params.data.value[2]} ${t('charts.distributors')}`
+        return `${regionName}<br/>
+                ${t('charts.total')}: ${params.data.value[2]}<br/>
+                ${t('charts.masters')}: ${params.data.masters || 0}<br/>
+                ${t('charts.resellers')}: ${params.data.resellers || 0}`
       }
     },
     geo: {
       map: 'world',
       roam: false,
       center: [0, 20],
-      zoom: 1.2,
+      zoom: 1,
       itemStyle: {
         areaColor: '#E2E8F0', // 使用更深的灰色背景，让地图边界更清楚
         borderColor: '#94A3B8',
@@ -145,6 +143,8 @@ function createChartOptions() {
       data: chartData.map(item => ({
         nameKey: item.nameKey, // 翻译用的英文key
         displayName: item.displayName, // 显示名称
+        masters: item.masters, // 添加 masters 数据
+        resellers: item.resellers, // 添加 resellers 数据
         value: [item.coordinates[0], item.coordinates[1], item.value]
       })),
       symbolSize: (value) => Math.max(Math.sqrt(value[2]) * 8, 28), // 进一步增大最小尺寸
@@ -243,6 +243,8 @@ function createChartOptions() {
   const pieData = chartData.map(item => ({
     name: item.nameKey,
     value: item.value,
+    masters: item.masters,
+    resellers: item.resellers,
     displayName: t(`regions.${item.nameKey}`) || item.displayName
   }))
   
@@ -255,15 +257,10 @@ function createChartOptions() {
       trigger: 'item', 
       formatter: (params) => {
         const displayName = t(`regions.${params.name}`) || params.name
-        // 查找原始数据以获取 masters/resellers 信息
-        const originalData = chartData.find(item => item.nameKey === params.name)
-        if (originalData) {
-          return `${displayName}<br/>
-                  ${t('charts.total')}: ${params.value} (${params.percent}%)<br/>
-                  ${t('charts.masters')}: ${originalData.masters || 0}<br/>
-                  ${t('charts.resellers')}: ${originalData.resellers || 0}`
-        }
-        return `${displayName}<br/>${t('charts.distributors')}: ${params.value} (${params.percent}%)`
+        return `${displayName}<br/>
+                ${t('charts.total')}: ${params.value} (${params.percent}%)<br/>
+                ${t('charts.masters')}: ${params.data.masters || 0}<br/>
+                ${t('charts.resellers')}: ${params.data.resellers || 0}`
       }
     },
     series: [{

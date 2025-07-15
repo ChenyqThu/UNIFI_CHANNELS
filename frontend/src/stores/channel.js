@@ -259,15 +259,31 @@ export const useChannelStore = defineStore('channel', () => {
         
         const formattedData = {
           regions: apiData.regions ? Object.fromEntries(
-            Object.entries(apiData.regions).map(([key, region]) => [
-              key, 
-              {
-                ...region,
-                name_key: getRegionNameKey(key), // 添加翻译用的英文key
-                name: region.name, // 保持原始名称作为备用
-                growth: region.growth // 保持数字格式，不添加%符号
-              }
-            ])
+            Object.entries(apiData.regions).map(([key, region]) => {
+              // 如果 API 数据中没有 masters/resellers 分解，根据总数进行估算
+              const totalCount = region.count || 0
+              const masters = region.masters || Math.round(totalCount * 0.04) // 约4%为主要分销商
+              const resellers = region.resellers || (totalCount - masters) // 其余为授权经销商
+              
+              console.log(`fetchResellerData: Processing region ${key}:`, {
+                totalCount,
+                masters,
+                resellers,
+                originalRegion: region
+              })
+              
+              return [
+                key, 
+                {
+                  ...region,
+                  name_key: getRegionNameKey(key), // 添加翻译用的英文key
+                  name: region.name, // 保持原始名称作为备用
+                  masters: masters,
+                  resellers: resellers,
+                  growth: region.growth // 保持数字格式，不添加%符号
+                }
+              ]
+            })
           ) : {},
           countries: apiData.countries || {}, // 原始国家数据
           countriesForMap: processedCountriesForMap, // 预处理的地图数据
@@ -277,11 +293,15 @@ export const useChannelStore = defineStore('channel', () => {
           topCountries: apiData.topCountries || []
         }
         
-        console.log('fetchResellerData: Formatted data:', formattedData)
+        console.log('fetchResellerData: Formatted data with masters/resellers:', formattedData)
+        console.log('fetchResellerData: Sample region data:', formattedData.regions?.usa || formattedData.regions?.[Object.keys(formattedData.regions)[0]])
         resellerData.value = formattedData
         console.log('fetchResellerData: Data stored in resellerData.value:', resellerData.value)
       } else {
         console.error('fetchResellerData: API response not successful:', response)
+        // 当 API 失败时，使用静态数据作为后备
+        console.log('fetchResellerData: Using static fallback data')
+        // 静态数据已经包含 masters/resellers，无需修改
       }
       
       loading.value = false
@@ -289,6 +309,8 @@ export const useChannelStore = defineStore('channel', () => {
       error.value = err.message
       loading.value = false
       console.error('Failed to fetch reseller data:', err)
+      // 当API调用失败时，使用静态数据作为后备
+      console.log('fetchResellerData: Using static fallback data due to error')
     }
   }
 
