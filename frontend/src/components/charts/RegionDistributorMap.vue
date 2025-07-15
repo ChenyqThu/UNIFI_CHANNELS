@@ -11,7 +11,7 @@
             :class="[
               'px-3 py-1 rounded-md text-sm font-medium transition-all flex items-center',
               currentMode === key 
-                ? 'bg-white text-green-600 shadow-sm' 
+                ? 'bg-white text-blue-600 shadow-sm' 
                 : 'text-gray-600 hover:text-gray-900'
             ]"
           >
@@ -78,12 +78,9 @@ const processedRegionData = computed(() => {
     .sort((a, b) => (b.count || 0) - (a.count || 0))
     .slice(0, 8)
     .map(item => {
-      console.log('RegionDistributorMap: Processing item:', item)
-      console.log('RegionDistributorMap: item.masters =', item.masters, 'item.resellers =', item.resellers)
       // 确保使用正确的英文翻译key
       const nameKey = item.name_key || item.name
-      console.log('RegionDistributorMap: Using nameKey:', nameKey)
-      const processedItem = {
+      return {
         nameKey: nameKey, // 翻译用的英文key
         displayName: item.name || nameKey, // 显示用的备用名称
         value: item.count || 0,
@@ -91,8 +88,6 @@ const processedRegionData = computed(() => {
         resellers: item.resellers || 0, // 添加 resellers 数据
         coordinates: item.coordinates || [0, 0]
       }
-      console.log('RegionDistributorMap: Processed item:', processedItem)
-      return processedItem
     })
 })
 
@@ -101,6 +96,21 @@ function createChartOptions() {
   const chartData = processedRegionData.value
   
   if (!chartData.length) return
+
+  // 为每个地区定义固定颜色
+  const getRegionColor = (nameKey) => {
+    const colorMap = {
+      'usa': '#DC2626',      // 红色 - 美国
+      'europe': '#EA580C',   // 橙红色 - 欧洲  
+      'asia': '#D97706',     // 橙色 - 亚洲
+      'canada': '#059669',   // 绿色 - 加拿大
+      'latin_america': '#2563EB', // 蓝色 - 拉美
+      'oceania': '#7C3AED',  // 紫色 - 澳新
+      'middle_east': '#BE185D', // 品红色 - 中东
+      'africa': '#0891B2'    // 青色 - 非洲
+    }
+    return colorMap[nameKey] || '#6B7280' // 默认灰色
+  }
 
   // A. 地图配置 - 散点图
   mapOption = {
@@ -147,21 +157,23 @@ function createChartOptions() {
         resellers: item.resellers, // 添加 resellers 数据
         value: [item.coordinates[0], item.coordinates[1], item.value]
       })),
-      symbolSize: (value) => Math.max(Math.sqrt(value[2]) * 8, 28), // 进一步增大最小尺寸
+      symbolSize: (value) => Math.max(Math.sqrt(value[2]) * 6, 20), // 减小圆点尺寸
       itemStyle: {
-        color: '#2563EB', // 使用更深的蓝色提高对比度
-        borderColor: '#1E40AF',
-        borderWidth: 2,
-        opacity: 1, // 确保圆点完全不透明
-        shadowBlur: 0,
-        shadowColor: 'transparent'
+        color: (params) => {
+          // 使用每个地区的固定颜色
+          return getRegionColor(params.data.nameKey)
+        },
+        borderWidth: 0, // 去掉外边框
+        opacity: 0.8, // 保持透明度
+        shadowBlur: 4,
+        shadowColor: 'rgba(0, 0, 0, 0.2)' // 使用通用阴影
       },
       label: {
         show: true,
         formatter: (params) => {
           // 在圆点中间显示地区名称和数量
-          const regionName = t(`regions.${params.data.nameKey}`) || params.data.displayName || params.data.nameKey
-          return `${regionName}\n${params.data.value[2]}`
+          // const regionName = t(`regions.${params.data.nameKey}`) || params.data.displayName || params.data.nameKey
+          return `${params.data.value[2]}`
         },
         position: 'inside',
         fontSize: 12, // 稍微增大字体
@@ -174,19 +186,18 @@ function createChartOptions() {
       },
       emphasis: {
         itemStyle: {
-          color: '#1D4ED8',
-          borderColor: '#1E3A8A',
-          borderWidth: 3,
-          opacity: 1, // 强调状态也保持完全不透明
-          shadowBlur: 0,
-          shadowColor: 'transparent'
+          color: '#B91C1C', // 强调时使用深红色
+          borderWidth: 0, // 去掉边框
+          opacity: 1, // 强调状态完全不透明
+          shadowBlur: 8,
+          shadowColor: 'rgba(0, 0, 0, 0.4)' // 强调时增强阴影
         },
         label: {
           show: true,
           fontSize: 13,
           fontWeight: 'bold',
           color: '#FFFFFF',
-          textBorderColor: 'rgba(0, 0, 0, 0.2)',
+          textBorderColor: 'rgba(0, 0, 0, 0.3)',
           textBorderWidth: 1
         }
       }
@@ -232,20 +243,27 @@ function createChartOptions() {
       type: 'bar',
       universalTransition: { enabled: true, divideShape: 'clone' },
       animationDurationUpdate: 1000,
-      data: barData.map(item => item.value),
-      itemStyle: {
-        color: '#10B981' // 使用绿色区分地区图表
-      }
+      data: barData.map((item, index) => ({
+        value: item.value,
+        itemStyle: {
+          // 使用每个地区的固定颜色
+          color: getRegionColor(item.nameKey)
+        }
+      }))
     }]
   }
 
   // C. 饼图配置
-  const pieData = chartData.map(item => ({
+  const pieData = chartData.map((item) => ({
     name: item.nameKey,
     value: item.value,
     masters: item.masters,
     resellers: item.resellers,
-    displayName: t(`regions.${item.nameKey}`) || item.displayName
+    displayName: t(`regions.${item.nameKey}`) || item.displayName,
+    itemStyle: {
+      // 使用每个地区的固定颜色
+      color: getRegionColor(item.nameKey)
+    }
   }))
   
   pieOption = {

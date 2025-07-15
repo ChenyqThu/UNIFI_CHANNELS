@@ -27,6 +27,34 @@ export const distributorsAPI = {
           console.log('Successfully loaded real database data:', realData)
           console.log('Real data has countries?', !!realData.data.countries)
           console.log('Countries count:', Object.keys(realData.data.countries || {}).length)
+          
+          // 从countries数据中聚合计算每个region的masters/resellers
+          if (realData.data && realData.data.regions && realData.data.countries) {
+            const regionStats = {}
+            
+            // 初始化每个region的统计
+            Object.keys(realData.data.regions).forEach(regionCode => {
+              regionStats[regionCode] = { masters: 0, resellers: 0 }
+            })
+            
+            // 从countries数据中聚合masters/resellers
+            Object.values(realData.data.countries).forEach(country => {
+              const regionCode = country.region
+              if (regionStats[regionCode]) {
+                regionStats[regionCode].masters += country.masters || 0
+                regionStats[regionCode].resellers += country.resellers || 0
+              }
+            })
+            
+            // 更新regions数据，添加masters/resellers字段
+            Object.keys(realData.data.regions).forEach(regionCode => {
+              realData.data.regions[regionCode].masters = regionStats[regionCode].masters
+              realData.data.regions[regionCode].resellers = regionStats[regionCode].resellers
+            })
+            
+            console.log('Aggregated region masters/resellers data:', regionStats)
+          }
+          
           return realData
         }
       } catch (fileError) {
@@ -216,15 +244,17 @@ function getFallbackData() {
   return {
     success: true,
     data: {
-      totalCount: 634,
-      activeCount: 618,
-      masterDistributors: 28,
-      authorizedResellers: 606,
+      totalCount: 579,
+      activeCount: 579,
+      masterDistributors: 194,
+      authorizedResellers: 385,
       regions: {
         usa: { 
           name_key: 'usa', 
           code: 'usa',
-          count: 156, 
+          count: 30, 
+          masters: 11,
+          resellers: 19,
           coordinates: [-95.7129, 37.0902], 
           growth: 12.3,
           lastUpdated: '2024-01-15T10:30:00Z'
@@ -232,7 +262,9 @@ function getFallbackData() {
         can: { 
           name_key: 'canada', 
           code: 'can',
-          count: 47, 
+          count: 11, 
+          masters: 3,
+          resellers: 8,
           coordinates: [-106.3468, 56.1304], 
           growth: 8.1,
           lastUpdated: '2024-01-15T10:30:00Z'
@@ -240,7 +272,9 @@ function getFallbackData() {
         eur: { 
           name_key: 'europe', 
           code: 'eur',
-          count: 203, 
+          count: 297, 
+          masters: 82,
+          resellers: 215,
           coordinates: [10.4515, 51.1657], 
           growth: 15.2,
           lastUpdated: '2024-01-15T10:30:00Z'
@@ -248,7 +282,9 @@ function getFallbackData() {
         'aus-nzl': { 
           name_key: 'oceania', 
           code: 'aus-nzl',
-          count: 34, 
+          count: 21, 
+          masters: 4,
+          resellers: 17,
           coordinates: [133.7751, -25.2744], 
           growth: 5.7,
           lastUpdated: '2024-01-15T10:30:00Z'
@@ -256,7 +292,9 @@ function getFallbackData() {
         as: { 
           name_key: 'asia', 
           code: 'as',
-          count: 89, 
+          count: 90, 
+          masters: 34,
+          resellers: 56,
           coordinates: [100.6197, 34.0479], 
           growth: 22.4,
           lastUpdated: '2024-01-15T10:30:00Z'
@@ -264,7 +302,9 @@ function getFallbackData() {
         'lat-a': { 
           name_key: 'latin_america', 
           code: 'lat-a',
-          count: 67, 
+          count: 63, 
+          masters: 40,
+          resellers: 23,
           coordinates: [-58.3816, -14.2350], 
           growth: 18.9,
           lastUpdated: '2024-01-15T10:30:00Z'
@@ -272,7 +312,9 @@ function getFallbackData() {
         'mid-e': { 
           name_key: 'middle_east', 
           code: 'mid-e',
-          count: 23, 
+          count: 44, 
+          masters: 12,
+          resellers: 32,
           coordinates: [51.1839, 35.6892], 
           growth: 10.3,
           lastUpdated: '2024-01-15T10:30:00Z'
@@ -280,7 +322,9 @@ function getFallbackData() {
         af: { 
           name_key: 'africa', 
           code: 'af',
-          count: 15, 
+          count: 23, 
+          masters: 8,
+          resellers: 15,
           coordinates: [20.0000, 0.0000], 
           growth: 7.2,
           lastUpdated: '2024-01-15T10:30:00Z'

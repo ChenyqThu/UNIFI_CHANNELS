@@ -209,18 +209,18 @@ export const useChannelStore = defineStore('channel', () => {
   // Distributor/Reseller Data (Real database integration)
   const resellerData = ref({
     regions: {
-      usa: { name_key: 'usa', count: 156, masters: 4, resellers: 152, coordinates: [-95.7129, 37.0902], growth: '+12%' },
-      can: { name_key: 'canada', count: 47, masters: 2, resellers: 45, coordinates: [-106.3468, 56.1304], growth: '+8%' },
-      eur: { name_key: 'europe', count: 203, masters: 8, resellers: 195, coordinates: [10.4515, 51.1657], growth: '+15%' },
-      'aus-nzl': { name_key: 'oceania', count: 34, masters: 2, resellers: 32, coordinates: [133.7751, -25.2744], growth: '+5%' },
-      as: { name_key: 'asia', count: 89, masters: 5, resellers: 84, coordinates: [100.6197, 34.0479], growth: '+22%' },
-      'lat-a': { name_key: 'latin_america', count: 67, masters: 4, resellers: 63, coordinates: [-58.3816, -14.2350], growth: '+18%' },
-      'mid-e': { name_key: 'middle_east', count: 23, masters: 2, resellers: 21, coordinates: [51.1839, 35.6892], growth: '+10%' },
-      af: { name_key: 'africa', count: 15, masters: 1, resellers: 14, coordinates: [20.0000, 0.0000], growth: '+7%' }
+      usa: { name_key: 'usa', count: 30, masters: 11, resellers: 19, coordinates: [-95.7129, 37.0902], growth: '+12%' },
+      can: { name_key: 'canada', count: 11, masters: 3, resellers: 8, coordinates: [-106.3468, 56.1304], growth: '+8%' },
+      eur: { name_key: 'europe', count: 297, masters: 82, resellers: 215, coordinates: [10.4515, 51.1657], growth: '+15%' },
+      'aus-nzl': { name_key: 'oceania', count: 21, masters: 4, resellers: 17, coordinates: [133.7751, -25.2744], growth: '+5%' },
+      as: { name_key: 'asia', count: 90, masters: 34, resellers: 56, coordinates: [100.6197, 34.0479], growth: '+22%' },
+      'lat-a': { name_key: 'latin_america', count: 63, masters: 40, resellers: 23, coordinates: [-58.3816, -14.2350], growth: '+18%' },
+      'mid-e': { name_key: 'middle_east', count: 44, masters: 12, resellers: 32, coordinates: [51.1839, 35.6892], growth: '+10%' },
+      af: { name_key: 'africa', count: 23, masters: 8, resellers: 15, coordinates: [20.0000, 0.0000], growth: '+7%' }
     },
-    totalCount: 634,
-    masterDistributors: 28,
-    authorizedResellers: 606,
+    totalCount: 579,
+    masterDistributors: 194,
+    authorizedResellers: 385,
     topCountries: [
       { name_key: 'usa', count: 156, region: 'usa', growth: 12 },
       { name_key: 'germany', count: 45, region: 'eur', growth: 15 },
@@ -265,13 +265,6 @@ export const useChannelStore = defineStore('channel', () => {
               const masters = region.masters || Math.round(totalCount * 0.04) // 约4%为主要分销商
               const resellers = region.resellers || (totalCount - masters) // 其余为授权经销商
               
-              console.log(`fetchResellerData: Processing region ${key}:`, {
-                totalCount,
-                masters,
-                resellers,
-                originalRegion: region
-              })
-              
               return [
                 key, 
                 {
@@ -293,8 +286,7 @@ export const useChannelStore = defineStore('channel', () => {
           topCountries: apiData.topCountries || []
         }
         
-        console.log('fetchResellerData: Formatted data with masters/resellers:', formattedData)
-        console.log('fetchResellerData: Sample region data:', formattedData.regions?.usa || formattedData.regions?.[Object.keys(formattedData.regions)[0]])
+        console.log('fetchResellerData: Formatted data:', formattedData)
         resellerData.value = formattedData
         console.log('fetchResellerData: Data stored in resellerData.value:', resellerData.value)
       } else {
