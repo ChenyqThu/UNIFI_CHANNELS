@@ -1,18 +1,18 @@
 <template>
   <div class="distributor-map-container">
     <!-- Header and Controls -->
-    <div class="chart-controls mb-6">
+    <div class="chart-controls mb-6 mt-6">
       <div class="flex items-center justify-center">
         <div>
-          <h3 class="text-xl font-semibold text-gray-900 text-center">{{ $t('charts.global_distributor_distribution') }}</h3>
-          <div class="flex items-center justify-center mt-1">
+          <h2 class="text-3xl font-bold text-gray-900 text-center mb-4">{{ $t('charts.global_distributor_distribution') }}</h2>
+          <!-- <div class="flex items-center justify-center mt-1">
             <div class="flex items-center text-xs text-gray-500">
               <span class="material-icons text-xs mr-1">
                 {{ currentDataLevel === 'country' ? 'flag' : 'scatter_plot' }}
               </span>
               {{ currentDataLevel === 'country' ? $t('charts.country_view') : $t('charts.region_view') }}
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       
@@ -65,44 +65,7 @@
       />
     </div>
 
-    <!-- Statistics Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-      <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-4">
-        <div class="flex items-center">
-          <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center mr-3">
-            <span class="material-icons text-white text-sm">store</span>
-          </div>
-          <div>
-            <p class="text-2xl font-bold text-gray-900">{{ currentDisplayData.totalCount }}</p>
-            <p class="text-sm text-gray-600">{{ $t('metrics.total_distributors') }}</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="bg-gradient-to-r from-green-50 to-green-100 rounded-lg p-4">
-        <div class="flex items-center">
-          <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center mr-3">
-            <span class="material-icons text-white text-sm">emoji_events</span>
-          </div>
-          <div>
-            <p class="text-2xl font-bold text-gray-900">{{ currentDisplayData.masterDistributors }}</p>
-            <p class="text-sm text-gray-600">{{ $t('metrics.master_distributors') }}</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-lg p-4">
-        <div class="flex items-center">
-          <div class="w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center mr-3">
-            <span class="material-icons text-white text-sm">group</span>
-          </div>
-          <div>
-            <p class="text-2xl font-bold text-gray-900">{{ currentDisplayData.authorizedResellers }}</p>
-            <p class="text-sm text-gray-600">{{ $t('metrics.authorized_resellers') }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    
   </div>
 </template>
 

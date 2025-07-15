@@ -1,7 +1,16 @@
 <template>
   <div class="region-distributor-map">
-    <!-- Chart Type Switcher -->
-    <div class="chart-controls mb-4">
+    <!-- Chart Container -->
+    <div class="chart-wrapper mb-4">
+      <div 
+        ref="chartContainer" 
+        id="regionChartContainer"
+        style="width: 100%; height: 500px;"
+      ></div>
+    </div>
+
+    <!-- Chart Type Switcher - 移到底部 -->
+    <div class="chart-controls">
       <div class="flex justify-center">
         <div class="flex space-x-2 bg-gray-100 rounded-lg p-1">
           <button
@@ -20,15 +29,6 @@
           </button>
         </div>
       </div>
-    </div>
-
-    <!-- Chart Container -->
-    <div class="chart-wrapper">
-      <div 
-        ref="chartContainer" 
-        id="regionChartContainer"
-        style="width: 100%; height: 500px;"
-      ></div>
     </div>
   </div>
 </template>
@@ -446,7 +446,6 @@ onUnmounted(() => {
 <style scoped>
 .region-distributor-map {
   width: 100%;
-  height: 500px;
 }
 
 .chart-wrapper {

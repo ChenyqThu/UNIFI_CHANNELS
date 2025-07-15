@@ -1,21 +1,60 @@
 <template>
   <div class="min-h-screen bg-white">
     <!-- Header -->
-    <section class="bg-gradient-to-br from-green-50 via-white to-emerald-50 py-16">
+    <section class="bg-gradient-to-br from-green-50 via-white to-emerald-50 py-12">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
+        <div class="text-center mb-8">
           <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             {{ $t('distribution.title') }}
           </h1>
-          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
             {{ $t('distribution.subtitle') }}
           </p>
+          
+          <!-- Distribution Statistics Banner -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
+            <div class="bg-white/90 backdrop-blur-sm rounded-lg border border-gray-200/60 px-4 py-3 shadow-sm hover:shadow-md transition-all duration-200">
+              <div class="flex items-center justify-center space-x-2">
+                <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                  <span class="material-icons text-white text-sm">store</span>
+                </div>
+                <div class="text-left">
+                  <p class="text-lg font-bold text-gray-900 leading-tight">{{ resellerData.totalCount || 0 }}</p>
+                  <p class="text-xs text-gray-600 leading-tight">{{ $t('metrics.total_distributors') }}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-white/90 backdrop-blur-sm rounded-lg border border-gray-200/60 px-4 py-3 shadow-sm hover:shadow-md transition-all duration-200">
+              <div class="flex items-center justify-center space-x-2">
+                <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
+                  <span class="material-icons text-white text-sm">emoji_events</span>
+                </div>
+                <div class="text-left">
+                  <p class="text-lg font-bold text-gray-900 leading-tight">{{ resellerData.masterDistributors || 0 }}</p>
+                  <p class="text-xs text-gray-600 leading-tight">{{ $t('metrics.master_distributors') }}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-white/90 backdrop-blur-sm rounded-lg border border-gray-200/60 px-4 py-3 shadow-sm hover:shadow-md transition-all duration-200">
+              <div class="flex items-center justify-center space-x-2">
+                <div class="w-8 h-8 bg-yellow-500 rounded-lg flex items-center justify-center">
+                  <span class="material-icons text-white text-sm">group</span>
+                </div>
+                <div class="text-left">
+                  <p class="text-lg font-bold text-gray-900 leading-tight">{{ resellerData.authorizedResellers || 0 }}</p>
+                  <p class="text-xs text-gray-600 leading-tight">{{ $t('metrics.authorized_resellers') }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Global Distributor Map -->
-    <section class="py-16">
+    <section class="py-8">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <DistributorMap />
       </div>
@@ -121,7 +160,7 @@ import { useI18n } from 'vue-i18n'
 import { useChannelStore } from '@/stores/channel'
 import DistributorMap from '@/components/charts/DistributorMap.vue'
 
-const { t } = useI18n()
+const { } = useI18n()
 const channelStore = useChannelStore()
 const distributionData = computed(() => channelStore.distributionData)
 const resellerData = computed(() => channelStore.resellerData)

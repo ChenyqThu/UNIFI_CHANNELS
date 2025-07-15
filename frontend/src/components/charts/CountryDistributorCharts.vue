@@ -1,32 +1,34 @@
 <template>
   <div class="country-distributor-charts">
-    <!-- Chart Type Switcher -->
-    <div class="chart-controls mb-4">
-      <div class="flex space-x-2 bg-gray-100 rounded-lg p-1">
-        <button
-          v-for="(mode, key) in chartModes"
-          :key="key"
-          :id="`btn-${key}`"
-          :class="[
-            'px-3 py-1 rounded-md text-sm font-medium transition-all flex items-center',
-            currentMode === key 
-              ? 'bg-white text-blue-600 shadow-sm' 
-              : 'text-gray-600 hover:text-gray-900'
-          ]"
-        >
-          <span class="material-icons text-sm mr-1">{{ mode.icon }}</span>
-          {{ mode.label }}
-        </button>
-      </div>
-    </div>
-
     <!-- Chart Container -->
-    <div class="chart-wrapper">
+    <div class="chart-wrapper mb-4">
       <div 
         ref="chartContainer" 
         id="countryChartContainer"
         style="width: 100%; height: 500px;"
       ></div>
+    </div>
+
+    <!-- Chart Type Switcher - 移到底部 -->
+    <div class="chart-controls">
+      <div class="flex justify-center">
+        <div class="flex space-x-2 bg-gray-100 rounded-lg p-1">
+          <button
+            v-for="(mode, key) in chartModes"
+            :key="key"
+            :id="`btn-${key}`"
+            :class="[
+              'px-3 py-1 rounded-md text-sm font-medium transition-all flex items-center',
+              currentMode === key 
+                ? 'bg-white text-blue-600 shadow-sm' 
+                : 'text-gray-600 hover:text-gray-900'
+            ]"
+          >
+            <span class="material-icons text-sm mr-1">{{ mode.icon }}</span>
+            {{ mode.label }}
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -109,7 +111,7 @@ function createChartOptions() {
       type: 'map', 
       map: 'world', 
       roam: true,
-      scaleLimit: { min: 1, max: 20 },
+      scaleLimit: { min: 1, max: 10 },
       universalTransition: { enabled: true, divideShape: 'clone' },
       animationDurationUpdate: 1000,
       data: chartData
