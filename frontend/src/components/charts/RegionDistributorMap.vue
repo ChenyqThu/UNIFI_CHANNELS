@@ -164,7 +164,7 @@ function createChartOptions() {
       itemStyle: {
         borderColor: '#ffffff',
         borderWidth: 0.5,
-        opacity: 0.3 // 进一步降低透明度，让颜色更淡
+        opacity: 0.15 // 进一步降低透明度，让颜色更淡
       },
       emphasis: {
         disabled: true // 禁用地图的hover效果，避免干扰散点图
