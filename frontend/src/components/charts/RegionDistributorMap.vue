@@ -38,7 +38,7 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import * as echarts from 'echarts'
 import { loadMap } from '@/utils/mapLoader'
-import { generateCountryMapData, getRegionColor } from '@/utils/regionCountryMapping'
+import { generateCountryMapData, getRegionColor, getRegionColorForBackground, getBlueGreenGradientColor } from '@/utils/regionCountryMapping'
 
 const { t } = useI18n()
 
@@ -98,20 +98,8 @@ function createChartOptions() {
   
   if (!chartData.length) return
 
-  // 为每个地区定义固定颜色 - 使用更淡的颜色
-  const getRegionColor = (nameKey) => {
-    const colorMap = {
-      'usa': '#FCA5A5',      // 浅红色 - 美国 (原#DC2626的浅色版)
-      'europe': '#FBB471',   // 浅橙红色 - 欧洲 (原#EA580C的浅色版)  
-      'asia': '#FCD34D',     // 浅橙色 - 亚洲 (原#D97706的浅色版)
-      'canada': '#86EFAC',   // 浅绿色 - 加拿大 (原#059669的浅色版)
-      'latin_america': '#93C5FD', // 浅蓝色 - 拉美 (原#2563EB的浅色版)
-      'oceania': '#C4B5FD',  // 浅紫色 - 澳新 (原#7C3AED的浅色版)
-      'middle_east': '#F9A8D4', // 浅品红色 - 中东 (原#BE185D的浅色版)
-      'africa': '#67E8F9'    // 浅青色 - 非洲 (原#0891B2的浅色版)
-    }
-    return colorMap[nameKey] || '#D1D5DB' // 浅灰色
-  }
+  // Calculate max value for gradient scaling
+  const maxValue = Math.max(...chartData.map(item => item.value), 350)
 
   // A. 地图配置 - 散点图配合按区域涂色的背景地图
   console.log('RegionDistributorMap: Input regionsData:', props.regionsData)
@@ -164,12 +152,13 @@ function createChartOptions() {
       itemStyle: {
         borderColor: '#ffffff',
         borderWidth: 0.5,
-        opacity: 0.15 // 进一步降低透明度，让颜色更淡
+        opacity: 0.3 // 设置背景地图透明度为0.15
       },
       emphasis: {
         disabled: true // 禁用地图的hover效果，避免干扰散点图
       },
       silent: true, // 地图背景不响应鼠标事件
+      visualMap: false, // 禁用背景地图的visualMap
       z: 1 // 确保在散点图下方
     }, {
       // 前景散点图 - 区域数据点
@@ -236,7 +225,7 @@ function createChartOptions() {
       symbolSize: (value) => Math.max(Math.sqrt(value[2]) * 6, 20),
       itemStyle: {
         color: (params) => {
-          return getRegionColor(params.data.nameKey)
+          return getBlueGreenGradientColor(params.data.value[2], maxValue)
         },
         borderWidth: 2,
         borderColor: '#ffffff',
@@ -268,7 +257,20 @@ function createChartOptions() {
         }
       },
       z: 2 // 确保在地图背景上方
-    }]
+    }],
+    visualMap: {
+      min: 0,
+      max: 350,
+      left: 'left',
+      top: 'bottom',
+      text: ['High', 'Low'],
+      seriesIndex: 1, // 只对散点图(第二个series)应用
+      inRange: {
+        color: ['#10B981', '#1E3A8A'] // 浅绿到深蓝
+      },
+      calculable: true,
+      orient: 'vertical'
+    }
   }
 
   // B. 柱状图配置
@@ -319,8 +321,8 @@ function createChartOptions() {
         value: item.value,
         nameKey: item.nameKey, // 保持nameKey用于颜色映射
         itemStyle: {
-          // 使用每个地区的固定颜色
-          color: getRegionColor(item.nameKey)
+          // 使用蓝绿渐变颜色
+          color: getBlueGreenGradientColor(item.value, maxValue)
         }
       }))
     }]
@@ -334,8 +336,8 @@ function createChartOptions() {
     resellers: item.resellers,
     displayName: t(`regions.${item.nameKey}`) || item.displayName,
     itemStyle: {
-      // 使用每个地区的固定颜色
-      color: getRegionColor(item.nameKey)
+      // 使用蓝绿渐变颜色
+      color: getBlueGreenGradientColor(item.value, maxValue)
     }
   }))
   

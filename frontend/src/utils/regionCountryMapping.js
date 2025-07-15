@@ -250,8 +250,8 @@ export function generateCountryMapData(regionsData) {
     
     console.log(`Processing region ${mappingKey}:`, regionInfo)
     
-    // Get color for this region
-    const regionColor = getRegionColor(mappingKey)
+    // Get colorful background color for this region
+    const regionBackgroundColor = getRegionColorForBackground(mappingKey)
     
     // Add data for each country in this region
     countries.forEach(countryName => {
@@ -263,7 +263,7 @@ export function generateCountryMapData(regionsData) {
         masters: regionInfo.masters || 0,
         resellers: regionInfo.resellers || 0,
         itemStyle: {
-          areaColor: regionColor,
+          areaColor: regionBackgroundColor,
           borderColor: '#ffffff',
           borderWidth: 0.5
         }
@@ -276,11 +276,63 @@ export function generateCountryMapData(regionsData) {
 }
 
 /**
- * Get predefined color for each region
+ * Get colorful background color for each region (original scheme)
  * @param {string} regionKey - Region identifier
  * @returns {string} Color hex code
  */
-export function getRegionColor(regionKey) {
+export function getRegionColorForBackground(regionKey) {
+  const colorMap = {
+    'usa': '#FCA5A5',      // 浅红色 - 美国
+    'europe': '#FBB471',   // 浅橙红色 - 欧洲  
+    'asia': '#FCD34D',     // 浅橙色 - 亚洲
+    'canada': '#86EFAC',   // 浅绿色 - 加拿大
+    'latin_america': '#93C5FD', // 浅蓝色 - 拉美
+    'oceania': '#C4B5FD',  // 浅紫色 - 澳新
+    'middle_east': '#F9A8D4', // 浅品红色 - 中东
+    'africa': '#67E8F9'    // 浅青色 - 非洲
+  }
+  return colorMap[regionKey] || '#D1D5DB' // 浅灰色
+}
+
+/**
+ * Get blue-green gradient color for scatter plots based on value
+ * @param {number} value - Region value
+ * @param {number} maxValue - Maximum value (default 350)
+ * @returns {string} Color hex code
+ */
+export function getBlueGreenGradientColor(value, maxValue = 350) {
+  if (!value || value <= 0) return '#10B981' // Light green for zero values
+  
+  // Normalize value to 0-1 range
+  const normalizedValue = Math.min(value / maxValue, 1)
+  
+  // Define colors: light green (#10B981) to deep blue (#1E3A8A)
+  const startColor = { r: 16, g: 185, b: 129 }   // #10B981 light green
+  const endColor = { r: 30, g: 58, b: 138 }      // #1E3A8A deep blue
+  
+  // Linear interpolation
+  const r = Math.round(startColor.r + (endColor.r - startColor.r) * normalizedValue)
+  const g = Math.round(startColor.g + (endColor.g - startColor.g) * normalizedValue)
+  const b = Math.round(startColor.b + (endColor.b - startColor.b) * normalizedValue)
+  
+  return `rgb(${r}, ${g}, ${b})`
+}
+
+/**
+ * Get predefined color for each region based on value
+ * @param {string} regionKey - Region identifier
+ * @param {number} value - Region value (optional, for intensity calculation)
+ * @param {number} maxValue - Maximum value for intensity calculation (optional)
+ * @returns {string} Color hex code or rgba
+ */
+export function getRegionColor(regionKey, value = null, maxValue = null) {
+  // If value and maxValue are provided, use intensity-based coloring
+  if (value !== null && maxValue !== null && maxValue > 0) {
+    const intensity = Math.max(0.3, Math.min(1, value / maxValue))
+    return `rgba(59, 130, 246, ${intensity})` // Blue color with variable intensity
+  }
+  
+  // Fallback to original color mapping for backward compatibility
   const colorMap = {
     'usa': '#DC2626',           // 红色 - 美国
     'europe': '#EA580C',        // 橙红色 - 欧洲  

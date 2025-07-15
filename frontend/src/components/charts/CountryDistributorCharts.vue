@@ -38,6 +38,7 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import * as echarts from 'echarts'
 import { loadMap } from '@/utils/mapLoader'
+import { getBlueGreenGradientColor } from '@/utils/regionCountryMapping'
 
 const { t } = useI18n()
 
@@ -82,6 +83,9 @@ function createChartOptions() {
   
   if (!chartData.length) return
 
+  // Calculate max value for color scaling (country view uses 0-30 range)
+  const maxValue = 30
+
   // A. 地图配置 - 直接复制 map.html 的结构
   mapOption = {
     title: { 
@@ -100,9 +104,9 @@ function createChartOptions() {
     },
     visualMap: {
       left: 'right', 
-      min: 1, 
-      max: Math.max(...chartData.map(d => d.value), 35),
-      inRange: { color: ['#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'] }, // 移除 .reverse()，浅到深
+      min: 0, 
+      max: 30,
+      inRange: { color: ['#10B981', '#1E3A8A'] }, // 使用与地区视图相同的浅绿到深蓝渐变
       text: [t('charts.high'), t('charts.low')], 
       calculable: true
     },
@@ -118,8 +122,8 @@ function createChartOptions() {
     }]
   }
 
-  // B. 柱状图配置 (显示前25)
-  const barData = [...chartData].slice(0, 25).reverse()
+  // B. 柱状图配置 (显示前20)
+  const barData = [...chartData].slice(0, 20).reverse()
   barOption = {
     title: { 
       text: t('charts.country_distributor_count'), 
@@ -149,14 +153,27 @@ function createChartOptions() {
       type: 'bar',
       universalTransition: { enabled: true, divideShape: 'clone' },
       animationDurationUpdate: 1000,
-      data: barData.map(item => item.value)
+      data: barData.map(item => ({
+        value: item.value,
+        itemStyle: {
+          color: getBlueGreenGradientColor(item.value, maxValue)
+        }
+      }))
     }]
   }
 
-  // C. 饼图配置 (显示前10 + 其他)
-  const top10Data = chartData.slice(0, 10)
-  const otherValue = chartData.slice(10).reduce((sum, item) => sum + item.value, 0)
-  const pieData = [...top10Data, { name: t('charts.others'), value: otherValue }]
+  // C. 饼图配置 (显示前20 + 其他)
+  const top20Data = chartData.slice(0, 20)
+  const otherCountries = chartData.slice(20)
+  const otherValue = otherCountries.reduce((sum, item) => sum + item.value, 0)
+  const otherMasters = otherCountries.reduce((sum, item) => sum + (item.masters || 0), 0)
+  const otherResellers = otherCountries.reduce((sum, item) => sum + (item.resellers || 0), 0)
+  const pieData = [...top20Data, { 
+    name: t('charts.others'), 
+    value: otherValue,
+    masters: otherMasters,
+    resellers: otherResellers
+  }]
   
   pieOption = {
     title: { 
@@ -167,7 +184,9 @@ function createChartOptions() {
       trigger: 'item', 
       formatter: (params) => {
         if (params.name === t('charts.others')) {
-          return `${params.name}<br/>${t('charts.distributors')}: ${params.value} (${params.percent}%)`
+          // 从pieData中找到"其他"项的数据
+          const otherItem = pieData.find(item => item.name === t('charts.others'))
+          return `${params.name}<br/>${t('charts.total')}: ${params.value} (${params.percent}%)<br/>${t('charts.masters')}: ${otherItem?.masters || 0}<br/>${t('charts.resellers')}: ${otherItem?.resellers || 0}`
         }
         const originalData = chartData.find(item => item.name === params.name)
         if (originalData) {
@@ -184,7 +203,15 @@ function createChartOptions() {
       center: ['50%', '50%'],
       universalTransition: { enabled: true, divideShape: 'clone' },
       animationDurationUpdate: 1000,
-      data: pieData,
+      data: pieData.map(item => ({
+        name: item.name,
+        value: item.value,
+        itemStyle: {
+          color: item.name === t('charts.others') 
+            ? '#9CA3AF'  // 其他项使用浅灰色
+            : getBlueGreenGradientColor(item.value, maxValue)
+        }
+      })),
       itemStyle: {
         borderRadius: 10,
         borderColor: '#fff',
