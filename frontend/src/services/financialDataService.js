@@ -1,6 +1,6 @@
 /**
  * Financial Data Service
- * 负责从标准化JSON文件加载和处理财报数据
+ * 负责从 Supabase 和标准化JSON文件加载和处理财报数据
  * 支持数据验证、错误处理和缓存机制
  */
 
@@ -29,6 +29,32 @@ class FinancialDataService {
 
     try {
       console.log('📊 加载财报数据...')
+      
+      // 优先尝试从 Supabase API 获取
+      try {
+        const { financialAPI } = await import('../api/supabaseAPI.js')
+        const supabaseData = await financialAPI.getFinancialData(version)
+        
+        if (supabaseData) {
+          console.log('✅ 从 Supabase 获取财报数据成功')
+          const processedData = this.processFinancialData(supabaseData)
+          
+          // 验证数据完整性
+          this.validateFinancialData(processedData)
+          
+          // 缓存数据
+          this.cache.set(cacheKey, {
+            data: processedData,
+            timestamp: Date.now()
+          })
+          
+          return processedData
+        }
+      } catch (supabaseError) {
+        console.warn('⚠️  从 Supabase 获取财报数据失败，尝试本地文件:', supabaseError)
+      }
+      
+      // 如果 Supabase 获取失败，尝试从本地文件获取
       const response = await fetch('/data/financial-reports.json')
       
       if (!response.ok) {
@@ -47,7 +73,7 @@ class FinancialDataService {
         timestamp: Date.now()
       })
       
-      console.log('✅ 财报数据加载成功')
+      console.log('✅ 财报数据加载成功 (本地文件)')
       return processedData
       
     } catch (error) {

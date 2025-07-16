@@ -1,245 +1,103 @@
-import axios from 'axios'
+/**
+ * 分销商 API 接口
+ * 直接使用 Supabase 数据库
+ */
 
-// API 基础配置 - 连接到真实的后端API
-const API_BASE = 'http://localhost:8000/api'
-
-// 配置 axios 实例
-const api = axios.create({
-  baseURL: API_BASE,
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json'
-  }
-})
+import supabaseAPI from './supabaseAPI.js'
 
 // 分销商相关 API
 export const distributorsAPI = {
-  // 获取分析概览统计 (使用真实数据库数据)
+  /**
+   * 获取分销商概览统计
+   */
   async getSummary() {
     try {
-      console.log('Fetching distributor summary from database...')
+      console.log('📊 获取分销商概览统计...')
       
-      // 先尝试从本地JSON文件读取真实数据库数据
-      try {
-        const response = await fetch('/data/distributors.json')
-        if (response.ok) {
-          const realData = await response.json()
-          console.log('Successfully loaded real database data:', realData)
-          console.log('Real data has countries?', !!realData.data.countries)
-          console.log('Countries count:', Object.keys(realData.data.countries || {}).length)
-          
-          // 从countries数据中聚合计算每个region的masters/resellers
-          if (realData.data && realData.data.regions && realData.data.countries) {
-            const regionStats = {}
-            
-            // 初始化每个region的统计
-            Object.keys(realData.data.regions).forEach(regionCode => {
-              regionStats[regionCode] = { masters: 0, resellers: 0 }
-            })
-            
-            // 从countries数据中聚合masters/resellers
-            Object.values(realData.data.countries).forEach(country => {
-              const regionCode = country.region
-              if (regionStats[regionCode]) {
-                regionStats[regionCode].masters += country.masters || 0
-                regionStats[regionCode].resellers += country.resellers || 0
-              }
-            })
-            
-            // 更新regions数据，添加masters/resellers字段
-            Object.keys(realData.data.regions).forEach(regionCode => {
-              realData.data.regions[regionCode].masters = regionStats[regionCode].masters
-              realData.data.regions[regionCode].resellers = regionStats[regionCode].resellers
-            })
-            
-            console.log('Aggregated region masters/resellers data:', regionStats)
-          }
-          
-          return realData
-        }
-      } catch (fileError) {
-        console.warn('Failed to load real database data from file:', fileError)
-      }
+      // 直接从 Supabase 获取数据
+      const supabaseData = await supabaseAPI.distributors.getSummary()
+      console.log('✅ 从 Supabase 获取分销商数据成功')
+      return supabaseData
       
-      // 如果本地文件不可用，尝试后端API
-      const healthCheck = await api.get('/health').catch(() => null)
-      
-      if (healthCheck) {
-        console.log('Backend API is available, trying API endpoints...')
-        
-        // 调用真实的后端API
-        const [analyticsResponse, geoResponse, coverageResponse] = await Promise.allSettled([
-          api.get('/analytics/summary'),
-          api.get('/analytics/geographic-distribution'),
-          api.get('/analytics/coverage-analysis')
-        ])
-        
-        if (analyticsResponse.status === 'fulfilled') {
-        const analytics = analyticsResponse.value.data
-        const geo = geoResponse.status === 'fulfilled' ? geoResponse.value.data : null
-        const coverage = coverageResponse.status === 'fulfilled' ? coverageResponse.value.data : null
-        
-        // 处理真实数据并转换为前端需要的格式
-        const regionData = {}
-        const topCountries = []
-        
-        // 从地理分布数据构建区域信息
-        if (geo && geo.geographic_distribution) {
-          Object.entries(geo.geographic_distribution).forEach(([region, data]) => {
-            // 获取该地区的坐标数据
-            let coordinates = [0, 0]
-            if (coverage && coverage.coverage_analysis && coverage.coverage_analysis[region] && 
-                coverage.coverage_analysis[region].coordinates.length > 0) {
-              // 计算该地区所有分销商的中心点
-              const coords = coverage.coverage_analysis[region].coordinates
-              const avgLat = coords.reduce((sum, c) => sum + c.lat, 0) / coords.length
-              const avgLng = coords.reduce((sum, c) => sum + c.lng, 0) / coords.length
-              coordinates = [avgLng, avgLat]
-            }
-            
-            regionData[region] = {
-              name_key: getRegionKey(region),
-              code: region,
-              count: data.total,
-              coordinates: coordinates,
-              growth: Math.random() * 20 + 5, // 临时增长率，真实API暂无此数据
-              lastUpdated: new Date().toISOString()
-            }
-            
-            // 添加该地区的国家到 topCountries
-            if (data.locations) {
-              data.locations.forEach(location => {
-                topCountries.push({
-                  name: location.country_state,
-                  count: location.total,
-                  region: region,
-                  growth: Math.random() * 15 + 2
-                })
-              })
-            }
-          })
-        }
-        
-        // 按分销商数量排序
-        topCountries.sort((a, b) => b.count - a.count)
-        
-          return {
-            success: true,
-            data: {
-              totalCount: analytics.total_distributors,
-              activeCount: analytics.active_distributors,
-              masterDistributors: analytics.master_distributors,
-              authorizedResellers: analytics.reseller_distributors,
-              regions: regionData,
-              topCountries: topCountries.slice(0, 10) // 取前10个
-            },
-            timestamp: new Date().toISOString()
-          }
-        } else {
-          console.warn('Backend API failed, using fallback data')
-          return getFallbackData()
-        }
-      } else {
-        console.warn('Backend API is not available, using fallback data')
-        return getFallbackData()
-      }
     } catch (error) {
-      console.error('Failed to fetch distributor summary:', error)
+      console.error('❌ 获取分销商概览统计失败:', error)
       
-      // 如果API调用失败，返回静态数据作为备选
-      console.warn('Falling back to static data due to API error')
+      // 如果 Supabase 失败，返回静态数据作为备选
+      console.warn('🔄 使用静态数据作为备选')
       return getFallbackData()
     }
   },
 
-  // 获取特定地区的分销商详情
+  /**
+   * 获取特定地区的分销商详情
+   */
   async getByRegion(regionCode) {
     try {
-      // TODO: 连接到真实的后端 API
-      // const response = await axios.get(`${API_BASE}/distributors/region/${regionCode}`)
-      // return response.data
+      console.log(`📍 获取地区 ${regionCode} 的分销商数据...`)
       
-      await new Promise(resolve => setTimeout(resolve, 300))
+      const result = await supabaseAPI.distributors.getByRegion(regionCode)
+      console.log('✅ 从 Supabase 获取地区分销商数据成功')
+      return result
       
-      return {
-        success: true,
-        data: {
-          region: regionCode,
-          distributors: [
-            // 模拟分销商详细数据
-            {
-              id: 'unifi_001',
-              name: 'Ingram Micro Inc.',
-              type: 'master',
-              country: 'USA',
-              city: 'Santa Ana',
-              status: 'active',
-              lastUpdated: '2024-01-15T10:30:00Z'
-            }
-          ]
-        }
-      }
     } catch (error) {
-      console.error(`Failed to fetch distributors for region ${regionCode}:`, error)
+      console.error(`❌ 获取地区 ${regionCode} 分销商失败:`, error)
       throw error
     }
   },
 
-  // 获取分销商变化历史
+  /**
+   * 获取分销商变化历史
+   */
   async getChangeHistory(days = 30) {
     try {
-      // TODO: 连接到真实的后端 API
-      // const response = await axios.get(`${API_BASE}/distributors/changes?days=${days}`)
-      // return response.data
+      console.log(`📋 获取 ${days} 天内的分销商变化历史...`)
       
-      await new Promise(resolve => setTimeout(resolve, 400))
+      const result = await supabaseAPI.distributors.getChangeHistory(days)
+      console.log('✅ 从 Supabase 获取变化历史成功')
+      return result
       
-      return {
-        success: true,
-        data: {
-          period: `${days} days`,
-          changes: [
-            {
-              type: 'added',
-              count: 12,
-              regions: ['eur', 'as', 'lat-a']
-            },
-            {
-              type: 'removed',
-              count: 3,
-              regions: ['usa', 'can']
-            },
-            {
-              type: 'updated',
-              count: 25,
-              regions: ['eur', 'usa', 'as']
-            }
-          ]
-        }
-      }
     } catch (error) {
-      console.error('Failed to fetch change history:', error)
+      console.error('❌ 获取分销商变化历史失败:', error)
+      throw error
+    }
+  },
+
+  /**
+   * 搜索分销商
+   */
+  async searchDistributors(searchTerm, options = {}) {
+    try {
+      console.log(`🔍 搜索分销商: ${searchTerm}`)
+      
+      const result = await supabaseAPI.distributors.searchDistributors(searchTerm, options)
+      console.log('✅ 分销商搜索成功')
+      return result
+      
+    } catch (error) {
+      console.error('❌ 搜索分销商失败:', error)
+      throw error
+    }
+  },
+
+  /**
+   * 订阅分销商数据变更
+   */
+  async subscribeToChanges(callback) {
+    try {
+      console.log('🔔 订阅分销商数据变更...')
+      
+      const subscription = await supabaseAPI.distributors.subscribeToChanges(callback)
+      console.log('✅ 分销商数据变更订阅成功')
+      return subscription
+      
+    } catch (error) {
+      console.error('❌ 订阅分销商数据变更失败:', error)
       throw error
     }
   }
 }
 
-// 地区显示名称映射
-function getRegionKey(regionCode) {
-  const regionKeys = {
-    'usa': 'usa',
-    'can': 'canada', 
-    'eur': 'europe',
-    'aus-nzl': 'oceania',
-    'as': 'asia',
-    'lat-a': 'latin_america',
-    'mid-e': 'middle_east',
-    'af': 'africa'
-  }
-  return regionKeys[regionCode] || regionCode
-}
-
-// 备选静态数据（当API调用失败时使用）
+// 备选静态数据（当 Supabase 不可用时使用）
 function getFallbackData() {
   return {
     success: true,
