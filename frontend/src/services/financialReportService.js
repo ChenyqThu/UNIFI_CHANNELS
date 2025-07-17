@@ -42,10 +42,14 @@ export class FinancialReportService {
             website_url
           )
         `)
-        .eq('company_id', companyId)
         .order('fiscal_year', false)
         .order('quarter', false)
         .limit(limit)
+
+      // 只有当 companyId 不为 null 时才添加 company_id 过滤条件
+      if (companyId !== null && companyId !== undefined) {
+        query.eq('company_id', companyId)
+      }
 
       if (reportType) {
         query.eq('report_type', reportType)
@@ -60,7 +64,9 @@ export class FinancialReportService {
       // 缓存数据
       this.cache.set(cacheKey, data, 10 * 60 * 1000) // 10分钟缓存
       
-      console.log(`✅ 获取财报数据成功: ${data.length} 条`)
+      if (import.meta.env.VITE_DEBUG_MODE === 'true') {
+        console.log(`✅ 获取财报数据成功: ${data.length} 条`)
+      }
       return data
       
     } catch (error) {
@@ -85,16 +91,27 @@ export class FinancialReportService {
         return cached
       }
 
-      const { data, error } = await supabase
-        .rpc('get_latest_financial_report', {
-          p_company_id: companyId,
-          p_report_type: reportType
-        })
+      // 如果没有存储过程，使用普通查询
+      const query = new QueryBuilder(this.tableName)
+        .select(`
+          *,
+          companies:company_id (
+            id,
+            name,
+            website_url
+          )
+        `)
+        .eq('report_type', reportType)
+        .order('fiscal_year', false)
+        .order('quarter', false)
+        .limit(1)
 
-      if (error) {
-        throw error
+      // 只有当 companyId 不为 null 时才添加 company_id 过滤条件
+      if (companyId !== null && companyId !== undefined) {
+        query.eq('company_id', companyId)
       }
 
+      const data = await query.execute()
       const result = data[0] || null
       
       // 缓存数据
@@ -102,7 +119,9 @@ export class FinancialReportService {
         this.cache.set(cacheKey, result, 10 * 60 * 1000) // 10分钟缓存
       }
       
-      console.log('✅ 获取最新财报数据成功:', result?.period)
+      if (import.meta.env.VITE_DEBUG_MODE === 'true') {
+        console.log('✅ 获取最新财报数据成功:', result?.period)
+      }
       return result
       
     } catch (error) {
@@ -358,18 +377,20 @@ export class FinancialReportService {
       let report
       
       if (period) {
-        const { data, error } = await supabase
-          .from(this.tableName)
+        const query = new QueryBuilder(this.tableName)
           .select('regional_breakdown')
-          .eq('company_id', companyId)
           .eq('period', period)
-          .single()
-
-        if (error) {
-          throw error
+          .limit(1)
+        
+        // 只有当 companyId 不为 null 时才添加 company_id 过滤条件
+        if (companyId !== null && companyId !== undefined) {
+          query.eq('company_id', companyId)
         }
         
-        report = data
+        const data = await query.execute()
+        const result = data[0] || null
+        
+        report = result
       } else {
         report = await this.getLatest(companyId)
       }
@@ -470,10 +491,14 @@ export class FinancialReportService {
             website_url
           )
         `)
-        .eq('company_id', companyId)
         .or(`period.ilike.%${searchTerm}%,analyst_notes.ilike.%${searchTerm}%`)
         .order('fiscal_year', false)
         .order('quarter', false)
+
+      // 只有当 companyId 不为 null 时才添加 company_id 过滤条件
+      if (companyId !== null && companyId !== undefined) {
+        query.eq('company_id', companyId)
+      }
 
       const data = await query.execute()
       

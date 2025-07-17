@@ -6,15 +6,21 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'inter': ['Inter', 'sans-serif'],
+      },
       colors: {
         'google-blue': '#4285f4',
-        'google-green': '#34a853',
-        'google-yellow': '#fbbc04',
         'google-red': '#ea4335',
+        'google-yellow': '#fbbc04',
+        'google-green': '#34a853',
+        'ubnt-blue': '#006FFF',
+        'ubnt-dark': '#0D1117'
       },
       animation: {
+        'fade-in': 'fadeIn 0.5s ease-in-out',
         'slide-up': 'slideUp 0.6s ease-out',
-        'fade-in': 'fadeIn 0.5s ease-out',
+        'pulse-slow': 'pulse 3s infinite'
       },
       keyframes: {
         slideUp: {

@@ -244,11 +244,8 @@ export function generateCountryMapData(regionsData) {
     })?.[1]
     
     if (!regionInfo) {
-      console.log(`No region data found for ${mappingKey}`)
       return
     }
-    
-    console.log(`Processing region ${mappingKey}:`, regionInfo)
     
     // Get colorful background color for this region
     const regionBackgroundColor = getRegionColorForBackground(mappingKey)
@@ -271,7 +268,7 @@ export function generateCountryMapData(regionsData) {
     })
   })
   
-  console.log('generateCountryMapData: Generated countryData:', countryData.length, 'countries')
+  // Generated countryData: ${countryData.length} countries
   return countryData
 }
 

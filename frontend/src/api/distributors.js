@@ -12,18 +12,14 @@ export const distributorsAPI = {
    */
   async getSummary() {
     try {
-      console.log('📊 获取分销商概览统计...')
-      
       // 直接从 Supabase 获取数据
       const supabaseData = await supabaseAPI.distributors.getSummary()
-      console.log('✅ 从 Supabase 获取分销商数据成功')
       return supabaseData
       
     } catch (error) {
       console.error('❌ 获取分销商概览统计失败:', error)
       
       // 如果 Supabase 失败，返回静态数据作为备选
-      console.warn('🔄 使用静态数据作为备选')
       return getFallbackData()
     }
   },
@@ -33,10 +29,7 @@ export const distributorsAPI = {
    */
   async getByRegion(regionCode) {
     try {
-      console.log(`📍 获取地区 ${regionCode} 的分销商数据...`)
-      
       const result = await supabaseAPI.distributors.getByRegion(regionCode)
-      console.log('✅ 从 Supabase 获取地区分销商数据成功')
       return result
       
     } catch (error) {
@@ -50,10 +43,7 @@ export const distributorsAPI = {
    */
   async getChangeHistory(days = 30) {
     try {
-      console.log(`📋 获取 ${days} 天内的分销商变化历史...`)
-      
       const result = await supabaseAPI.distributors.getChangeHistory(days)
-      console.log('✅ 从 Supabase 获取变化历史成功')
       return result
       
     } catch (error) {
@@ -67,10 +57,7 @@ export const distributorsAPI = {
    */
   async searchDistributors(searchTerm, options = {}) {
     try {
-      console.log(`🔍 搜索分销商: ${searchTerm}`)
-      
       const result = await supabaseAPI.distributors.searchDistributors(searchTerm, options)
-      console.log('✅ 分销商搜索成功')
       return result
       
     } catch (error) {
@@ -84,10 +71,7 @@ export const distributorsAPI = {
    */
   async subscribeToChanges(callback) {
     try {
-      console.log('🔔 订阅分销商数据变更...')
-      
       const subscription = await supabaseAPI.distributors.subscribeToChanges(callback)
-      console.log('✅ 分销商数据变更订阅成功')
       return subscription
       
     } catch (error) {

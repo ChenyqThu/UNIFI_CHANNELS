@@ -73,7 +73,7 @@ const chartModes = computed(() => ({
 // 处理地区数据 - 修复数据映射逻辑，添加 masters/resellers 信息
 const processedRegionData = computed(() => {
   const regions = props.regionsData || {}
-  console.log('RegionDistributorMap: Raw regions data:', regions)
+  // console.log('RegionDistributorMap: Raw regions data:', regions)
   
   return Object.values(regions)
     .sort((a, b) => (b.count || 0) - (a.count || 0))
@@ -102,11 +102,11 @@ function createChartOptions() {
   const maxValue = Math.max(...chartData.map(item => item.value), 350)
 
   // A. 地图配置 - 散点图配合按区域涂色的背景地图
-  console.log('RegionDistributorMap: Input regionsData:', props.regionsData)
+  // console.log('RegionDistributorMap: Input regionsData:', props.regionsData)
   
   // 生成按区域涂色的国家数据
   const countryMapData = generateCountryMapData(props.regionsData || {})
-  console.log('RegionDistributorMap: Generated countryMapData for background:', countryMapData.length, 'countries')
+  // console.log('RegionDistributorMap: Generated countryMapData for background:', countryMapData.length, 'countries')
   
   mapOption = {
     title: {
@@ -456,7 +456,7 @@ async function initChart() {
     })
     
     emit('chart-ready', myChart)
-    console.log('Region charts: Initialized successfully with smooth transitions')
+    // console.log('Region charts: Initialized successfully with smooth transitions')
     
   } catch (error) {
     console.error('Region charts: Error during initialization:', error)
@@ -500,7 +500,7 @@ watch(() => props.regionsData, () => {
 // 监听语言变化
 watch(() => t('charts.map_view'), () => {
   if (mapLoaded && myChart) {
-    console.log('Language changed, recreating region chart options')
+    // console.log('Language changed, recreating region chart options')
     createChartOptions()
     // 重新设置当前模式的配置以更新标题
     if (currentMode.value === 'map' && mapOption) {

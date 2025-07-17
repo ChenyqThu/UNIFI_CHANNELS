@@ -205,7 +205,9 @@ export const useChannelStore = defineStore('channel', () => {
     error.value = null
     
     try {
-      console.log('🏪 Store: 开始加载财报数据...')
+      if (import.meta.env.VITE_DEBUG_MODE === 'true') {
+        console.log('🏪 Store: 开始加载财报数据...')
+      }
       
       // 使用财报数据服务加载数据
       const data = await financialDataService.loadFinancialData()
@@ -215,45 +217,51 @@ export const useChannelStore = defineStore('channel', () => {
       financialComputed.value = data.computed
       
       // 转换数据格式以兼容现有组件
+      // 处理不同数据源的结构差异
+      const q1_2025 = data.quarterly?.q1_2025 || {}
+      const q3_2024 = data.quarterly?.q3_2024 || {}
+      const nine_months_2025 = data.annual?.nine_months_2025 || {}
+      const nine_months_2024 = data.annual?.nine_months_2024 || {}
+
       financialData.value = {
         q1_2025: {
-          total_revenue: data.quarterly.q1_2025.revenue.total,
-          enterprise_revenue: data.quarterly.q1_2025.revenue.enterprise_technology,
-          service_provider_revenue: data.quarterly.q1_2025.revenue.service_provider_technology,
-          north_america_revenue: data.quarterly.q1_2025.regional_breakdown.north_america.amount,
-          emea_revenue: data.quarterly.q1_2025.regional_breakdown.emea.amount,
-          apac_revenue: data.quarterly.q1_2025.regional_breakdown.apac.amount,
-          south_america_revenue: data.quarterly.q1_2025.regional_breakdown.south_america.amount,
-          gross_profit: data.quarterly.q1_2025.profitability.gross_profit,
-          gross_margin: data.quarterly.q1_2025.profitability.gross_margin,
-          operating_margin: data.quarterly.q1_2025.profitability.operating_margin,
-          net_margin: data.quarterly.q1_2025.profitability.net_margin,
-          net_income: data.quarterly.q1_2025.profitability.net_income,
-          eps: data.quarterly.q1_2025.profitability.eps_diluted
+          total_revenue: q1_2025.revenue?.total || 0,
+          enterprise_revenue: q1_2025.revenue?.enterprise_technology || 0,
+          service_provider_revenue: q1_2025.revenue?.service_provider_technology || 0,
+          north_america_revenue: q1_2025.regional_breakdown?.north_america?.amount || 0,
+          emea_revenue: q1_2025.regional_breakdown?.emea?.amount || 0,
+          apac_revenue: q1_2025.regional_breakdown?.apac?.amount || 0,
+          south_america_revenue: q1_2025.regional_breakdown?.south_america?.amount || 0,
+          gross_profit: q1_2025.profitability?.gross_profit || 0,
+          gross_margin: q1_2025.profitability?.gross_margin || 0,
+          operating_margin: q1_2025.profitability?.operating_margin || 0,
+          net_margin: q1_2025.profitability?.net_margin || 0,
+          net_income: q1_2025.profitability?.net_income || 0,
+          eps: q1_2025.profitability?.eps_diluted || 0
         },
         q3_2024: {
-          total_revenue: data.quarterly.q3_2024.revenue.total,
-          enterprise_revenue: data.quarterly.q3_2024.revenue.enterprise_technology,
-          service_provider_revenue: data.quarterly.q3_2024.revenue.service_provider_technology,
-          north_america_revenue: data.quarterly.q3_2024.regional_breakdown.north_america.amount,
-          emea_revenue: data.quarterly.q3_2024.regional_breakdown.emea.amount,
-          gross_profit: data.quarterly.q3_2024.profitability.gross_profit,
-          gross_margin: data.quarterly.q3_2024.profitability.gross_margin,
-          operating_margin: data.quarterly.q3_2024.profitability.operating_margin,
-          net_margin: data.quarterly.q3_2024.profitability.net_margin,
-          net_income: data.quarterly.q3_2024.profitability.net_income,
-          eps: data.quarterly.q3_2024.profitability.eps_diluted
+          total_revenue: q3_2024.revenue?.total || 0,
+          enterprise_revenue: q3_2024.revenue?.enterprise_technology || 0,
+          service_provider_revenue: q3_2024.revenue?.service_provider_technology || 0,
+          north_america_revenue: q3_2024.regional_breakdown?.north_america?.amount || 0,
+          emea_revenue: q3_2024.regional_breakdown?.emea?.amount || 0,
+          gross_profit: q3_2024.profitability?.gross_profit || 0,
+          gross_margin: q3_2024.profitability?.gross_margin || 0,
+          operating_margin: q3_2024.profitability?.operating_margin || 0,
+          net_margin: q3_2024.profitability?.net_margin || 0,
+          net_income: q3_2024.profitability?.net_income || 0,
+          eps: q3_2024.profitability?.eps_diluted || 0
         },
         nine_months_2025: {
-          total_revenue: data.annual.nine_months_2025.revenue.total,
-          net_income: data.annual.nine_months_2025.profitability.net_income,
-          gross_margin: data.annual.nine_months_2025.profitability.gross_margin,
-          inventory_increase: data.annual.nine_months_2025.inventory.increase
+          total_revenue: nine_months_2025.revenue?.total || 0,
+          net_income: nine_months_2025.profitability?.net_income || 0,
+          gross_margin: nine_months_2025.profitability?.gross_margin || 0,
+          inventory_increase: nine_months_2025.inventory?.increase || 0
         },
         nine_months_2024: {
-          total_revenue: data.annual.nine_months_2024.revenue.total,
-          net_income: data.annual.nine_months_2024.profitability.net_income,
-          gross_margin: data.annual.nine_months_2024.profitability.gross_margin
+          total_revenue: nine_months_2024.revenue?.total || 0,
+          net_income: nine_months_2024.profitability?.net_income || 0,
+          gross_margin: nine_months_2024.profitability?.gross_margin || 0
         }
       }
 
@@ -268,11 +276,13 @@ export const useChannelStore = defineStore('channel', () => {
         strategic_risks: data.strategicRisks
       }
       
-      console.log('✅ Store: 财报数据加载完成', {
-        metadata: financialMetadata.value,
-        quarterlyPeriods: Object.keys(data.quarterly),
-        channelMix: channelData.value.distribution_mix
-      })
+      if (import.meta.env.VITE_DEBUG_MODE === 'true') {
+        console.log('✅ Store: 财报数据加载完成', {
+          metadata: financialMetadata.value,
+          quarterlyPeriods: Object.keys(data.quarterly),
+          channelMix: channelData.value.distribution_mix
+        })
+      }
       
       loading.value = false
       
@@ -318,69 +328,70 @@ export const useChannelStore = defineStore('channel', () => {
     error.value = null
     
     try {
-      console.log('fetchResellerData: Starting API call...')
+      console.log('🔄 Store: 使用新的统一数据服务获取分销商数据...')
       
-      // 使用真实的 API 集成
-      const response = await distributorsAPI.getSummary()
-      console.log('fetchResellerData: API response received:', response)
+      // 使用新的统一竞争数据服务
+      const { competitiveDataService } = await import('@/services/competitiveDataService')
+      const overview = await competitiveDataService.getCompetitiveOverview()
       
-      if (response.success) {
-        // 将 API 数据格式化为前端需要的格式
-        const apiData = response.data
-        console.log('fetchResellerData: Raw API data:', apiData)
-        
-        // 预处理国家数据，使用 countryMapping 进行映射
-        const { convertToMapData } = await import('@/utils/countryMapping')
-        const processedCountriesForMap = convertToMapData(apiData.countries || {})
-        
-        console.log('fetchResellerData: Processed countries for map:', processedCountriesForMap)
-        
-        const formattedData = {
-          regions: apiData.regions ? Object.fromEntries(
-            Object.entries(apiData.regions).map(([key, region]) => {
-              // 如果 API 数据中没有 masters/resellers 分解，根据总数进行估算
-              const totalCount = region.count || 0
-              const masters = region.masters || Math.round(totalCount * 0.04) // 约4%为主要分销商
-              const resellers = region.resellers || (totalCount - masters) // 其余为授权经销商
-              
-              return [
-                key, 
-                {
-                  ...region,
-                  name_key: getRegionNameKey(key), // 添加翻译用的英文key
-                  name: region.name, // 保持原始名称作为备用
-                  masters: masters,
-                  resellers: resellers,
-                  growth: region.growth // 保持数字格式，不添加%符号
-                }
-              ]
-            })
-          ) : {},
-          countries: apiData.countries || {}, // 原始国家数据
-          countriesForMap: processedCountriesForMap, // 预处理的地图数据
-          totalCount: apiData.totalCount || 0,
-          masterDistributors: apiData.masterDistributors || 0,
-          authorizedResellers: apiData.authorizedResellers || 0,
-          topCountries: apiData.topCountries || []
-        }
-        
-        console.log('fetchResellerData: Formatted data:', formattedData)
-        resellerData.value = formattedData
-        console.log('fetchResellerData: Data stored in resellerData.value:', resellerData.value)
-      } else {
-        console.error('fetchResellerData: API response not successful:', response)
-        // 当 API 失败时，使用静态数据作为后备
-        console.log('fetchResellerData: Using static fallback data')
-        // 静态数据已经包含 masters/resellers，无需修改
+      console.log('✅ Store: 统一数据服务返回结果:', overview)
+      
+      // 使用标准化的数据结构
+      const distributorData = overview.distributors
+      
+      // 验证美国数据
+      const usaRegion = distributorData.regions?.usa
+      if (usaRegion) {
+        console.log(`🇺🇸 Store: 美国地区数据 - ${usaRegion.count} 个 (${usaRegion.masters} masters, ${usaRegion.resellers} resellers)`)
       }
       
+      // 验证地图数据中的美国数据
+      const usaMapData = distributorData.mapData?.find(item => item.name === 'USA')
+      if (usaMapData) {
+        console.log(`🗺️ Store: 美国地图数据 - ${usaMapData.count} 个 (${usaMapData.masters} masters, ${usaMapData.resellers} resellers)`)
+      }
+      
+      // 直接使用处理好的数据，无需额外转换
+      resellerData.value = {
+        regions: distributorData.regions || {},
+        countries: distributorData.countries || {},
+        countriesForMap: distributorData.mapData || [], // 使用预处理的地图数据
+        totalCount: distributorData.summary?.totalCount || 0,
+        masterDistributors: distributorData.summary?.masterDistributors || 0,
+        authorizedResellers: distributorData.summary?.authorizedResellers || 0,
+        topCountries: distributorData.mapData?.slice(0, 10) || [], // 使用地图数据作为top countries
+        lastUpdated: distributorData.lastUpdated
+      }
+      
+      console.log('✅ Store: 分销商数据更新完成，使用统一数据服务')
       loading.value = false
+      
     } catch (err) {
+      console.error('❌ Store: 使用统一数据服务获取数据失败:', err)
       error.value = err.message
       loading.value = false
-      console.error('Failed to fetch reseller data:', err)
-      // 当API调用失败时，使用静态数据作为后备
-      console.log('fetchResellerData: Using static fallback data due to error')
+      
+      // 降级到旧API作为备用
+      console.log('🔄 Store: 降级使用旧API...')
+      try {
+        const response = await distributorsAPI.getSummary()
+        if (response.success) {
+          // 简化处理，直接使用API数据
+          const apiData = response.data
+          resellerData.value = {
+            regions: apiData.regions || {},
+            countries: apiData.countries || {},
+            countriesForMap: Object.values(apiData.countries || {}),
+            totalCount: apiData.totalCount || 0,
+            masterDistributors: apiData.masterDistributors || 0,
+            authorizedResellers: apiData.authorizedResellers || 0,
+            topCountries: apiData.topCountries || []
+          }
+          console.log('✅ Store: 使用旧API获取数据成功')
+        }
+      } catch (fallbackErr) {
+        console.error('❌ Store: 旧API也失败了:', fallbackErr)
+      }
     }
   }
 

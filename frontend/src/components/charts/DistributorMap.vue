@@ -91,16 +91,21 @@ const dataLevels = computed(() => ({
 const resellerData = computed(() => channelStore.resellerData)
 
 const currentDisplayData = computed(() => {
-  if (!resellerData.value) return { 
-    regions: {}, 
-    countries: {}, 
-    countriesForMap: [],
-    totalCount: 0,
-    masterDistributors: 0,
-    authorizedResellers: 0
+  console.log('🔍 DistributorMap: resellerData.value:', resellerData.value)
+  
+  if (!resellerData.value) {
+    console.warn('⚠️ DistributorMap: resellerData.value 为空')
+    return { 
+      regions: {}, 
+      countries: {}, 
+      countriesForMap: [],
+      totalCount: 0,
+      masterDistributors: 0,
+      authorizedResellers: 0
+    }
   }
   
-  return {
+  const result = {
     regions: resellerData.value.regions || {},
     countries: resellerData.value.countries || {},
     countriesForMap: resellerData.value.countriesForMap || [],
@@ -108,6 +113,11 @@ const currentDisplayData = computed(() => {
     masterDistributors: resellerData.value.masterDistributors || 0,
     authorizedResellers: resellerData.value.authorizedResellers || 0
   }
+  
+  console.log('🔍 DistributorMap: currentDisplayData结果:', result)
+  console.log('🔍 DistributorMap: countriesForMap数量:', result.countriesForMap?.length)
+  
+  return result
 })
 
 async function switchDataLevel(newLevel) {

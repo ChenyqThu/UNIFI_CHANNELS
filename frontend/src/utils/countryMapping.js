@@ -6,6 +6,7 @@
 
 // 数据库国家代码到GeoJSON地图名称的映射
 // 基于world.json中的实际国家名称
+// 注意：相同的两位代码在不同region可能代表不同的地理位置
 export const COUNTRY_CODE_TO_MAP_NAME = {
   // 欧洲
   'AT': 'Austria',
@@ -243,7 +244,7 @@ export function convertToMapData(countriesData) {
       console.warn(`⚠️ 未映射的国家代码: ${countryCode} (${countryInfo.name || 'Unknown'}) - 区域: ${countryInfo.region}`)
     }
     
-    console.log(`🗺️ Processing ${countryCode} (${countryInfo.region}) -> ${mapName} (${countryInfo.count} distributors)`)
+    console.log(`🗺️ Processing ${countryCode} (${countryInfo.region}) -> ${mapName} (${countryInfo.count} distributors, masters: ${countryInfo.masters || 0}, resellers: ${countryInfo.resellers || 0})`)
     
     // 聚合相同mapName的数据
     if (aggregatedData[mapName]) {

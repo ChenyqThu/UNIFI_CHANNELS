@@ -35,8 +35,10 @@ class FinancialDataService {
         const { financialAPI } = await import('../api/supabaseAPI.js')
         const supabaseData = await financialAPI.getFinancialData(version)
         
-        if (supabaseData) {
-          console.log('✅ 从 Supabase 获取财报数据成功')
+        if (supabaseData && supabaseData.quarterly_data && Object.keys(supabaseData.quarterly_data).length > 0) {
+          if (import.meta.env.VITE_DEBUG_MODE === 'true') {
+            console.log('✅ 从 Supabase 获取财报数据成功')
+          }
           const processedData = this.processFinancialData(supabaseData)
           
           // 验证数据完整性
@@ -49,9 +51,15 @@ class FinancialDataService {
           })
           
           return processedData
+        } else {
+          if (import.meta.env.VITE_DEBUG_MODE === 'true') {
+            console.log('⚠️  Supabase 数据为空，尝试本地文件')
+          }
         }
       } catch (supabaseError) {
-        console.warn('⚠️  从 Supabase 获取财报数据失败，尝试本地文件:', supabaseError)
+        if (import.meta.env.VITE_DEBUG_MODE === 'true') {
+          console.warn('⚠️  从 Supabase 获取财报数据失败，尝试本地文件:', supabaseError)
+        }
       }
       
       // 如果 Supabase 获取失败，尝试从本地文件获取
@@ -73,7 +81,9 @@ class FinancialDataService {
         timestamp: Date.now()
       })
       
-      console.log('✅ 财报数据加载成功 (本地文件)')
+      if (import.meta.env.VITE_DEBUG_MODE === 'true') {
+        console.log('✅ 财报数据加载成功 (本地文件)')
+      }
       return processedData
       
     } catch (error) {
@@ -157,8 +167,28 @@ class FinancialDataService {
    * 计算衍生指标
    */
   computeDerivedMetrics(data) {
-    const current = data.quarterly.q1_2025
-    const previous = data.quarterly.q3_2024
+    // 处理不同的键名格式（静态文件 vs Supabase）
+    const current = data.quarterly?.q1_2025 || data.quarterly?.['q1_2025'] || {}
+    const previous = data.quarterly?.q3_2024 || data.quarterly?.['q3_2024'] || {}
+    const nineMonths2025 = data.annual?.nine_months_2025 || data.annual?.['nine_months_2025'] || {}
+    const nineMonths2024 = data.annual?.nine_months_2024 || data.annual?.['nine_months_2024'] || {}
+    
+    // 如果没有必要的数据，返回默认值
+    if (!current.revenue || !previous.revenue) {
+      console.warn('⚠️  无法计算衍生指标：缺少必要的季度数据')
+      return {
+        growth_metrics: {
+          revenue_growth: 0,
+          enterprise_growth: 0,
+          north_america_growth: 0,
+          margin_improvement: 0
+        },
+        nine_months_metrics: {
+          revenue_growth: 0,
+          net_income_growth: 0
+        }
+      }
+    }
     
     return {
       growth_metrics: {
@@ -168,24 +198,24 @@ class FinancialDataService {
           previous.revenue.enterprise_technology
         ),
         north_america_growth: this.calculateGrowth(
-          current.regional_breakdown.north_america.amount,
-          previous.regional_breakdown.north_america.amount
+          current.regional_breakdown?.north_america?.amount || 0,
+          previous.regional_breakdown?.north_america?.amount || 0
         ),
-        margin_improvement: (current.profitability.gross_margin - previous.profitability.gross_margin).toFixed(1)
+        margin_improvement: ((current.profitability?.gross_margin || 0) - (previous.profitability?.gross_margin || 0)).toFixed(1)
       },
       
       nine_months_metrics: {
         revenue_growth: this.calculateGrowth(
-          data.annual.nine_months_2025.revenue.total,
-          data.annual.nine_months_2024.revenue.total
+          nineMonths2025.revenue?.total || 0,
+          nineMonths2024.revenue?.total || 0
         ),
         net_income_growth: this.calculateGrowth(
-          data.annual.nine_months_2025.profitability.net_income,
-          data.annual.nine_months_2024.profitability.net_income
+          nineMonths2025.profitability?.net_income || 0,
+          nineMonths2024.profitability?.net_income || 0
         ),
         margin_improvement: (
-          data.annual.nine_months_2025.profitability.gross_margin - 
-          data.annual.nine_months_2024.profitability.gross_margin
+          (nineMonths2025.profitability?.gross_margin || 0) - 
+          (nineMonths2024.profitability?.gross_margin || 0)
         ).toFixed(1)
       }
     }
